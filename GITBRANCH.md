@@ -18,6 +18,17 @@ git switch thomasdev-sp1
 
 ## Faire son commit
 
+```bash
+git add .
+git commit -m "v0.4 composant fonctionnel"
+git push -u origin ma_branche
+```
+
+## Faire un merge sur la branche main
 
 ```bash
+git fetch branche_a_merger
+git fetch main
+git switch main
+git merge branche_a_merger
 ```
