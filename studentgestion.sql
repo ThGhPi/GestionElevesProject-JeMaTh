@@ -1,123 +1,111 @@
-CREATE TABLE Subject(
-   subject_id INT,
-   name VARCHAR(50) NOT NULL,
-   PRIMARY KEY(subject_id),
-   UNIQUE(name)
-);
+-- CREATE SCHEMA IF NOT EXISTS studentgestion
+DROP TABLE IF EXISTS school_report_line;
+DROP TABLE IF EXISTS registration;
+DROP TABLE IF EXISTS student_guardian_link;
+DROP TABLE IF EXISTS evaluation;
+DROP TABLE IF EXISTS school_report;
+DROP TABLE IF EXISTS teaching;
+DROP TABLE IF EXISTS class_group;
+DROP TABLE IF EXISTS app_user;
+DROP TABLE IF EXISTS student;
+DROP TABLE IF EXISTS person;
+DROP TYPE IF EXISTS role;
+CREATE TYPE role AS ENUM('ADMIN', 'TEACHER', 'LEGAL_GUARDIAN');
 
-CREATE TABLE Person(
-   person_id INT AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS person(
+   person_id SERIAL PRIMARY KEY,
    firstname VARCHAR(50) NOT NULL,
-   lastname VARCHAR(50) NOT NULL,
-   PRIMARY KEY(person_id)
+   lastname VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE AppUser(
-   person_id INT,
-   user_password VARCHAR(50) NOT NULL,
+CREATE TABLE IF NOT EXISTS app_user(
+   app_user_id INT,
+   password VARCHAR(50) NOT NULL,
    email VARCHAR(50) NOT NULL,
-   user_connection_name VARCHAR(50) NOT NULL,
-   PRIMARY KEY(person_id),
+   username VARCHAR(50) NOT NULL,
+   phonenumber VARCHAR(20) NOT NULL,
+   postaladress VARCHAR(100) NOT NULL,
+   role ROLE NOT NULL,
+   PRIMARY KEY(app_user_id),
    UNIQUE(email),
-   UNIQUE(user_connection_name),
-   FOREIGN KEY(person_id) REFERENCES Person(person_id)
+   UNIQUE(username),
+   UNIQUE(phonenumber),
+   FOREIGN KEY(app_user_id) REFERENCES person(person_id)
 );
 
-CREATE TABLE Student(
-   person_id INT,
+CREATE TABLE IF NOT EXISTS student(
+   student_id INT,
    birthday DATE NOT NULL,
-   photo .png,
-   PRIMARY KEY(person_id),
+   photo BYTEA,
+   PRIMARY KEY(student_id),
    UNIQUE(photo),
-   FOREIGN KEY(person_id) REFERENCES Person(person_id)
+   FOREIGN KEY(student_id) REFERENCES person(person_id)
 );
 
-CREATE TABLE legal_guardian(
-   person_id INT,
-   phone_number VARCHAR(20) NOT NULL,
-   postal_adress VARCHAR(100) NOT NULL,
-   PRIMARY KEY(person_id),
-   UNIQUE(phone_number),
-   FOREIGN KEY(person_id) REFERENCES AppUser(person_id)
-);
-
-CREATE TABLE Teacher(
-   person_id INT,
-   work_duration TIME,
-   PRIMARY KEY(person_id),
-   FOREIGN KEY(person_id) REFERENCES AppUser(person_id)
-);
-
-CREATE TABLE ClassGroup(
-   classgroup_id INT,
+CREATE TABLE IF NOT EXISTS class_group(
+   class_group_id SERIAL PRIMARY KEY,
    name VARCHAR(25) NOT NULL,
-   person_id INT NOT NULL,
-   PRIMARY KEY(classgroup_id),
-   UNIQUE(person_id),
+   head_teacher_id INT NOT NULL,
+   UNIQUE(head_teacher_id),
    UNIQUE(name),
-   FOREIGN KEY(person_id) REFERENCES Teacher(person_id)
+   FOREIGN KEY(head_teacher_id) REFERENCES app_user(app_user_id)
 );
 
-CREATE TABLE Teaching(
-   teaching_id VARCHAR(50),
-   subject_id INT NOT NULL,
-   classgroup_id INT NOT NULL,
-   person_id INT NOT NULL,
-   PRIMARY KEY(teaching_id),
-   FOREIGN KEY(subject_id) REFERENCES Subject(subject_id),
-   FOREIGN KEY(classgroup_id) REFERENCES ClassGroup(classgroup_id),
-   FOREIGN KEY(person_id) REFERENCES Teacher(person_id)
+CREATE TABLE IF NOT EXISTS teaching(
+   teaching_id SERIAL PRIMARY KEY,
+   subject_name VARCHAR(50) NOT NULL,
+   class_group_id INT NOT NULL,
+   teacher_id INT NOT NULL,
+   UNIQUE(subject_name),
+   FOREIGN KEY(class_group_id) REFERENCES class_group(class_group_id),
+   FOREIGN KEY(teacher_id) REFERENCES app_user(app_user_id)
 );
 
-CREATE TABLE SchoolReport(
-   schoolreport_id INT,
-   schoolperiod VARCHAR(50) NOT NULL,
-   person_id INT NOT NULL,
-   PRIMARY KEY(schoolreport_id),
-   FOREIGN KEY(person_id) REFERENCES Student(person_id)
+CREATE TABLE IF NOT EXISTS school_report(
+   school_report_id SERIAL PRIMARY KEY,
+   period_start DATE NOT NULL,
+   period_end DATE NOT NULL,
+   mention VARCHAR(20),
+   overall_average VARCHAR(50),
+   student_id INT NOT NULL,
+   FOREIGN KEY(student_id) REFERENCES student(student_id)
 );
 
-CREATE TABLE Evaluation(
-   evaluation_id INT,
+CREATE TABLE IF NOT EXISTS evaluation(
+   evaluation_id SERIAL PRIMARY KEY,
    weight DECIMAL(15,2) NOT NULL,
-   date_and_time DATETIME NOT NULL,
+   date_and_time TIMESTAMP NOT NULL,
    note INT NOT NULL,
-   subject_id INT NOT NULL,
-   schoolreport_id INT NOT NULL,
-   PRIMARY KEY(evaluation_id),
-   FOREIGN KEY(subject_id) REFERENCES Subject(subject_id),
-   FOREIGN KEY(schoolreport_id) REFERENCES SchoolReport(schoolreport_id)
+   student_id INT NOT NULL,
+   teaching_id INT NOT NULL,
+   FOREIGN KEY(student_id) REFERENCES student(student_id),
+   FOREIGN KEY(teaching_id) REFERENCES teaching(teaching_id)
 );
 
-CREATE TABLE Admin(
-   person_id INT,
-   PRIMARY KEY(person_id),
-   FOREIGN KEY(person_id) REFERENCES AppUser(person_id)
+CREATE TABLE IF NOT EXISTS student_guardian_link(
+   guardian_id INT,
+   child_id INT,
+   PRIMARY KEY(guardian_id, child_id),
+   FOREIGN KEY(guardian_id) REFERENCES app_user(app_user_id),
+   FOREIGN KEY(child_id) REFERENCES student(student_id)
 );
 
-CREATE TABLE take care(
-   person_id INT,
-   person_id_1 INT,
-   PRIMARY KEY(person_id, person_id_1),
-   FOREIGN KEY(person_id) REFERENCES Student(person_id),
-   FOREIGN KEY(person_id_1) REFERENCES legal_guardian(person_id)
-);
-
-CREATE TABLE registration(
-   person_id INT,
-   classgroup_id INT,
+CREATE TABLE IF NOT EXISTS registration(
+   student_id INT,
+   class_group_id INT,
    registration_date DATE NOT NULL,
    school_year DATE NOT NULL,
-   PRIMARY KEY(person_id, classgroup_id),
-   FOREIGN KEY(person_id) REFERENCES Student(person_id),
-   FOREIGN KEY(classgroup_id) REFERENCES ClassGroup(classgroup_id)
+   PRIMARY KEY(student_id, class_group_id),
+   FOREIGN KEY(student_id) REFERENCES student(student_id),
+   FOREIGN KEY(class_group_id) REFERENCES class_group(class_group_id)
 );
 
-CREATE TABLE comments(
-   teaching_id VARCHAR(50),
-   schoolreport_id INT,
+CREATE TABLE IF NOT EXISTS school_report_line(
+   teaching_id INT,
+   school_report_id INT,
    comment VARCHAR(256),
-   PRIMARY KEY(teaching_id, schoolreport_id),
-   FOREIGN KEY(teaching_id) REFERENCES Teaching(teaching_id),
-   FOREIGN KEY(schoolreport_id) REFERENCES SchoolReport(schoolreport_id)
+   teaching_average DECIMAL(15,2),
+   PRIMARY KEY(teaching_id, school_report_id),
+   FOREIGN KEY(teaching_id) REFERENCES teaching(teaching_id),
+   FOREIGN KEY(school_report_id) REFERENCES school_report(school_report_id)
 );
