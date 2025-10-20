@@ -27,7 +27,7 @@ git push -u origin ma_branche
 ## Faire un merge sur la branche main
 
 ```bash
-git fetch branche_a_merger
+git fetch origin branche_a_merger
 git fetch main
 git switch main
 git merge branche_a_merger
