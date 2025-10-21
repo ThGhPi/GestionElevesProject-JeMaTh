@@ -6,7 +6,12 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "evaluation")
-@Data @NoArgsConstructor @AllArgsConstructor @Builder
+@Data 
+@NoArgsConstructor 
+@AllArgsConstructor 
+@Builder
+@Getter 
+@Setter
 public class Evaluation {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,7 +23,7 @@ public class Evaluation {
     private LocalDateTime dateAndTime;
 
     @Column(nullable = false)
-    private Integer note;
+    private Double note;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "student_id")

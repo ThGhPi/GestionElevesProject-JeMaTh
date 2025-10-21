@@ -6,7 +6,12 @@ import java.util.*;
 
 @Entity
 @Table(name = "teaching")
-@Data @NoArgsConstructor @AllArgsConstructor @Builder
+@Data 
+@NoArgsConstructor 
+@AllArgsConstructor 
+@Builder
+@Getter 
+@Setter
 @EqualsAndHashCode(exclude = {"schoolReports"})
 @ToString(exclude = {"schoolReports"})
 public class Teaching {

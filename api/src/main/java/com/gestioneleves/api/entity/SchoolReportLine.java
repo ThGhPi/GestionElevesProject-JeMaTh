@@ -5,7 +5,12 @@ import lombok.*;
 
 @Entity
 @Table(name = "school_report_line")
-@Data @NoArgsConstructor @AllArgsConstructor @Builder
+@Data 
+@NoArgsConstructor 
+@AllArgsConstructor 
+@Builder
+@Getter 
+@Setter
 public class SchoolReportLine {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

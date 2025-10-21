@@ -5,8 +5,14 @@ import lombok.*;
 import java.util.*;
 
 @Entity
-@Table(name = "class_group", uniqueConstraints = @UniqueConstraint(columnNames = {"name"}))
-@Data @NoArgsConstructor @AllArgsConstructor @Builder
+@Table(name = "class_group", uniqueConstraints 
+                                             = @UniqueConstraint(columnNames = {"name"}))
+@Data
+@Getter 
+@Setter 
+@NoArgsConstructor 
+@AllArgsConstructor 
+@Builder
 @EqualsAndHashCode(exclude = {"teachings", "registrations"})
 @ToString(exclude = {"teachings", "registrations"})
 public class ClassGroup {

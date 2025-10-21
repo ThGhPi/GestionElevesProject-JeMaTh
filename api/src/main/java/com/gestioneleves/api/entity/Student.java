@@ -7,7 +7,12 @@ import java.util.*;
 
 @Entity
 @Table(name = "student")
-@Data @NoArgsConstructor @AllArgsConstructor @Builder
+@Data 
+@NoArgsConstructor 
+@AllArgsConstructor 
+@Builder
+@Getter 
+@Setter
 @EqualsAndHashCode(callSuper = true, exclude = {"schoolReports", "evaluations", "guardians", "registrations"})
 @ToString(callSuper = true, exclude = {"schoolReports", "evaluations", "guardians", "registrations"})
 public class Student extends Person {
@@ -30,7 +35,7 @@ public class Student extends Person {
     @JoinTable(name = "take_care",
         joinColumns = @JoinColumn(name = "student_id"),
         inverseJoinColumns = @JoinColumn(name = "app_user_id")
-    )
+    ) 
     @Builder.Default
     private List<AppUser> guardians = new ArrayList<>();
 

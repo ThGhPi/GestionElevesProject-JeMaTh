@@ -5,7 +5,12 @@ import lombok.*;
 import java.io.Serializable;
 
 @Embeddable
-@Data @NoArgsConstructor @AllArgsConstructor @Builder
+@Data 
+@NoArgsConstructor 
+@AllArgsConstructor 
+@Builder
+@Getter 
+@Setter
 public class RegistrationId implements Serializable {
     @Column(name = "student_id")
     private Long studentId;

@@ -9,7 +9,12 @@ import java.util.*;
         @UniqueConstraint(columnNames = {"email"}),
         @UniqueConstraint(columnNames = {"username"})
 })
-@Data @NoArgsConstructor @AllArgsConstructor @Builder
+@Data 
+@NoArgsConstructor 
+@AllArgsConstructor
+@Getter 
+@Setter 
+@Builder
 @EqualsAndHashCode(callSuper = true, exclude = {"studentsUnderCare", "teachings"})
 @ToString(callSuper = true, exclude = {"studentsUnderCare", "teachings"})
 public class AppUser extends Person {
@@ -41,4 +46,4 @@ public class AppUser extends Person {
     @OneToMany(mappedBy = "teacher")
     @Builder.Default
     private List<Teaching> teachings = new ArrayList<>();
-}
+} 
