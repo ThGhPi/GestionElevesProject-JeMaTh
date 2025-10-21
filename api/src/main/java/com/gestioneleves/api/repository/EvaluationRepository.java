@@ -3,8 +3,9 @@ package com.gestioneleves.api.repository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.gestioneleves.api.entity.ClassGroup;
+import com.gestioneleves.api.entity.Evaluation;
 
 @Repository
-public interface ClassGroupRepository extends CrudRepository<ClassGroup, Long> {
+public interface EvaluationRepository extends CrudRepository<Evaluation, Long> {
+
 }
