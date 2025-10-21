@@ -11,12 +11,11 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @SuperBuilder
 @EqualsAndHashCode(callSuper = true)
-public class StudentDTO extends PersonDTO {
+public class StudenDetailstDTO extends PersonDTO {
     private LocalDate birthday;
-    private byte[] photo;
+    private byte[] photo; 
     private List<SchoolReportDTO> schoolReportsIds; 
     private List<EvaluationDTO> evaluationsIds;
     private List<AppUserDTO> guardiansIds;
-    private List<RegistrationDTO> registrationsIds;
 }
  
