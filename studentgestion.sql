@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS app_user(
    email VARCHAR(50) NOT NULL,
    username VARCHAR(50) NOT NULL,
    phonenumber VARCHAR(20) NOT NULL,
-   postaladress VARCHAR(100) NOT NULL,
+   postaladdress VARCHAR(100) NOT NULL,
    role ROLE NOT NULL,
    PRIMARY KEY(app_user_id),
    UNIQUE(email),
