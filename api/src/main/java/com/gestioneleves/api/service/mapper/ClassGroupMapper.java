@@ -56,7 +56,7 @@ public interface ClassGroupMapper {
             ids.stream()
                .map(id -> {
                    Registration r = new Registration();
-                   r.setId(new RegistrationId(id, null));
+                   r.setId(new RegistrationPK(id, null));
                    return r;
                })
                .collect(Collectors.toList());

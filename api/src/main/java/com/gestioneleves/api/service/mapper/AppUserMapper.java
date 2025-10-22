@@ -15,11 +15,11 @@ import java.util.stream.Collectors;
 public interface AppUserMapper {
 
     @Mapping(target = "teachingsIds", source = "teachings", qualifiedByName = "mapTeachingsToIds")
-    @Mapping(target = "studentsUnderCaresIds", source = "studentsUnderCares", qualifiedByName = "mapStudentsToIds")
+    @Mapping(target = "childrenIds", source = "children", qualifiedByName = "mapStudentsToIds")
     AppUserDTO toDto(AppUser entity);
 
     @Mapping(target = "teachings", source = "teachingsIds", qualifiedByName = "mapIdsToTeachings")
-    @Mapping(target = "studentsUnderCares", source = "studentsUnderCaresIds", qualifiedByName = "mapIdsToStudents")
+    @Mapping(target = "children", source = "childrenIds", qualifiedByName = "mapIdsToStudents")
     AppUser toEntity(AppUserDTO dto);
 
     @Named("mapTeachingsToIds")
