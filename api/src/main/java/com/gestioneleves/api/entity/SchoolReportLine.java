@@ -1,9 +1,7 @@
 package com.gestioneleves.api.entity;
 
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,8 +10,21 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
+@IdClass(SchoolReportLine.class)
+
 public class SchoolReportLine {
+
+    @Id
+    @Column(name = "school_report_id")
+    private Long schoolReportId;
+
+    @Id
+    @Column(name = "teaching_id")
+    private Long teachingId;
+
+    @Column(length = 256)
     private String comment;
+
     private Double teachingAverage;
 
     @ManyToOne(optional = false)
@@ -23,5 +34,4 @@ public class SchoolReportLine {
     @ManyToOne(optional = false)
     @JoinColumn(name = "school_report_id")
     private SchoolReport schoolReport;
-
 }

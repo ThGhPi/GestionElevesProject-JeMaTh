@@ -11,13 +11,23 @@ import java.util.List;
 @Setter
 @Entity
 public class AppUser extends Person {
+    @Column(nullable = false, length = 50)
     private String password = "defaultValue";
+
+    @Column(nullable = false, length = 50, unique = true)
     private String email;
+
+    @Column(nullable = false, length = 50, unique = true)
     private String username;
+
+    @Column(nullable = false, length = 50, unique = true)
     private String phoneNumber;
+
+    @Column(nullable = false, length = 50)
     private String postalAddress;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private UserRole role;
 
     @OneToMany(mappedBy = "teacher")

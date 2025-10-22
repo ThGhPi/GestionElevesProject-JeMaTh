@@ -11,8 +11,21 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Entity
+@IdClass(Registration.class)
 public class Registration {
+
+    @Id
+    @Column(name = "student_id")
+    private Long studentId;
+
+    @Id
+    @Column(name = "class_group_id")
+    private Long classGroupId;
+
+    @Column(nullable = false)
     private LocalDate registrationDate;
+
+    @Column(nullable = false)
     private String schoolYear;
 
     @ManyToOne(optional = false)

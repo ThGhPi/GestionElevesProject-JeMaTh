@@ -13,9 +13,11 @@ import java.util.List;
 @Entity
 public class Student extends Person {
 
+    @Column(nullable = false)
     private LocalDate birthday;
 
     @Lob
+    @Column(unique = true)
     private byte[] photo;
 
     @OneToMany(mappedBy = "student")
@@ -29,7 +31,7 @@ public class Student extends Person {
 
     @ManyToMany
     @JoinTable(
-            name = "legal_guardian_link",
+            name = "student_guardian_link",
             joinColumns = @JoinColumn(name = "student_id", nullable = false),
             inverseJoinColumns = @JoinColumn(name = "legal_guardian_id", nullable = false)
     )

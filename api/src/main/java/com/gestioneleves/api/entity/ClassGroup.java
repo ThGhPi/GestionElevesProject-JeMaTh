@@ -16,6 +16,8 @@ public class ClassGroup  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false, length = 25, unique = true)
     private String name;
 
     @OneToMany(mappedBy="classGroup")
@@ -25,6 +27,6 @@ public class ClassGroup  {
     private List<Registration> registrations = new ArrayList<>();
 
     @OneToOne
-    @JoinColumn(name = "head_teacher_id")
+    @JoinColumn(name = "head_teacher_id", nullable = false, unique = true)
     private AppUser headTeacher;
 }

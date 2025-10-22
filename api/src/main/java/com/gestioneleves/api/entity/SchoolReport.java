@@ -17,10 +17,20 @@ public class SchoolReport {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private Date schoolPeriodStart;
+
+    @Column(nullable = false)
     private Date schoolPeriodEnd;
+
+    @Column(length = 50)
     private Double overallAverage;
+
+    @Column(length = 20)
     private String mention;
+
+    @Column(length = 256)
     private String generalComment;
 
     @ManyToOne(optional = false)

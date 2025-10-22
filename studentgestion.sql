@@ -68,6 +68,7 @@ CREATE TABLE IF NOT EXISTS school_report(
    mention VARCHAR(20),
    overall_average VARCHAR(50),
    student_id INT NOT NULL,
+   general_comment VARCHAR(256),
    FOREIGN KEY(student_id) REFERENCES student(student_id)
 );
 
