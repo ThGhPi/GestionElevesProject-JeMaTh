@@ -2,6 +2,8 @@ package com.gestioneleves.api.dto;
 
 import java.util.List;
 
+import com.gestioneleves.api.entity.RegistrationPK;
+
 import lombok.*;
 
 
@@ -15,5 +17,5 @@ public class ClassGroupDTO {
     private Long id;
     private String name;
     private List<Long> teachingsIds;
-    private List<Long> registrationsIds;
+    private List<RegistrationPK> registrationsIds;
 }

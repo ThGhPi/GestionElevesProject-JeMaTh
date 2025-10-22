@@ -8,52 +8,52 @@ import java.util.stream.Collectors;
 
 @Mapper(
     componentModel = "spring",
-    uses = {TeachingMapper.class, SchoolReportLineMapper.class, StudentMapper.class},
+    uses = {SchoolReportLineMapper.class, StudentMapper.class},
     unmappedTargetPolicy = ReportingPolicy.IGNORE
 )
 public interface SchoolReportMapper {
 
-    @Mapping(target = "teachingsIds", source = "teachings", qualifiedByName = "mapTeachingsToIds")
-    @Mapping(target = "linesIds", source = "lines", qualifiedByName = "mapLinesToIds")
+    // @Mapping(target = "teachingsIds", source = "teachings", qualifiedByName = "mapTeachingsToIds")
+    @Mapping(target = "schoolReportLinesIds", source = "schoolReportLines", qualifiedByName = "mapSchoolReportLinesToIds")
     @Mapping(target = "studentDTO", source = "student")
     SchoolReportDTO toDto(SchoolReport entity);
 
-    @Mapping(target = "teachings", source = "teachingsIds", qualifiedByName = "mapIdsToTeachings")
-    @Mapping(target = "lines", source = "linesIds", qualifiedByName = "mapIdsToLines")
+    // @Mapping(target = "teachings", source = "teachingsIds", qualifiedByName = "mapIdsToTeachings")
+    @Mapping(target = "schoolReportLines", source = "schoolReportLinesIds", qualifiedByName = "mapIdsToSchoolReportLines")
     @Mapping(target = "student", source = "studentDTO")
     SchoolReport toEntity(SchoolReportDTO dto);
 
 
-    @Named("mapTeachingsToIds")
-    default List<Long> mapTeachingsToIds(List<Teaching> teachings) {
-        return teachings == null ? null :
-            teachings.stream()
-                     .map(Teaching::getId)
-                     .collect(Collectors.toList());
-    }
+    // @Named("mapTeachingsToIds")
+    // default List<Long> mapTeachingsToIds(List<Teaching> teachings) {
+    //     return teachings == null ? null :
+    //         teachings.stream()
+    //                  .map(Teaching::getId)
+    //                  .collect(Collectors.toList());
+    // }
 
-    @Named("mapIdsToTeachings")
-    default List<Teaching> mapIdsToTeachings(List<Long> ids) {
-        return ids == null ? null :
-            ids.stream()
-               .map(id -> {
-                   Teaching t = new Teaching();
-                   t.setId(id);
-                   return t;
-               })
-               .collect(Collectors.toList());
-    }
+    // @Named("mapIdsToTeachings")
+    // default List<Teaching> mapIdsToTeachings(List<Long> ids) {
+    //     return ids == null ? null :
+    //         ids.stream()
+    //            .map(id -> {
+    //                Teaching t = new Teaching();
+    //                t.setId(id);
+    //                return t;
+    //            })
+    //            .collect(Collectors.toList());
+    // }
 
-    @Named("mapLinesToIds")
-    default List<Long> mapLinesToIds(List<SchoolReportLine> lines) {
+    @Named("mapSchoolReportLinesToIds")
+    default List<SchoolReportLinePK> mapSchoolReportLinesToIds(List<SchoolReportLine> lines) {
         return lines == null ? null :
             lines.stream()
                  .map(SchoolReportLine::getId)
                  .collect(Collectors.toList());
     }
 
-    @Named("mapIdsToLines")
-    default List<SchoolReportLine> mapIdsToLines(List<Long> ids) {
+    @Named("mapIdsToSchoolReportLines")
+    default List<SchoolReportLine> mapIdsToSchoolReportLines(List<SchoolReportLinePK> ids) {
         return ids == null ? null :
             ids.stream()
                .map(id -> {

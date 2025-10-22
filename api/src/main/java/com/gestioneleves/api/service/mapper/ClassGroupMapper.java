@@ -43,20 +43,20 @@ public interface ClassGroupMapper {
     }
 
     @Named("mapRegistrationsToIds")
-    default List<Long> mapRegistrationsToIds(List<Registration> registrations) {
+    default List<RegistrationPK> mapRegistrationsToIds(List<Registration> registrations) {
         return registrations == null ? null :
             registrations.stream()
-                         .map(r -> r.getId() != null ? r.getId().getStudentId() : null)
+                         .map(r -> r.getId() != null ? r.getId() : null)
                          .collect(Collectors.toList());
     }
 
     @Named("mapIdsToRegistrations")
-    default List<Registration> mapIdsToRegistrations(List<Long> ids) {
+    default List<Registration> mapIdsToRegistrations(List<RegistrationPK> ids) {
         return ids == null ? null :
             ids.stream()
                .map(id -> {
                    Registration r = new Registration();
-                   r.setId(new RegistrationPK(id, null));
+                   r.setId(id);
                    return r;
                })
                .collect(Collectors.toList());

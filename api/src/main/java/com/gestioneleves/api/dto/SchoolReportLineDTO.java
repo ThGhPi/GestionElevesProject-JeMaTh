@@ -1,4 +1,6 @@
 package com.gestioneleves.api.dto;
+import com.gestioneleves.api.entity.SchoolReportLinePK;
+
 import lombok.*;
 
 @Data
@@ -8,7 +10,7 @@ import lombok.*;
 @Getter
 @Setter
 public class SchoolReportLineDTO {
-    private Long id;
+    private SchoolReportLinePK id;
     private TeachingDTO teachingDto;
     private String comment;
     private SchoolReportDTO schoolReportDto;

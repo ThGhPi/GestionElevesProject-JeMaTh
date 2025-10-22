@@ -1,6 +1,8 @@
 package com.gestioneleves.api.dto;
 import java.util.List;
 
+import com.gestioneleves.api.entity.SchoolReportLinePK;
+
 import lombok.*;
 
 @Data
@@ -14,6 +16,6 @@ public class TeachingDTO {
     private String subjectName;
     private ClassGroupDTO classGroup;
     private AppUserDTO teacher;
-    private List<Long> schoolReportsIds;
+    private List<SchoolReportLinePK> schoolReportLinesIds;
 }
   
