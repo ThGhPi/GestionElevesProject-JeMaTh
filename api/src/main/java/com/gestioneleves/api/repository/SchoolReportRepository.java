@@ -24,5 +24,4 @@ public interface SchoolReportRepository extends CrudRepository<SchoolReport, Lon
 
     public SchoolReport save(SchoolReport schoolReport); // create and update
     public void deleteById(Long id); // delete
-
 }
