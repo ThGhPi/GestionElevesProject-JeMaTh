@@ -25,6 +25,7 @@ public interface AppUserRepository extends ListCrudRepository<AppUser, Long> {
     public Optional<AppUser> findById(Long id);
     public List<AppUser> findAll();
 
+    public List<AppUser> saveAll(List<AppUser> appUsers); // create and update
     public AppUser save(AppUser appuser); // create and update
     public void deleteById(Long id); // delete
 }
