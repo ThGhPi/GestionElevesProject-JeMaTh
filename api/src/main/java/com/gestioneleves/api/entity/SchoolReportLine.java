@@ -1,26 +1,19 @@
 package com.gestioneleves.api.entity;
 
-import jakarta.persistence.*;
-
+import jakarta.persistence.Column;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapsId;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 @Data
-@Getter
-@Setter
 @Entity
-@IdClass(SchoolReportLine.class)
-
 public class SchoolReportLine {
 
-    @Id
-    @Column(name = "school_report_id")
-    private Long schoolReportId;
-
-    @Id
-    @Column(name = "teaching_id")
-    private Long teachingId;
+    @EmbeddedId
+    private SchoolReportLinePK id = new SchoolReportLinePK();
 
     @Column(length = 256)
     private String comment;
@@ -28,10 +21,12 @@ public class SchoolReportLine {
     private Double teachingAverage;
 
     @ManyToOne(optional = false)
+    @MapsId("teachingId")
     @JoinColumn(name = "teaching_id")
     private Teaching teaching;
 
     @ManyToOne(optional = false)
+    @MapsId("schoolReportId")
     @JoinColumn(name = "school_report_id")
     private SchoolReport schoolReport;
 }

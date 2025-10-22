@@ -16,8 +16,7 @@ public interface StudentRepository extends CrudRepository<Student, Long> {
     public List<Student> findByClassGroupIdAndSchoolYear(Long id, String schoolYear); // find list of student of a classGroup & namedQuery
     public List<Student> findByTeachingId(Iterable<Long> ids); // find list of teachers by list of teaching ids
     
-    // Pour le CRUD
-    
+    /* Pour le CRUD */
     // Read
     public Optional<Student> findById(Long id);
     public List<Student> findAll();

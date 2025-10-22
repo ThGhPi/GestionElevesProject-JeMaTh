@@ -1,14 +1,16 @@
 package com.gestioneleves.api.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.stereotype.Repository;
 
 import com.gestioneleves.api.entity.Registration;
+import com.gestioneleves.api.entity.RegistrationPK;
 
 @Repository
-public interface RegistrationRepository extends ListCrudRepository<Registration, Long> {
+public interface RegistrationRepository extends ListCrudRepository<Registration, RegistrationPK> {
     
     // registration linked to a classGroup for a schoolYear
     public List<Registration> findByClassGroupIdAndSchoolYear(Long classGroupId, String schoolYear);
@@ -19,8 +21,9 @@ public interface RegistrationRepository extends ListCrudRepository<Registration,
 
     
     /* Pour le CRUD */
-    // Read -> no findById because id is a product key
+    // Read
     public List<Registration> findAllOrderBySchoolYear();
+    public Optional<Registration> findByIdOrderBySchoolYear(RegistrationPK id);
 
     public List<Registration> saveAll(List<Registration> registrations);
     public Registration save(Registration registration); // create and update

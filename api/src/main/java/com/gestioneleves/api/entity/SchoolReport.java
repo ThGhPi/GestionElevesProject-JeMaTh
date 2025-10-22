@@ -2,16 +2,12 @@ package com.gestioneleves.api.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Data
-@Getter
-@Setter
 @Entity
 public class SchoolReport {
     @Id
@@ -19,10 +15,10 @@ public class SchoolReport {
     private Long id;
 
     @Column(nullable = false)
-    private Date schoolPeriodStart;
+    private LocalDate schoolPeriodStart;
 
     @Column(nullable = false)
-    private Date schoolPeriodEnd;
+    private LocalDate schoolPeriodEnd;
 
     @Column(length = 50)
     private Double overallAverage;

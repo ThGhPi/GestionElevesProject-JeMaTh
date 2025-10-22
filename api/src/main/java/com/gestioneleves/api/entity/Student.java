@@ -1,8 +1,7 @@
 package com.gestioneleves.api.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -19,8 +18,7 @@ import java.util.List;
 //     @NamedQuery(name = "Student.findByClassGroupIdAndSchoolYear",
 //         query = "Select s from Student s join s.Regitration r join r.ClassGroup c join c.Teaching t where t.id = ?1 ")
 // })
-@Getter
-@Setter
+@Data
 @Entity
 public class Student extends Person {
 

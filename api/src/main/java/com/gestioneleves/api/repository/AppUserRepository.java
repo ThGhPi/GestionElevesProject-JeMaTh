@@ -19,7 +19,7 @@ public interface AppUserRepository extends ListCrudRepository<AppUser, Long> {
     public List<AppUser> findByClassGroup(ClassGroup classGroup); // find list of teachers of a classGroup & use namedQuery
     public List<AppUser> findByTeachingId(Iterable<Long> ids); // find list of teachers by list of teaching ids
 
-    // Pour le CRUD
+    /* Pour le CRUD */
 
     // Read
     public Optional<AppUser> findById(Long id);
