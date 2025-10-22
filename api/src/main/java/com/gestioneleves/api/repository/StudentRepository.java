@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.gestioneleves.api.entity.AppUser;
 import com.gestioneleves.api.entity.Student;
 
 @Repository
