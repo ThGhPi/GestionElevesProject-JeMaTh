@@ -5,18 +5,19 @@ import lombok.*;
 import java.util.*;
 
 @Entity
-@Table(name = "app_user", uniqueConstraints = {
+@Table(
+    name = "app_user",
+    uniqueConstraints = {
         @UniqueConstraint(columnNames = {"email"}),
         @UniqueConstraint(columnNames = {"username"})
-})
-@Data 
-@NoArgsConstructor 
+    }
+)
+@Data
+@NoArgsConstructor
 @AllArgsConstructor
-@Getter 
-@Setter 
 @Builder
-@EqualsAndHashCode(callSuper = true, exclude = {"studentsUnderCare", "teachings"})
-@ToString(callSuper = true, exclude = {"studentsUnderCare", "teachings"})
+@EqualsAndHashCode(callSuper = true, exclude = {"studentsUnderCares", "teachings"})
+@ToString(callSuper = true, exclude = {"studentsUnderCares", "teachings"})
 public class AppUser extends Person {
 
     @Column(nullable = false, length = 50)
@@ -38,12 +39,11 @@ public class AppUser extends Person {
     @Column(nullable = false, length = 20)
     private UserRole role;
 
-    
     @ManyToMany(mappedBy = "guardians")
     @Builder.Default
-    private List<Student> studentsUnderCare = new ArrayList<>();
+    private List<Student> studentsUnderCares = new ArrayList<>();
 
     @OneToMany(mappedBy = "teacher")
     @Builder.Default
     private List<Teaching> teachings = new ArrayList<>();
-} 
+}

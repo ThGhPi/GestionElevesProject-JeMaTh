@@ -10,8 +10,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor 
 @AllArgsConstructor 
 @Builder
-@Getter 
-@Setter
 public class Evaluation {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

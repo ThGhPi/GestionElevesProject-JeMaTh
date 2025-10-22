@@ -1,27 +1,27 @@
 package com.gestioneleves.api.service.mapper;
 
-import com.gestioneleves.api.dto.AppUserDTO;
-import com.gestioneleves.api.entity.AppUser;
-import com.gestioneleves.api.entity.Student;
-import com.gestioneleves.api.entity.Teaching;
+import com.gestioneleves.api.dto.ClassGroupDTO;
+import com.gestioneleves.api.entity.*;
 import org.mapstruct.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Mapper(
     componentModel = "spring",
+    uses = {TeachingMapper.class, RegistrationMapper.class},
     unmappedTargetPolicy = ReportingPolicy.IGNORE
 )
-public interface AppUserMapper {
+public interface ClassGroupMapper {
 
     @Mapping(target = "teachingsIds", source = "teachings", qualifiedByName = "mapTeachingsToIds")
-    @Mapping(target = "studentsUnderCaresIds", source = "studentsUnderCares", qualifiedByName = "mapStudentsToIds")
-    AppUserDTO toDto(AppUser entity);
+    @Mapping(target = "registrationsIds", source = "registrations", qualifiedByName = "mapRegistrationsToIds")
+    ClassGroupDTO toDto(ClassGroup entity);
 
     @Mapping(target = "teachings", source = "teachingsIds", qualifiedByName = "mapIdsToTeachings")
-    @Mapping(target = "studentsUnderCares", source = "studentsUnderCaresIds", qualifiedByName = "mapIdsToStudents")
-    AppUser toEntity(AppUserDTO dto);
+    @Mapping(target = "registrations", source = "registrationsIds", qualifiedByName = "mapIdsToRegistrations")
+    ClassGroup toEntity(ClassGroupDTO dto);
 
+    // ---------- Méthodes utilitaires ----------
     @Named("mapTeachingsToIds")
     default List<Long> mapTeachingsToIds(List<Teaching> teachings) {
         return teachings == null ? null :
@@ -42,22 +42,22 @@ public interface AppUserMapper {
                .collect(Collectors.toList());
     }
 
-    @Named("mapStudentsToIds")
-    default List<Long> mapStudentsToIds(List<Student> students) {
-        return students == null ? null :
-            students.stream()
-                     .map(Student::getId)
-                     .collect(Collectors.toList());
+    @Named("mapRegistrationsToIds")
+    default List<Long> mapRegistrationsToIds(List<Registration> registrations) {
+        return registrations == null ? null :
+            registrations.stream()
+                         .map(r -> r.getId() != null ? r.getId().getStudentId() : null)
+                         .collect(Collectors.toList());
     }
 
-    @Named("mapIdsToStudents")
-    default List<Student> mapIdsToStudents(List<Long> ids) {
+    @Named("mapIdsToRegistrations")
+    default List<Registration> mapIdsToRegistrations(List<Long> ids) {
         return ids == null ? null :
             ids.stream()
                .map(id -> {
-                   Student s = new Student();
-                   s.setId(id);
-                   return s;
+                   Registration r = new Registration();
+                   r.setId(new RegistrationId(id, null));
+                   return r;
                })
                .collect(Collectors.toList());
     }

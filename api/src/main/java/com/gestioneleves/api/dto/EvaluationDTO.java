@@ -1,8 +1,5 @@
 package com.gestioneleves.api.dto;
 
-import com.gestioneleves.api.entity.Student;
-import com.gestioneleves.api.entity.Teaching;
-
 import lombok.*;
 
 
@@ -14,7 +11,7 @@ import lombok.*;
 public class EvaluationDTO {
     
     private Long id;
-    private Teaching teaching;
+    private TeachingDTO teachingDTO;
     private Double note;
     private Double weight;
-    private Student student;}
+    private StudentDTO studentDTO;}

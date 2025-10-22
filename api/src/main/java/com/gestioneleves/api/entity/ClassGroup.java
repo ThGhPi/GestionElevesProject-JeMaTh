@@ -8,8 +8,6 @@ import java.util.*;
 @Table(name = "class_group", uniqueConstraints 
                                              = @UniqueConstraint(columnNames = {"name"}))
 @Data
-@Getter 
-@Setter 
 @NoArgsConstructor 
 @AllArgsConstructor 
 @Builder

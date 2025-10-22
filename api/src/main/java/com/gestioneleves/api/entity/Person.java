@@ -7,8 +7,6 @@ import lombok.*;
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "person")
 @Data
-@Getter 
-@Setter 
 @NoArgsConstructor 
 @AllArgsConstructor
 public abstract class Person {

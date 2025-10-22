@@ -9,8 +9,8 @@ import lombok.*;
 @Setter
 public class SchoolReportLineDTO {
     private Long id;
-    private TeachingDTO teachingDtoId;
+    private TeachingDTO teachingDto;
     private String comment;
-    private SchoolReportDTO schoolReportDtoId;
+    private SchoolReportDTO schoolReportDto;
     private Double teachingAverage;
 }

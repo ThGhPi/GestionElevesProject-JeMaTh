@@ -9,8 +9,6 @@ import java.io.Serializable;
 @NoArgsConstructor 
 @AllArgsConstructor 
 @Builder
-@Getter 
-@Setter
 public class RegistrationId implements Serializable {
     @Column(name = "student_id")
     private Long studentId;

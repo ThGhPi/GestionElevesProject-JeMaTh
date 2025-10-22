@@ -1,7 +1,7 @@
 package com.gestioneleves.api.dto;
 
 
-import com.gestioneleves.api.entity.Student;
+
 import java.time.LocalDate;
 import lombok.*;
 
@@ -15,8 +15,8 @@ import lombok.*;
 @Setter
 public class RegistrationDTO {
 
-    private Student student;
-    private ClassGroupDTO classGroup;
+    private StudentDTO studentDTO;
+    private ClassGroupDTO classGroupDTO;
     private String schoolYear;
     private LocalDate registrationDate;
 }

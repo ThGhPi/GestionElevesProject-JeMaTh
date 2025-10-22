@@ -11,8 +11,6 @@ import java.util.*;
 @NoArgsConstructor 
 @AllArgsConstructor 
 @Builder
-@Getter 
-@Setter
 @EqualsAndHashCode(callSuper = true, exclude = {"schoolReports", "evaluations", "guardians", "registrations"})
 @ToString(callSuper = true, exclude = {"schoolReports", "evaluations", "guardians", "registrations"})
 public class Student extends Person {

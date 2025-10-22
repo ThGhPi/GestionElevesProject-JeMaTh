@@ -10,8 +10,6 @@ import java.util.*;
 @NoArgsConstructor 
 @AllArgsConstructor 
 @Builder
-@Getter 
-@Setter
 @EqualsAndHashCode(exclude = {"schoolReports"})
 @ToString(exclude = {"schoolReports"})
 public class Teaching {

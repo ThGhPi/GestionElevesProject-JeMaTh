@@ -9,8 +9,6 @@ import lombok.*;
 @NoArgsConstructor 
 @AllArgsConstructor 
 @Builder
-@Getter 
-@Setter
 public class SchoolReportLine {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

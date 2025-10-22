@@ -14,5 +14,6 @@ public class TeachingDTO {
     private String subjectName;
     private ClassGroupDTO classGroup;
     private AppUserDTO teacher;
-    private List<SchoolReportDTO> schoolReports;
+    private List<Long> schoolReportsIds;
 }
+  

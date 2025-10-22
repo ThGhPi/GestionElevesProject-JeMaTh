@@ -2,7 +2,7 @@ package com.gestioneleves.api.dto;
 
 import java.util.List;
 
-import com.gestioneleves.api.entity.Student;
+
 
 import lombok.*;
 
@@ -15,8 +15,8 @@ public class SchoolReportDTO {
     
     private Long id;
     private String schoolPeriod;
-    private Student studentId;
+    private StudentDTO studentDTO;
     private String mention;
-    private List<TeachingDTO> teachingsIds;
-    private List<SchoolReportLineDTO> lines;
+    private List<Long> teachingsIds;
+    private List<Long> linesIds;
 }
