@@ -1,7 +1,12 @@
 package com.gestioneleves.api.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -19,6 +24,11 @@ import java.util.List;
 //         query = "Select s from Student s join s.Regitration r join r.ClassGroup c join c.Teaching t where t.id = ?1 ")
 // })
 @Data
+@NoArgsConstructor 
+@AllArgsConstructor 
+@Builder
+@EqualsAndHashCode(callSuper = true, exclude = {"schoolReports", "evaluations", "legalGuardians", "registrations"})
+@ToString(callSuper = true, exclude = {"schoolReports", "evaluations", "legalGuardians", "registrations"})
 @Entity
 public class Student extends Person {
 
@@ -30,12 +40,15 @@ public class Student extends Person {
     private byte[] photo;
 
     @OneToMany(mappedBy = "student")
+    @Builder.Default
     private List<Evaluation> evaluations = new ArrayList<>();
 
     @OneToMany(mappedBy = "student")
+    @Builder.Default
     private List<SchoolReport> schoolReports = new ArrayList<>();
 
     @OneToMany(mappedBy = "student")
+    @Builder.Default
     private List<Registration> registrations = new ArrayList<>();
 
     @ManyToMany
@@ -44,5 +57,6 @@ public class Student extends Person {
             joinColumns = @JoinColumn(name = "student_id", nullable = false),
             inverseJoinColumns = @JoinColumn(name = "legal_guardian_id", nullable = false)
     )
-    private List<AppUser> legalGuardians;
+    @Builder.Default
+    private List<AppUser> legalGuardians = new ArrayList<>();;
 }

@@ -1,17 +1,19 @@
 package com.gestioneleves.api.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@Getter
-@Setter
 @Entity
+@Builder
+@EqualsAndHashCode(exclude = {"teachings", "registrations"})
+@ToString(exclude = {"teachings", "registrations"})
 public class ClassGroup  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,10 +22,12 @@ public class ClassGroup  {
     @Column(nullable = false, length = 25, unique = true)
     private String name;
 
-    @OneToMany(mappedBy="classGroup")
+    @OneToMany(mappedBy = "classGroup", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<Teaching> teachings = new ArrayList<>();
 
-    @OneToMany(mappedBy = "classGroup")
+    @OneToMany(mappedBy = "classGroup", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<Registration> registrations = new ArrayList<>();
 
     @OneToOne

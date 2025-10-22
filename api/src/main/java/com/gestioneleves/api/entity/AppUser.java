@@ -1,7 +1,12 @@
 package com.gestioneleves.api.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,6 +17,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 @Data
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@EqualsAndHashCode(callSuper = true, exclude = {"children", "teachings"})
+@ToString(callSuper = true, exclude = {"children", "teachings"})
 @NamedQueries({
     // @NamedQuery(name = "AppUser.findByUsername", query = "Select a from AppUser a where a.username = ?1"),
     // @NamedQuery(name = "AppUser.findByLegalGuardiansId", query = "Select s from Student s join s.legalGuardians g where g.id = ?1 "),
@@ -19,6 +29,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @NamedQuery(name = "AppUser.findByClassGroup", query = "Select a from AppUser a join Teaching t where t.classGroup = ?1")
 public class AppUser extends Person implements UserDetails {
     @Column(nullable = false, length = 50)
+    @Builder.Default
     private String password = "defaultValue";
 
     @Column(nullable = false, length = 50, unique = true)
@@ -38,13 +49,15 @@ public class AppUser extends Person implements UserDetails {
     private UserRole role;
 
     @OneToMany(mappedBy = "teacher")
+    @Builder.Default
     private List<Teaching> teachings = new ArrayList<>();
 
     @OneToOne (mappedBy = "headTeacher")
     private ClassGroup classGroup;
 
     @ManyToMany(mappedBy = "legalGuardians")
-    private List<Student> students = new ArrayList<>();
+    @Builder.Default
+    private List<Student> children = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

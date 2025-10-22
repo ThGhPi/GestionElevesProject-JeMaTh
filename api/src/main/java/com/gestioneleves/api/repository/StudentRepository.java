@@ -3,13 +3,13 @@ package com.gestioneleves.api.repository;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.stereotype.Repository;
 
 import com.gestioneleves.api.entity.Student;
 
 @Repository
-public interface StudentRepository extends CrudRepository<Student, Long> {
+public interface StudentRepository extends ListCrudRepository<Student, Long> {
     
     
     public List<Student> findByLegalGuardiansId(Long id); // find list of children related to a guardian

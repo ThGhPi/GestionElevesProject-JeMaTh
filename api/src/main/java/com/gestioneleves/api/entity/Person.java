@@ -1,12 +1,16 @@
 package com.gestioneleves.api.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 // import java.io.Serializable;
 
 @Data
-@MappedSuperclass
+@Inheritance(strategy = InheritanceType.JOINED)
+@NoArgsConstructor 
+@AllArgsConstructor
 public abstract class Person /*implements Serializable*/ {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

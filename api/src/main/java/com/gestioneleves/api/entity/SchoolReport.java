@@ -1,7 +1,12 @@
 package com.gestioneleves.api.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -9,6 +14,11 @@ import java.util.List;
 
 @Data
 @Entity
+@NoArgsConstructor 
+@AllArgsConstructor 
+@Builder
+@EqualsAndHashCode(exclude = {"schoolReportLines"})
+@ToString(exclude = {"schoolReportLines"})
 public class SchoolReport {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,6 +44,7 @@ public class SchoolReport {
     private Student student;
 
     @OneToMany(mappedBy = "schoolReport")
+    @Builder.Default
     private List<SchoolReportLine> schoolReportLines = new ArrayList<>();
 
 
