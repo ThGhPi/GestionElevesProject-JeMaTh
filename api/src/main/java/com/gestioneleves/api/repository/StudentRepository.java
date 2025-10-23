@@ -13,8 +13,8 @@ public interface StudentRepository extends ListCrudRepository<Student, Long> {
     
     
     public List<Student> findByLegalGuardiansId(Long id); // find list of children related to a guardian
-    public List<Student> findByClassGroupIdAndSchoolYear(Long id, String schoolYear); // find list of student of a classGroup & namedQuery
-    public List<Student> findByTeachingId(Iterable<Long> ids); // find list of teachers by list of teaching ids
+    // public List<Student> findByClassGroupIdAndSchoolYear(Long id, String schoolYear); // find list of student of a classGroup & namedQuery
+    // public List<Student> findByTeachingId(Iterable<Long> ids); // find list of teachers by list of teaching ids
     
     /* Pour le CRUD */
     // Read

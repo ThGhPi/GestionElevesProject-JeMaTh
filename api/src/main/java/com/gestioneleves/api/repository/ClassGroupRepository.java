@@ -13,13 +13,13 @@ import com.gestioneleves.api.entity.ClassGroup;
 public interface ClassGroupRepository extends CrudRepository<ClassGroup, Long> {
     
     // the classGroups teached by a teacher
-    public List<ClassGroup> findByTeacherId(Long Id);
+    // public List<ClassGroup> findByTeacherId(Long Id);
     
     // the cassGroup of a headTeacher
     public Optional<ClassGroup> findByHeadTeacherId(Long Id);
 
     // the classGroup wher a Student is registered for a given schoolYear
-    public Optional<ClassGroup> findByStudentIdAndSchoolYear(Long id, String schoolYear);
+    // public Optional<ClassGroup> findByStudentIdAndSchoolYear(Long id, String schoolYear);
     
     /* Pour le CRUD */
     

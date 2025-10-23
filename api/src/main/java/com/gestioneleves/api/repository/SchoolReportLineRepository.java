@@ -13,12 +13,12 @@ import com.gestioneleves.api.entity.SchoolReportLinePK;
 public interface SchoolReportLineRepository extends ListCrudRepository<SchoolReportLine, SchoolReportLinePK> {
     
     // registration linked to a classGroup for a schoolYear
-    public List<SchoolReportLine> findBySchoolReportIdAndSchoolPeriodStart(Long schoolReportId, String schoolPeriodStart);
-    public List<SchoolReportLine> findBySchoolReportIdOrderBySchoolPeriodStart(Long schoolReportId);
+    // public List<SchoolReportLine> findBySchoolReportIdAndSchoolPeriodStart(Long schoolReportId, String schoolPeriodStart);
+    // public List<SchoolReportLine> findBySchoolReportIdOrderBySchoolPeriodStart(Long schoolReportId);
     
-    // registrations of a student in the establishment
-    public List<SchoolReportLine> findByTeachingIdAndSchoolPeriodStart(Long teachingId, String schoolPeriodStart);
-    public List<SchoolReportLine> findByTeachingIdOrderBySchoolPeriodStart(Long teachingId);
+    // // registrations of a student in the establishment
+    // public List<SchoolReportLine> findByTeachingIdAndSchoolPeriodStart(Long teachingId, String schoolPeriodStart);
+    // public List<SchoolReportLine> findByTeachingIdOrderBySchoolPeriodStart(Long teachingId);
 
     
     
@@ -28,7 +28,7 @@ public interface SchoolReportLineRepository extends ListCrudRepository<SchoolRep
     public List<SchoolReportLine> findAll();
     public Optional<SchoolReportLine> findById(SchoolReportLinePK id);
 
-    public List<SchoolReportLine> saveAll(List<SchoolReportLine> schoolReportLines);
+    // public List<SchoolReportLine> saveAll(List<SchoolReportLine> schoolReportLines);
     public SchoolReportLine save(SchoolReportLine schoolReportLine); // create and update
-    public void deleteById(Long id); // delete
+    public void deleteById(SchoolReportLinePK id); // delete
 }

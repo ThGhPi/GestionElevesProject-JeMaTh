@@ -6,10 +6,8 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-@Getter
-@Setter
 public class PersonDTO {
-    private Long id;
-    private String firstname;
-    private String lastname;
+    protected Long id;
+    protected String firstname;
+    protected String lastname;
 }

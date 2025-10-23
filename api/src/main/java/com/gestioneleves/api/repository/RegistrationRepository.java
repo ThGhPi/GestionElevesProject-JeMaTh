@@ -22,10 +22,10 @@ public interface RegistrationRepository extends ListCrudRepository<Registration,
     
     /* Pour le CRUD */
     // Read
-    public List<Registration> findAllOrderBySchoolYear();
+    public List<Registration> findAllByOrderBySchoolYear();
     public Optional<Registration> findByIdOrderBySchoolYear(RegistrationPK id);
 
-    public List<Registration> saveAll(List<Registration> registrations);
+    // public List<Registration> saveAll(List<Registration> registrations);
     public Registration save(Registration registration); // create and update
-    public void deleteById(Long id); // delete
+    public void deleteById(RegistrationPK id); // delete
 }

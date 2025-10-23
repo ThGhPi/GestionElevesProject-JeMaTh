@@ -28,7 +28,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 })
 @NamedQuery(name = "AppUser.findByClassGroup", query = "Select a from AppUser a join Teaching t where t.classGroup = ?1")
 public class AppUser extends Person implements UserDetails {
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 255)
     @Builder.Default
     private String password = "defaultValue";
 

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 // import java.io.Serializable;
 
 @Data
+@Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @NoArgsConstructor 
 @AllArgsConstructor

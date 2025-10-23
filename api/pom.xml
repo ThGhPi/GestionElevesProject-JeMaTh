@@ -63,6 +63,7 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
+            <version>42.7.3</version>
             <scope>runtime</scope>
         </dependency>
 
@@ -116,7 +117,7 @@
                         <arg>-Amapstruct.verbose=true</arg>
                     </compilerArgs>
                     <annotationProcessorPaths>
-                        <!-- Lombok d’abord -->
+                        <!-- Lombok -->
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
@@ -151,7 +152,17 @@
                     </excludes>
                 </configuration>
             </plugin>
+
+            <!--  Nouveau plugin ajouté pour exécuter une classe Java -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.3.0</version>
+                <configuration>
+                    <mainClass>com.gestioneleves.api.util.PasswordGen</mainClass>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 </project>
-
