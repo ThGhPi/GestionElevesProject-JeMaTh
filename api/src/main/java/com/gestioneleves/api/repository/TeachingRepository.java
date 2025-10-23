@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface TeachingRepository extends CrudRepository<Teaching, Long> {
+public interface TeachingRepository extends ListCrudRepository<Teaching, Long> {
     public List<Teaching> findByTeacherId(Long teacherId); // renvoie les matières d'un professeur
     public List<Teaching> findByClassGroupId(Long classGroupId); // renvoie les matières par classe
     public List<Teaching> findBySubjectName(String subjectName); // renvoie le nom des matières

@@ -14,7 +14,7 @@ public interface RegistrationRepository extends ListCrudRepository<Registration,
     
     // registration linked to a classGroup for a schoolYear
     public List<Registration> findByClassGroupIdAndSchoolYear(Long classGroupId, String schoolYear);
-    public List<Registration> findByClassGroupIdOrderBySchoolYearAsc(Long classGroupId);
+    public List<Registration> findByClassGroupIdOrderBySchoolYear(Long classGroupId);
     
     // registrations of a student in the establishment
     public List<Registration> findByStudentId(Long studentId);
@@ -22,7 +22,7 @@ public interface RegistrationRepository extends ListCrudRepository<Registration,
     
     /* Pour le CRUD */
     // Read
-    public List<Registration> findAllByOrderBySchoolYear();
+    public List<Registration> findAllByOrderBySchoolYearAsc();
     public Optional<Registration> findByIdOrderBySchoolYearAsc(RegistrationPK id);
 
     // public List<Registration> saveAll(List<Registration> registrations);

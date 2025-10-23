@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface SchoolReportRepository extends CrudRepository<SchoolReport, Long> {
+public interface SchoolReportRepository extends ListCrudRepository<SchoolReport, Long> {
     public List<SchoolReport> findByStudentId(Long studentId); // renvoi les bulletins d'un étudiant
     public List<SchoolReport> findBySchoolPeriodStart(LocalDate schoolPeriodStart); // renvoi les bulletins par période
 

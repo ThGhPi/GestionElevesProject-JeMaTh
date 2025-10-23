@@ -14,8 +14,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Getter
-@Setter
 public class RegistrationDTO {
     private RegistrationPK id;
     private StudentDTO studentDTO;
