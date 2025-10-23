@@ -32,7 +32,7 @@ public class EvaluationController {
         return service.saveEvaluation(evaluation);
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public ResponseEntity<Evaluation> update(@PathVariable Long id, @RequestBody Evaluation evaluation) {
         return service.getEvaluation(id)
                 .map(existing -> {
@@ -42,7 +42,7 @@ public class EvaluationController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         if (service.getEvaluation(id).isEmpty()) {
             return ResponseEntity.notFound().build();

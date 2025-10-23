@@ -20,9 +20,9 @@ public interface RegistrationRepository extends ListCrudRepository<Registration,
     
     /* Pour le CRUD */
     // Read -> no findById because id is a product key
-    public List<Registration> findAllOrderBySchoolYear();
+    public List<Registration> findAllByOrderBySchoolYearAsc();
 
-    public List<Registration> saveAll(List<Registration> registrations);
+    public List<Registration> saveAll(List<Registration> listRegistrations);
     public Registration save(Registration registration); // create and update
     public void deleteById(Long id); // delete
 }

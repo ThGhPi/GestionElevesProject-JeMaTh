@@ -9,7 +9,7 @@ import java.util.Optional;
 
 @Service
 public class TeachingService {
-    private TeachingRepository teachings;
+    private final TeachingRepository teachings;
 
     public TeachingService(TeachingRepository teachings) {
         this.teachings = teachings;

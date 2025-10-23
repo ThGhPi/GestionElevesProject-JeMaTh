@@ -32,7 +32,7 @@ public class TeachingController {
         return service.saveTeaching(teaching);
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public ResponseEntity<Teaching> update(@PathVariable Long id, @RequestBody Teaching teaching) {
         return service.getTeaching(id)
                 .map(existing -> {
@@ -42,7 +42,7 @@ public class TeachingController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         if (service.getTeaching(id).isEmpty()) {
             return ResponseEntity.notFound().build();
