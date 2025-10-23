@@ -3,10 +3,12 @@ package com.gestioneleves.api.controller;
 import com.gestioneleves.api.dto.AppUserDTO;
 import com.gestioneleves.api.service.AppUserService;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 
 @RestController
 @RequestMapping("/api/users")
@@ -23,12 +25,13 @@ public class AppUserController {
     @GetMapping("/{id}")
     public AppUserDTO getUserById(@PathVariable Long id) {
         return service.findById(id);
-    }
+    }    
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public AppUserDTO createUser(@RequestBody AppUserDTO dto) {
         return service.create(dto);
     }
+    
 
 }

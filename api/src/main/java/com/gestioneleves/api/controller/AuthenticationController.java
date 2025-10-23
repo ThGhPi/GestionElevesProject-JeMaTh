@@ -1,11 +1,13 @@
 package com.gestioneleves.api.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.gestioneleves.api.dto.AppUserDTO;
 import com.gestioneleves.api.dto.LoginAppUserDto;
 import com.gestioneleves.api.dto.RegisterAppUserDto;
 import com.gestioneleves.api.dto.response.LoginResponse;
@@ -13,8 +15,8 @@ import com.gestioneleves.api.entity.AppUser;
 import com.gestioneleves.api.service.AuthenticationService;
 import com.gestioneleves.api.service.JwtService;
 
-@RequestMapping("/auth")
 @RestController
+@RequestMapping("/api")
 public class AuthenticationController {
     private final JwtService jwtService;
     
@@ -25,11 +27,17 @@ public class AuthenticationController {
         this.authenticationService = authenticationService;
     }
 
-    @PostMapping("/signup")
+    @PostMapping("/users")
     public ResponseEntity<AppUser> register(@RequestBody RegisterAppUserDto registerAppUserDto) {
         AppUser registeredUser = authenticationService.signup(registerAppUserDto);
 
         return ResponseEntity.ok(registeredUser);
+    }
+
+    @GetMapping("/profil")
+    public ResponseEntity<AppUserDTO> authenticatedUser() {
+        AppUserDTO currentUser = authenticationService.getAuthenticatedUser();
+        return ResponseEntity.ok(currentUser);
     }
 
     @PostMapping("/login")

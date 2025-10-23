@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 @Mapper(
     componentModel = "spring",
-    uses = {SchoolReportMapper.class, EvaluationMapper.class, AppUserMapper.class},
+    uses = {SchoolReportMapper.class, EvaluationMapper.class, AppUserMapper.class, RegistrationMapper.class},
     unmappedTargetPolicy = ReportingPolicy.IGNORE
 )
 public interface StudentMapper {
