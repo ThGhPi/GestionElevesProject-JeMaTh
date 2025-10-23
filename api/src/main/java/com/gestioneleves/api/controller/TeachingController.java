@@ -16,38 +16,38 @@ public class TeachingController {
     private TeachingService service;
 
     @GetMapping
-    public List<Teaching> findAll() {
-        return service.findAll();
+    public List<Teaching> getTeachings() {
+        return service.getTeachings();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Teaching> findById(@PathVariable Long id) {
-        return service.findById(id)
+    public ResponseEntity<Teaching> getTeaching(@PathVariable Long id) {
+        return service.getTeaching(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
     public Teaching create(@RequestBody Teaching teaching) {
-        return service.save(teaching);
+        return service.saveTeaching(teaching);
     }
 
     @PutMapping
     public ResponseEntity<Teaching> update(@PathVariable Long id, @RequestBody Teaching teaching) {
-        return service.findById(id)
+        return service.getTeaching(id)
                 .map(existing -> {
                     teaching.setId(id);
-                    return ResponseEntity.ok(service.save(teaching));
+                    return ResponseEntity.ok(service.saveTeaching(teaching));
                 })
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        if (service.findById(id).isEmpty()) {
+        if (service.getTeaching(id).isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        service.deleteById(id);
+        service.deleteTeaching(id);
         return ResponseEntity.noContent().build();
     }
 }

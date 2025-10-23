@@ -15,16 +15,16 @@ public class EvaluationService {
         this.evaluations = evaluations;
     }
 
-    public List<Evaluation> findAll() {
+    public List<Evaluation> getEvaluations() {
         return evaluations.findAll();
     }
-    public Optional<Evaluation> findById(Long id) {
+    public Optional<Evaluation> getEvaluation(Long id) {
         return evaluations.findById(id);
     }
-    public Evaluation save(Evaluation evaluation) {
+    public Evaluation saveEvaluation(Evaluation evaluation) {
         return evaluations.save(evaluation);
     }
-    public void deleteById(Long id) {
+    public void deleteEvaluation(Long id) {
         evaluations.deleteById(id);
     }
 }

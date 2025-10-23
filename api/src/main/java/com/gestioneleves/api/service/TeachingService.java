@@ -15,16 +15,16 @@ public class TeachingService {
         this.teachings = teachings;
     }
 
-    public List<Teaching> findAll() {
+    public List<Teaching> getTeachings() {
         return teachings.findAll();
     }
-    public Optional<Teaching> findById(Long id) {
+    public Optional<Teaching> getTeaching(Long id) {
         return teachings.findById(id);
     }
-    public Teaching save(Teaching teaching) {
+    public Teaching saveTeaching(Teaching teaching) {
         return teachings.save(teaching);
     }
-    public void deleteById(Long id) {
+    public void deleteTeaching(Long id) {
         teachings.deleteById(id);
     }
 }

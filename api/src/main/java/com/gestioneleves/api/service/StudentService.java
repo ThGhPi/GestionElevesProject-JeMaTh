@@ -15,18 +15,18 @@ public class StudentService {
         this.students = students;
     }
 
-    public List<Student> findAll() {
+    public List<Student> getStudents() {
         return students.findAll();
     }
-    public Optional<Student> findById(Long id) {
+    public Optional<Student> getStudent(Long id) {
         return students.findById(id);
     }
 
-    public Student save(Student student) {
+    public Student saveStudent(Student student) {
         return students.save(student);
     }
 
-    public void deleteById(Long id) {
+    public void deleteStudent(Long id) {
         students.deleteById(id);
     }
 }

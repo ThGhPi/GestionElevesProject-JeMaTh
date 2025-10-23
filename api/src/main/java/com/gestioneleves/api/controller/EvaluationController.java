@@ -16,38 +16,38 @@ public class EvaluationController {
     private EvaluationService service;
 
     @GetMapping
-    public List<Evaluation> findAll() {
-        return service.findAll();
+    public List<Evaluation> getEvaluations() {
+        return service.getEvaluations();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Evaluation> findById(@PathVariable Long id) {
-        return service.findById(id)
+    public ResponseEntity<Evaluation> getEvaluation(@PathVariable Long id) {
+        return service.getEvaluation(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
     public Evaluation create(@RequestBody Evaluation evaluation) {
-        return service.save(evaluation);
+        return service.saveEvaluation(evaluation);
     }
 
     @PutMapping
     public ResponseEntity<Evaluation> update(@PathVariable Long id, @RequestBody Evaluation evaluation) {
-        return service.findById(id)
+        return service.getEvaluation(id)
                 .map(existing -> {
                     evaluation.setId(id);
-                    return ResponseEntity.ok(service.save(evaluation));
+                    return ResponseEntity.ok(service.saveEvaluation(evaluation));
                 })
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        if (service.findById(id).isEmpty()) {
+        if (service.getEvaluation(id).isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        service.deleteById(id);
+        service.deleteEvaluation(id);
         return ResponseEntity.noContent().build();
     }
 }
