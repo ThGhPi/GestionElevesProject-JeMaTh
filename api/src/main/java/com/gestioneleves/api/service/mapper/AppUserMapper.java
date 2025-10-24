@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 @Mapper(
     componentModel = "spring",
+    uses = {TeachingMapper.class, StudentMapper.class},
     unmappedTargetPolicy = ReportingPolicy.IGNORE
 )
 public interface AppUserMapper {

@@ -13,7 +13,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @SuperBuilder
 @EqualsAndHashCode(callSuper = true)
-public class RegisterAppUserDto extends PersonDTO {
+public class RegisterAppUserDTO extends PersonDTO {
     private String email;
     private String password;
     private String username;

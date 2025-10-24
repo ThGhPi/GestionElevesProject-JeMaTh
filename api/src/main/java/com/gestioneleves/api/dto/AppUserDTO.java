@@ -15,7 +15,7 @@ public class AppUserDTO extends PersonDTO {
     private String email;
     private String role;
     private String phoneNumber;
-    private String postalAdress;
+    private String postalAddress;
     private List<Long> teachingsIds;
     private List<Long> childrenIds;
 } 

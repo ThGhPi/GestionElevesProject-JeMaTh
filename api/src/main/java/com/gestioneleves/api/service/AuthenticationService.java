@@ -1,5 +1,7 @@
 package com.gestioneleves.api.service;
 
+import java.util.List;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -9,8 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gestioneleves.api.dto.AppUserDTO;
-import com.gestioneleves.api.dto.LoginAppUserDto;
-import com.gestioneleves.api.dto.RegisterAppUserDto;
+import com.gestioneleves.api.dto.LoginAppUserDTO;
+import com.gestioneleves.api.dto.RegisterAppUserDTO;
 import com.gestioneleves.api.entity.AppUser;
 import com.gestioneleves.api.repository.AppUserRepository;
 import com.gestioneleves.api.service.mapper.AppUserMapper;
@@ -26,19 +28,7 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
 
-    public AuthenticationService(
-        AppUserRepository userRepository,
-        AuthenticationManager authenticationManager,
-        PasswordEncoder passwordEncoder,
-        AppUserMapper mapper
-    ) {
-        this.mapper = mapper;
-        this.authenticationManager = authenticationManager;
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
-
-    public AppUser signup(RegisterAppUserDto input) {
+    public AppUser signup(RegisterAppUserDTO input) {
         AppUser user = new AppUser();
         user.setUsername(input.getUsername());
         user.setLastname(input.getLastname());
@@ -52,7 +42,7 @@ public class AuthenticationService {
         return userRepository.save(user);
     }
 
-    public AppUser authenticate(LoginAppUserDto input) {
+    public AppUser authenticate(LoginAppUserDTO input) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         input.getUsername(),
@@ -68,5 +58,13 @@ public class AuthenticationService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         AppUser currentUser = (AppUser) authentication.getPrincipal();
         return mapper.toDto(currentUser);
+    }
+
+    public AppUserDTO changePassword(List<LoginAppUserDTO> appUserDtoWithDualPassword) {
+        AppUser userForPaswordChange = authenticate(appUserDtoWithDualPassword.getFirst());
+        
+        userForPaswordChange.setPassword(passwordEncoder.encode(appUserDtoWithDualPassword.get(1).getPassword()));
+        
+        return mapper.toDto(userRepository.save(userForPaswordChange));
     }
 }

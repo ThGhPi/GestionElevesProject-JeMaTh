@@ -26,12 +26,4 @@ public class AppUserController {
     public AppUserDTO getUserById(@PathVariable Long id) {
         return service.findById(id);
     }    
-
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public AppUserDTO createUser(@RequestBody AppUserDTO dto) {
-        return service.create(dto);
-    }
-    
-
 }
