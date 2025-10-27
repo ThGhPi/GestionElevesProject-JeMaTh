@@ -13,7 +13,7 @@ public class TeachingDTO {
     private Long id;
     private String subjectName;
     private ClassGroupDTO classGroup;
-    private AppUserDTO teacher;
+    private long teacherid;
     private List<Long> schoolReportsIds;
 }
   

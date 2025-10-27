@@ -3,20 +3,20 @@ package com.gestioneleves.api.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Entity
-@Inheritance(strategy = InheritanceType.JOINED)
-@Table(name = "person")
+
 @Data
-@NoArgsConstructor 
+@NoArgsConstructor
 @AllArgsConstructor
+@MappedSuperclass
 public abstract class Person {
-    @Id 
+    
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 50)
-    private String firstname;
+    @Column(nullable = true)
+    protected String firstname;
 
-    @Column(nullable = false, length = 50)
-    private String lastname; 
+    @Column(nullable = true)
+    protected String lastname; 
 }

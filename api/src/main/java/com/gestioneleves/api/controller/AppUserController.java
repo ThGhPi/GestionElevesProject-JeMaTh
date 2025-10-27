@@ -1,34 +1,44 @@
 package com.gestioneleves.api.controller;
 
-import com.gestioneleves.api.dto.AppUserDTO;
+
+import com.gestioneleves.api.dto.AppUserDTOCreateAdmin;
+import com.gestioneleves.api.dto.AppUserDTOResAdm;
 import com.gestioneleves.api.service.AppUserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
+
+
+
+
+
+
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class AppUserController {
 
     private final AppUserService service;
 
-    @GetMapping
-    public List<AppUserDTO> getAllUsers() {//on retourne une liste d'appUserDto
-        return service.findAll();// en faisant appelle a la methode findAll() de appUserService
+
+    @PostMapping("/users/create")
+    public ResponseEntity<AppUserDTOResAdm> create(@RequestBody AppUserDTOCreateAdmin dto){
+        AppUserDTOResAdm createdAdmin = service.create(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdAdmin);
     }
 
-    @GetMapping("/{id}")
-    public AppUserDTO getUserById(@PathVariable Long id) {
-        return service.findById(id);
+    @GetMapping("/users")
+    public ResponseEntity<List<AppUserDTOResAdm>> read() {
+           List<AppUserDTOResAdm> users = service.read(); 
+        return ResponseEntity
+            .ok(users);
     }
-
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public AppUserDTO createUser(@RequestBody AppUserDTO dto) {
-        return service.create(dto);
-    }
-
 }

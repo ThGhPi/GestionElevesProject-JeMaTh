@@ -15,35 +15,33 @@ import java.util.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @EqualsAndHashCode(callSuper = true, exclude = {"studentsUnderCares", "teachings"})
 @ToString(callSuper = true, exclude = {"studentsUnderCares", "teachings"})
 public class AppUser extends Person {
 
-    @Column(nullable = false, length = 50)
+
+    @Column(nullable = false, length = 255)
     private String password;
 
     @Column(nullable = false, length = 50)
     private String email;
 
-    @Column(name = "username", nullable = false, length = 50)
+    @Column(nullable = false, length = 50)
     private String username;
 
-    @Column(length = 20)
-    private String phoneNumber;
+    @Column(length = 20, nullable = false)
+    private String phone_number;
 
-    @Column(length = 100)
-    private String postalAdress; 
+    @Column(length = 100, nullable = false)
+    private String postal_address; 
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private UserRole role;
 
-    @ManyToMany(mappedBy = "guardians")
-    @Builder.Default
+    @ManyToMany(mappedBy = "legalguardians")
     private List<Student> studentsUnderCares = new ArrayList<>();
 
     @OneToMany(mappedBy = "teacher")
-    @Builder.Default
     private List<Teaching> teachings = new ArrayList<>();
 }

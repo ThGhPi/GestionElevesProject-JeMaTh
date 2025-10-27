@@ -15,7 +15,7 @@ public class SchoolReportDTO {
     
     private Long id;
     private String schoolPeriod;
-    private StudentDTO studentDTO;
+    private long studentDTOid;
     private String mention;
     private List<Long> teachingsIds;
     private List<Long> linesIds;

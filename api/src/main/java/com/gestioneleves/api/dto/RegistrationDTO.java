@@ -10,13 +10,10 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-@Getter
-@Setter
 public class RegistrationDTO {
 
-    private StudentDTO studentDTO;
-    private ClassGroupDTO classGroupDTO;
+    private long studentDTOid;
+    private long classGroupDTOid;
     private String schoolYear;
     private LocalDate registrationDate;
 }

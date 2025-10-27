@@ -11,8 +11,8 @@ import java.util.*;
 @NoArgsConstructor 
 @AllArgsConstructor 
 @Builder
-@EqualsAndHashCode(callSuper = true, exclude = {"schoolReports", "evaluations", "guardians", "registrations"})
-@ToString(callSuper = true, exclude = {"schoolReports", "evaluations", "guardians", "registrations"})
+@EqualsAndHashCode(callSuper = true, exclude = {"schoolReports", "evaluations", "legalguardians", "registrations"})
+@ToString(callSuper = true, exclude = {"schoolReports", "evaluations", "legalguardians", "registrations"})
 public class Student extends Person {
 
     @Column(nullable = false)
@@ -30,12 +30,12 @@ public class Student extends Person {
     private List<Evaluation> evaluations = new ArrayList<>();
 
     @ManyToMany
-    @JoinTable(name = "take_care",
+    @JoinTable(name = "legal_guardian",
         joinColumns = @JoinColumn(name = "student_id"),
         inverseJoinColumns = @JoinColumn(name = "app_user_id")
     ) 
     @Builder.Default
-    private List<AppUser> guardians = new ArrayList<>();
+    private List<AppUser> legalguardians = new ArrayList<>();
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
