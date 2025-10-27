@@ -2,7 +2,9 @@ package com.gestioneleves.api.controller;
 
 import com.gestioneleves.api.entity.SchoolReport;
 import com.gestioneleves.api.service.SchoolReportService;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,10 +12,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/school-reports")
+@RequiredArgsConstructor
 public class SchoolReportController {
 
-    @Autowired
-    private SchoolReportService service;
+    private final SchoolReportService service;
 
     @GetMapping
     public List<SchoolReport> getSchoolReports() {

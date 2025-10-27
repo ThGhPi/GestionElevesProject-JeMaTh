@@ -3,7 +3,9 @@ package com.gestioneleves.api.controller;
 import com.gestioneleves.api.entity.Registration;
 import com.gestioneleves.api.entity.RegistrationPK;
 import com.gestioneleves.api.service.RegistrationService;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,10 +13,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/registrations")
+@RequiredArgsConstructor
 public class RegistrationController {
 
-    @Autowired
-    private RegistrationService service;
+    private final RegistrationService service;
 
     // Liste inscription triée par année scolaire
     @GetMapping

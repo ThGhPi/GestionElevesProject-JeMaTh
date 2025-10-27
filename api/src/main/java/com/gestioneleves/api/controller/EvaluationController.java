@@ -2,7 +2,9 @@ package com.gestioneleves.api.controller;
 
 import com.gestioneleves.api.entity.Evaluation;
 import com.gestioneleves.api.service.EvaluationService;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,10 +12,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/evaluations")
+@RequiredArgsConstructor
 public class EvaluationController {
 
-    @Autowired
-    private EvaluationService service;
+    
+    private final EvaluationService service;
 
     @GetMapping
     public List<Evaluation> getEvaluations() {

@@ -2,7 +2,9 @@ package com.gestioneleves.api.controller;
 
 import com.gestioneleves.api.entity.Student;
 import com.gestioneleves.api.service.StudentService;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,10 +12,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/students")
+@RequiredArgsConstructor
 public class StudentController {
 
-    @Autowired
-    private StudentService service;
+    private final StudentService service;
 
     @GetMapping
     public List<Student> getStudents() {

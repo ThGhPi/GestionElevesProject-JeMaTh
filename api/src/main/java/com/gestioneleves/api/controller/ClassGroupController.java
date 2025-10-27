@@ -2,7 +2,9 @@ package com.gestioneleves.api.controller;
 
 import com.gestioneleves.api.entity.ClassGroup;
 import com.gestioneleves.api.service.ClassGroupService;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,10 +12,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/class-groups")
+@RequiredArgsConstructor
 public class ClassGroupController {
 
-    @Autowired
-    private ClassGroupService service;
+    private final ClassGroupService service;
 
     @GetMapping
     public List<ClassGroup> getClassGroups() {

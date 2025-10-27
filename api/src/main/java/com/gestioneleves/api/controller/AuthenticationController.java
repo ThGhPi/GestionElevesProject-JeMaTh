@@ -44,8 +44,8 @@ public class AuthenticationController {
     }
 
     @PutMapping("/profil")
-    public ResponseEntity<AppUserDTO> newPassword(@RequestBody List<LoginAppUserDTO> appUserDtoWithDualPassword ) {
-        AppUserDTO currentUser = authenticationService.changePassword(appUserDtoWithDualPassword);
+    public ResponseEntity<AppUserDTO> newPassword(@RequestBody List<LoginAppUserDTO> appUserDtoList ) {
+        AppUserDTO currentUser = authenticationService.changePassword(appUserDtoList);
         
         return ResponseEntity.ok(currentUser);
     }
