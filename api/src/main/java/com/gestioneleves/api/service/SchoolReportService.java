@@ -30,4 +30,6 @@ public class SchoolReportService {
     public void deleteSchoolReport(Long id) {
         schoolReports.deleteById(id);
     }
+
+    
 }

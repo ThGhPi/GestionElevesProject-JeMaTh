@@ -25,10 +25,4 @@ public interface SchoolReportLineRepository extends ListCrudRepository<SchoolRep
     
     /* Pour le CRUD */
     // Read
-    public List<SchoolReportLine> findAll();
-    public Optional<SchoolReportLine> findById(SchoolReportLinePK id);
-
-    // public List<SchoolReportLine> saveAll(List<SchoolReportLine> schoolReportLines);
-    public SchoolReportLine save(SchoolReportLine schoolReportLine); // create and update
-    public void deleteById(SchoolReportLinePK id); // delete
 }
