@@ -1,8 +1,8 @@
 package com.gestioneleves.api.controller;
 
-import com.gestioneleves.api.entity.Student;
+import com.gestioneleves.api.dto.StudentDTO;
 import com.gestioneleves.api.service.StudentService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,44 +10,40 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/students")
+@RequiredArgsConstructor
 public class StudentController {
 
-    @Autowired
-    private StudentService service;
+    private StudentService studentService;
 
     @GetMapping
-    public List<Student> getStudents() {
-        return service.getStudents();
+    public List<StudentDTO> getStudents() {
+        return studentService.getStudents();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Student> getStudent(@PathVariable Long id) {
-        return service.getStudent(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public StudentDTO getStudent(@PathVariable Long id) {
+        return studentService.getStudent(id);
+    }
+
+    @GetMapping("/by-guardian/{guardianId}")
+    public List<StudentDTO> getStudentsByGuardian(@PathVariable("guardianId") Long guardianId) {
+        return studentService.getByLegalGuardian(guardianId);
     }
 
     @PostMapping
-    public Student create(@RequestBody Student student) {
-        return service.saveStudent(student);
+    public StudentDTO createStudent(@RequestBody StudentDTO studentDTO) {
+        return studentService.saveStudent(studentDTO);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Student> update(@PathVariable Long id, @RequestBody Student student) {
-        return service.getStudent(id)
-                .map(existing -> {
-                    student.setId(id);
-                    return ResponseEntity.ok(service.saveStudent(student));
-                })
-                .orElse(ResponseEntity.notFound().build());
+    public StudentDTO updateStudent(@PathVariable Long id, @RequestBody StudentDTO studentDTO) {
+        // On force l'id dans le DTO pour être sûr qu'on met à jour le bon élève
+        studentDTO.setId(id);
+        return studentService.saveStudent(studentDTO);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        if (service.getStudent(id).isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        service.deleteStudent(id);
-        return ResponseEntity.noContent().build();
+    public void deleteStudent(@PathVariable Long id) {
+        studentService.deleteStudent(id);
     }
 }
