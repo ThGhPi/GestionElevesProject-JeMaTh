@@ -1,6 +1,6 @@
 package com.gestioneleves.api.controller;
 
-import com.gestioneleves.api.entity.Evaluation;
+import com.gestioneleves.api.dto.EvaluationDTO;
 import com.gestioneleves.api.service.EvaluationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,37 +16,27 @@ public class EvaluationController {
     private EvaluationService service;
 
     @GetMapping
-    public List<Evaluation> getEvaluations() {
+    public List<EvaluationDTO> getEvaluations() {
         return service.getEvaluations();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Evaluation> getEvaluation(@PathVariable Long id) {
-        return service.getEvaluation(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public EvaluationDTO getEvaluation(@PathVariable Long id) {
+        return service.getEvaluation(id);
     }
 
     @PostMapping
-    public Evaluation create(@RequestBody Evaluation evaluation) {
-        return service.saveEvaluation(evaluation);
+    public EvaluationDTO create(Long id,@RequestBody EvaluationDTO evaluationdto) {
+        return service.saveOrUpdateEvaluation(id,evaluationdto);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Evaluation> update(@PathVariable Long id, @RequestBody Evaluation evaluation) {
-        return service.getEvaluation(id)
-                .map(existing -> {
-                    evaluation.setId(id);
-                    return ResponseEntity.ok(service.saveEvaluation(evaluation));
-                })
-                .orElse(ResponseEntity.notFound().build());
+    public EvaluationDTO update(@PathVariable Long id, @RequestBody EvaluationDTO evaluationDTO) {
+        return service.saveOrUpdateEvaluation(id, evaluationDTO);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        if (service.getEvaluation(id).isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
         service.deleteEvaluation(id);
         return ResponseEntity.noContent().build();
     }

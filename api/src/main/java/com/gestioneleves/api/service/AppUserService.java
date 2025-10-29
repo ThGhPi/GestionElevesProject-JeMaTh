@@ -26,7 +26,8 @@ public class AppUserService {
                          .stream()           //List<AppUserDTO> dtos = new ArrayList<>();
                          .map(mapper::toDto)           //for (AppUser u : user) {
                                     //    dtos.add(mapper.toDto(u));
-                         .collect(Collectors.toList());           //} return dtos;
+                         .collect(Collectors.
+                         toList());           //} return dtos;
                 
     }
 
@@ -41,6 +42,28 @@ public class AppUserService {
         entity.setPassword(passwordEncoder.encode(entity.getPassword()));//on lui applique le password que l'on cripte
         AppUser saved = repository.save(entity);//on on fait appelle methode save du repository pour enregistrer l'utilisateur dans la BDD
         return mapper.toDto(saved);//On reconvertit en dto le  user enregistrer et on le retourne
+    }
+
+    public List <AppUserDTO> findByChildren(Long id){
+        return repository.findByChildrenId(id)
+                .stream()
+                .map(mapper::toDto)
+                .collect(Collectors
+                .toList());
+    }
+
+    public AppUserDTO findByClassGroup(Long id) {
+        AppUser user = repository.findByClassGroupId(id)
+                .orElseThrow(() -> new RuntimeException("User non trouvé"));
+        return mapper.toDto(user);
+    }
+
+
+    public List<AppUserDTO> getTeachersByTeachingIds(List<Long> teachingIds) {
+    return repository.findByTeachingId(teachingIds)
+            .stream()
+            .map(mapper::toDto)
+            .toList();
     }
 
     

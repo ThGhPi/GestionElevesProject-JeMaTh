@@ -12,13 +12,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.gestioneleves.api.repository.AppUserRepository;
 
-@Configuration
-public class ApplicationConfiguration {
-    private final AppUserRepository appUserRepository;
+import lombok.RequiredArgsConstructor;
 
-    public ApplicationConfiguration(AppUserRepository appUserRepository) {
-        this.appUserRepository = appUserRepository;
-    }
+@Configuration
+@RequiredArgsConstructor
+public class ApplicationConfiguration {
+
+    private final AppUserRepository appUserRepository;
 
     @Bean
     UserDetailsService userDetailsService() {
@@ -38,6 +38,7 @@ public class ApplicationConfiguration {
 
     @Bean
     AuthenticationProvider authenticationProvider() {
+
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
 
         authProvider.setUserDetailsService(userDetailsService());
@@ -45,16 +46,5 @@ public class ApplicationConfiguration {
 
         return authProvider;
     }
-    // @Bean
-    // public AuthenticationManager authenticationManager(
-    // UserDetailsService userDetailsService,
-    // PasswordEncoder passwordEncoder) {
-
-    // DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-    // provider.setUserDetailsService(userDetailsService);
-    // provider.setPasswordEncoder(passwordEncoder);
-
-    // return new ProviderManager(provider);
-    // }
 
 }

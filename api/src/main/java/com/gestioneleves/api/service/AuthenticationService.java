@@ -10,23 +10,15 @@ import com.gestioneleves.api.dto.RegisterAppUserDto;
 import com.gestioneleves.api.entity.AppUser;
 import com.gestioneleves.api.repository.AppUserRepository;
 
-@Service
-public class AuthenticationService {
-    private final AppUserRepository userRepository;
-    
-    private final PasswordEncoder passwordEncoder;
-    
-    private final AuthenticationManager authenticationManager;
+import lombok.RequiredArgsConstructor;
 
-    public AuthenticationService(
-        AppUserRepository userRepository,
-        AuthenticationManager authenticationManager,
-        PasswordEncoder passwordEncoder
-    ) {
-        this.authenticationManager = authenticationManager;
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
+@Service
+@RequiredArgsConstructor
+public class AuthenticationService {
+
+    private final AppUserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
 
     public AppUser signup(RegisterAppUserDto input) {
         AppUser user = new AppUser();

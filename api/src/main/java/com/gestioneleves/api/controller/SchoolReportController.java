@@ -1,12 +1,16 @@
 package com.gestioneleves.api.controller;
 
-import com.gestioneleves.api.entity.SchoolReport;
+import com.gestioneleves.api.dto.SchoolReportDTO;
 import com.gestioneleves.api.service.SchoolReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping("/api/school-reports")
@@ -16,38 +20,40 @@ public class SchoolReportController {
     private SchoolReportService service;
 
     @GetMapping
-    public List<SchoolReport> getSchoolReports() {
+    public List<SchoolReportDTO> getSchoolReports() {
         return service.getSchoolReports();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SchoolReport> getSchoolReport(@PathVariable Long id) {
-        return service.getSchoolReport(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public SchoolReportDTO getSchoolReport(@PathVariable Long id) {
+        return service.getSchoolReport(id);
     }
 
     @PostMapping
-    public SchoolReport create(@RequestBody SchoolReport schoolReport) {
-        return service.saveSchoolReport(schoolReport);
+    public SchoolReportDTO create(@RequestBody SchoolReportDTO schoolReportdto) {
+        return service.saveSchoolReport(schoolReportdto);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<SchoolReport> update(@PathVariable Long id, @RequestBody SchoolReport schoolReport) {
-        return service.getSchoolReport(id)
-                .map(existing -> {
-                    schoolReport.setId(id);
-                    return ResponseEntity.ok(service.saveSchoolReport(schoolReport));
-                })
-                .orElse(ResponseEntity.notFound().build());
+    public SchoolReportDTO update(@PathVariable Long id, @RequestBody SchoolReportDTO schoolReportdto) {
+        return service.getSchoolReport(id);          
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
-        if (service.getSchoolReport(id).isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
         service.deleteSchoolReport(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/student/{id}")
+    public List<SchoolReportDTO> getByStudentId(@RequestParam Long id) {
+        return service.findByStudent(id);
+    }
+
+    @GetMapping("/period")
+    public List<SchoolReportDTO> getByPeriodStart(@RequestParam LocalDate date) {
+        return service.findByPeriod(date);
+    }
+    
+    
 }
