@@ -16,13 +16,14 @@ public interface EvaluationRepository extends JpaRepository<Evaluation, Long> {
 
     // evaluations of a student given a time period
     @Query(
-        "Select e from Evaluation e where e.student_id = :studentId and e.teaching_id = :teachingId and e.date_and_time beetwen :startDate and :endDate")
+        "Select e from Evaluation e where e.student.id = :studentId and e.teaching.id = :teachingId and e.dateAndTime between :startDate and :endDate")
     public List<Evaluation> findByStudentIdAndTeachingIdAndDateAndTime(
         @Param("studentId") Long studentId,
         @Param("teachingId") Long teachingId,
         @Param("startDate") Date startDate,
         @Param("endDate") Date endDate);
-    // evaluations of a teaching
-    // public List<Evaluation> findByTeachingIdOrderByDateAndTime(Long id);
+    
+    List<Evaluation> findByStudentId(Long id); // evaluations of a student
+    List<Evaluation> findByTeachingId(Long id); // evaluations of a teaching
 
 }

@@ -4,7 +4,6 @@ import com.gestioneleves.api.dto.AppUserDTO;
 import com.gestioneleves.api.service.AppUserService;
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

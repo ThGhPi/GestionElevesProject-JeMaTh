@@ -22,7 +22,7 @@ public class Evaluation {
     private Double weight;
 
     @Column(nullable = false)
-    private Timestamp dataAndTime;
+    private Timestamp dateAndTime;
 
     @Column(nullable = false)
     private Double note;

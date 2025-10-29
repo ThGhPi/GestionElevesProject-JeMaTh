@@ -57,14 +57,5 @@ public class AppUserService {
                 .orElseThrow(() -> new RuntimeException("User non trouvé"));
         return mapper.toDto(user);
     }
-
-
-    public List<AppUserDTO> getTeachersByTeachingIds(List<Long> teachingIds) {
-    return repository.findByTeachingId(teachingIds)
-            .stream()
-            .map(mapper::toDto)
-            .toList();
-    }
-
     
 }

@@ -16,32 +16,32 @@ public class ClassGroupController {
 
     @GetMapping
     public List<ClassGroupDTO> getClassGroups() {
-        return classGroupService.getClassGroups();
+        return service.getClassGroups();
     }
 
     @GetMapping("/{id}")
     public ClassGroupDTO getClassGroup(@PathVariable Long id) {
-        return classGroupService.getClassGroup(id);
+        return service.getClassGroup(id);
     }
 
     @PostMapping
     public ClassGroupDTO create(@RequestBody ClassGroupDTO classGroupDTO) {
-        return classGroupService.saveClassGroup(classGroupDTO);
+        return service.saveClassGroup(classGroupDTO);
     }
 
     @PutMapping("/{id}")
     public ClassGroupDTO updateClassGroup(@PathVariable Long id, @RequestBody ClassGroupDTO classGroupDTO) {
         classGroupDTO.setId(id);
-        return classGroupService.saveClassGroup(classGroupDTO);
+        return service.saveClassGroup(classGroupDTO);
     }
 
     @DeleteMapping("/{id}")
     public void deleteClassGroup(@PathVariable Long id) {
-        classGroupService.deleteClassGroup(id);
+        service.deleteClassGroup(id);
     }
 
     @GetMapping("/by-head-teacher/{headTeacherId}")
     public ClassGroupDTO getClassGroupByHeadTeacher(@PathVariable Long headTeacherId) {
-        return classGroupService.getClassGroupByHeadTeacher(headTeacherId);
+        return service.getClassGroupByHeadTeacher(headTeacherId);
     }
 }
