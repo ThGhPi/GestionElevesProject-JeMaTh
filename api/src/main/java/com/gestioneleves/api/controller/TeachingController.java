@@ -1,11 +1,8 @@
 package com.gestioneleves.api.controller;
 
 import com.gestioneleves.api.dto.TeachingDTO;
-import com.gestioneleves.api.entity.Teaching;
 import com.gestioneleves.api.service.TeachingService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

@@ -19,7 +19,7 @@ public class TeachingService {
     private final TeachingRepository teachingRepository;
     private final TeachingMapper mapper;
 
-    // GET all (List<TeachingDTO>)
+
     public List<TeachingDTO> getTeachings() {
         return teachingRepository.findAll()
                 .stream()
@@ -27,7 +27,7 @@ public class TeachingService {
                 .collect(Collectors.toList());
     }
 
-    // GET one (Optional<TeachingDTO>)
+
     public TeachingDTO getTeaching(Long id) {
         Teaching teaching = teachingRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("La matière avec l'id n'existe pas !"));
@@ -50,7 +50,7 @@ public class TeachingService {
     }
 
     // Toutes les matières d'un prof
-        public List<TeachingDTO> getTeachingByTeacher(Long teacherId) {
+    public List<TeachingDTO> getTeachingByTeacher(Long teacherId) {
         return teachingRepository.findByTeacherId(teacherId)
                 .stream()
                 .map(mapper::toDto)

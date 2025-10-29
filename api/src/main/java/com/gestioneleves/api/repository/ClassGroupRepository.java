@@ -16,9 +16,9 @@ public interface ClassGroupRepository extends CrudRepository<ClassGroup, Long> {
     // public List<ClassGroup> findByTeacherId(Long Id);
     
     // the classGroup of a headTeacher
-    public Optional<ClassGroup> findByHeadTeacherId(Long Id);
+    Optional<ClassGroup> findByHeadTeacherId(Long headTeacherId);
 
-    // the classGroup wher a Student is registered for a given schoolYear
+    // the classGroup where a Student is registered for a given schoolYear
     // public Optional<ClassGroup> findByStudentIdAndSchoolYear(Long id, String schoolYear);
     
     /* Pour le CRUD */

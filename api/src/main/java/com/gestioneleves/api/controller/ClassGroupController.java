@@ -1,53 +1,47 @@
 package com.gestioneleves.api.controller;
 
-import com.gestioneleves.api.entity.ClassGroup;
+import com.gestioneleves.api.dto.ClassGroupDTO;
 import com.gestioneleves.api.service.ClassGroupService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/class-groups")
+@RequiredArgsConstructor
 public class ClassGroupController {
 
-    @Autowired
-    private ClassGroupService service;
+    private ClassGroupService classGroupService;
 
     @GetMapping
-    public List<ClassGroup> getClassGroups() {
-        return service.getClassGroups();
+    public List<ClassGroupDTO> getClassGroups() {
+        return classGroupService.getClassGroups();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ClassGroup> getClassGroup(@PathVariable Long id) {
-        return service.getClassGroup(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ClassGroupDTO getClassGroup(@PathVariable Long id) {
+        return classGroupService.getClassGroup(id);
     }
 
     @PostMapping
-    public ClassGroup create(@RequestBody ClassGroup classGroup) {
-        return service.saveClassGroup(classGroup);
+    public ClassGroupDTO create(@RequestBody ClassGroupDTO classGroupDTO) {
+        return classGroupService.saveClassGroup(classGroupDTO);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ClassGroup> update(@PathVariable Long id, @RequestBody ClassGroup classGroup) {
-        return service.getClassGroup(id)
-                .map(existing -> {
-                    classGroup.setId(id);
-                    return ResponseEntity.ok(service.saveClassGroup(classGroup));
-                })
-                .orElse(ResponseEntity.notFound().build());
+    public ClassGroupDTO updateClassGroup(@PathVariable Long id, @RequestBody ClassGroupDTO classGroupDTO) {
+        classGroupDTO.setId(id);
+        return classGroupService.saveClassGroup(classGroupDTO);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        if (service.getClassGroup(id).isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        service.deleteClassGroup(id);
-        return ResponseEntity.noContent().build();
+    public void deleteClassGroup(@PathVariable Long id) {
+        classGroupService.deleteClassGroup(id);
+    }
+
+    @GetMapping("/by-head-teacher/{headTeacherId}")
+    public ClassGroupDTO getClassGroupByHeadTeacher(@PathVariable Long headTeacherId) {
+        return classGroupService.getClassGroupByHeadTeacher(headTeacherId);
     }
 }

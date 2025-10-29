@@ -17,7 +17,12 @@ public interface EvaluationRepository extends ListCrudRepository<Evaluation, Lon
     // evaluations of a teaching
     // public List<Evaluation> findByTeachingIdOrderByDateAndTime(Long id);
 
-    
+    // Toutes les évaluations d'un élève (par id élève)
+    List<Evaluation> findByStudentId(Long studentId);
+
+    // Toutes les évaluations d'une matière / Teaching (par id Teaching)
+    List<Evaluation> findByTeachingId(Long teachingId);
+
     /* Pour le CRUD */
     // Read
     public Optional<Evaluation> findById(Long id);
