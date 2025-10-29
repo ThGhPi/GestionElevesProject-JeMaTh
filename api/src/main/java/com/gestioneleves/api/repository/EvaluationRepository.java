@@ -2,17 +2,17 @@ package com.gestioneleves.api.repository;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.data.repository.query.Param;
+
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.gestioneleves.api.entity.Evaluation;
 
 @Repository
-public interface EvaluationRepository extends ListCrudRepository<Evaluation, Long> {
+public interface EvaluationRepository extends JpaRepository<Evaluation, Long> {
 
     // evaluations of a student given a time period
     @Query(
@@ -25,18 +25,4 @@ public interface EvaluationRepository extends ListCrudRepository<Evaluation, Lon
     // evaluations of a teaching
     // public List<Evaluation> findByTeachingIdOrderByDateAndTime(Long id);
 
-    // Toutes les évaluations d'un élève (par id élève)
-    List<Evaluation> findByStudentId(Long studentId);
-
-    // Toutes les évaluations d'une matière / Teaching (par id Teaching)
-    List<Evaluation> findByTeachingId(Long teachingId);
-
-    /* Pour le CRUD */
-    // Read
-    public Optional<Evaluation> findById(Long id);
-    public List<Evaluation> findAll();
-
-    // public List<Evaluation> saveAll(List<Evaluation> evaluations);
-    public Evaluation save(Evaluation evaluation); // create and update
-    public void deleteById(Long id); // delete
 }

@@ -2,19 +2,14 @@ package com.gestioneleves.api.service;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.stereotype.Service;
 
 import com.gestioneleves.api.dto.EvaluationDTO;
 import com.gestioneleves.api.dto.SchoolReportDTO;
 import com.gestioneleves.api.dto.SchoolReportLineDTO;
-import com.gestioneleves.api.entity.Evaluation;
-import com.gestioneleves.api.entity.SchoolReport;
 import com.gestioneleves.api.entity.SchoolReportLine;
 import com.gestioneleves.api.entity.SchoolReportLinePK;
 import com.gestioneleves.api.repository.SchoolReportLineRepository;
-import com.gestioneleves.api.repository.SchoolReportRepository;
 import com.gestioneleves.api.service.mapper.SchoolReportLineMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -37,7 +32,7 @@ public class SchoolReportLineService {
 
     public SchoolReportLineDTO getSchoolReportLine(SchoolReportLinePK id) {
         SchoolReportLine schoolReportLine = repository.findById(id)
-            .orElseThrow();
+            .orElseThrow(() -> new RuntimeException("Cette Ligne n'existe pas"));
         return mapper.toDto(schoolReportLine);
     }
 

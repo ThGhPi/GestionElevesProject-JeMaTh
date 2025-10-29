@@ -2,7 +2,10 @@ package com.gestioneleves.api.controller;
 
 import com.gestioneleves.api.dto.StudentDTO;
 import com.gestioneleves.api.service.StudentService;
+
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,29 +24,23 @@ public class StudentController {
     }
 
     @GetMapping("/{id}")
-    public StudentDTO getStudent(@PathVariable Long id) {
+    public StudentDTO getStudent(Long id) { 
         return service.getStudent(id);
-    }
-
-    @GetMapping("/by-guardian/{guardianId}")
-    public List<StudentDTO> getStudentsByGuardian(@PathVariable("guardianId") Long guardianId) {
-        return service.getByLegalGuardian(guardianId);
-    }
+    }     
 
     @PostMapping
-    public StudentDTO createStudent(@RequestBody StudentDTO studentDTO) {
-        return service.saveStudent(studentDTO);
+    @ResponseStatus(HttpStatus.CREATED)
+    public StudentDTO create(@RequestBody StudentDTO studentDTO, @PathVariable Long id) {
+        return service.saveOrUpdate(id, studentDTO);
     }
 
     @PutMapping("/{id}")
-    public StudentDTO updateStudent(@PathVariable Long id, @RequestBody StudentDTO studentDTO) {
-        // On force l'id dans le DTO pour être sûr qu'on met à jour le bon élève
-        studentDTO.setId(id);
-        return service.saveStudent(studentDTO);
+    public StudentDTO update(@PathVariable Long id, @RequestBody StudentDTO studentDTO) {
+        return service.saveOrUpdate(id, studentDTO);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteStudent(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.deleteStudent(id);
     }
 }

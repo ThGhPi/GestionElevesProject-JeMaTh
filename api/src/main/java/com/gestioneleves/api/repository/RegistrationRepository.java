@@ -3,14 +3,14 @@ package com.gestioneleves.api.repository;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.data.repository.ListCrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.gestioneleves.api.entity.Registration;
 import com.gestioneleves.api.entity.RegistrationPK;
 
 @Repository
-public interface RegistrationRepository extends ListCrudRepository<Registration, RegistrationPK> {
+public interface RegistrationRepository extends JpaRepository<Registration, RegistrationPK> {
     
     // registration linked to a classGroup for a schoolYear
     public List<Registration> findByClassGroupIdAndSchoolYear(Long classGroupId, String schoolYear);
@@ -26,6 +26,5 @@ public interface RegistrationRepository extends ListCrudRepository<Registration,
     public Optional<Registration> findById(RegistrationPK id);
 
     // public List<Registration> saveAll(List<Registration> registrations);
-    public Registration save(Registration registration); // create and update
-    public void deleteById(RegistrationPK id); // delete
+  
 }

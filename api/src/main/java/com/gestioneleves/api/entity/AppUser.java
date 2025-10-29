@@ -89,4 +89,5 @@ public class AppUser extends Person implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 }

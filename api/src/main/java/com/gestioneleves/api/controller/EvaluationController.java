@@ -3,6 +3,7 @@ package com.gestioneleves.api.controller;
 import com.gestioneleves.api.dto.EvaluationDTO;
 import com.gestioneleves.api.service.EvaluationService;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,22 +22,21 @@ public class EvaluationController {
 
     @GetMapping("/{id}")
     public EvaluationDTO getEvaluation(@PathVariable Long id) {
-        return service.getEvaluationById(id);
+        return service.getEvaluation(id);
     }
 
     @PostMapping
-    public EvaluationDTO createEvaluation(@RequestBody EvaluationDTO evaluationDTO) {
-        return service.saveEvaluation(evaluationDTO);
+    public EvaluationDTO create(Long id,@RequestBody EvaluationDTO evaluationdto) {
+        return service.saveOrUpdateEvaluation(id,evaluationdto);
     }
 
     @PutMapping("/{id}")
-    public EvaluationDTO updateEvaluation(@PathVariable Long id, @RequestBody EvaluationDTO evaluationDTO) {
-        evaluationDTO.setId(id);
-        return service.saveEvaluation(evaluationDTO);
+    public EvaluationDTO update(@PathVariable Long id, @RequestBody EvaluationDTO evaluationDTO) {
+        return service.saveOrUpdateEvaluation(id, evaluationDTO);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteEvaluation(@PathVariable Long id) {
+    public void delete(@PathVariable Long id) {
         service.deleteEvaluation(id);
     }
 
