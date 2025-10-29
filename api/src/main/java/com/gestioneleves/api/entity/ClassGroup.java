@@ -1,15 +1,19 @@
 package com.gestioneleves.api.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Builder
 @EqualsAndHashCode(exclude = {"teachings", "registrations"})
@@ -31,6 +35,6 @@ public class ClassGroup  {
     private List<Registration> registrations = new ArrayList<>();
 
     @OneToOne
-    @JoinColumn(name = "head_teacher_id", nullable = false, unique = true)
+    @JoinColumn(name = "head_teacher_id", unique = true)
     private AppUser headTeacher;
 }

@@ -86,14 +86,14 @@ public class SecurityConfiguration {
 
                         .requestMatchers("/api/users").hasRole("ADMIN")
 
-                        .requestMatchers("/api/evaluations/class-group/**").hasRole("TEACHER")
-                        .requestMatchers("/api/evaluations/teaching/**").hasRole("TEACHER")
+                        .requestMatchers("/api/evaluations/class-group/**").hasAnyRole("TEACHER", "ADMIN")
+                        .requestMatchers("/api/evaluations/teaching/**").hasAnyRole("TEACHER", "ADMIN")
                         .requestMatchers(childEndPoints("GET")).hasAnyRole("LEGAL_GUARDIAN", "TEACHER")
                         
                         .requestMatchers(studentEndPoints("GET")).hasRole("TEACHER")
                         
                         .requestMatchers(evalAndSchoolReportStudentEndPoints("POST", "PUT", "DELETE")).hasRole("TEACHER")
-                        .requestMatchers(HttpMethod.GET, "/api/class-groups/**").hasRole("TEACHER")
+                        .requestMatchers(HttpMethod.GET, "/api/class-groups/**").hasAnyRole("TEACHER", "ADMIN")
                         
                         .requestMatchers("/api/users/**").hasRole("ADMIN")
                         .requestMatchers("/api/**").hasRole("ADMIN")

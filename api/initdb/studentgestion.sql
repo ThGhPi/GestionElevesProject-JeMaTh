@@ -18,14 +18,14 @@ DROP TYPE IF EXISTS role;
 CREATE TYPE role AS ENUM ('ADMIN', 'TEACHER', 'LEGAL_GUARDIAN');
 
 CREATE TABLE IF NOT EXISTS person (
-    id SERIAL PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     firstname VARCHAR(50) NOT NULL,
     lastname VARCHAR(50) NOT NULL
 );
 
 
 CREATE TABLE IF NOT EXISTS app_user (
-    id INT PRIMARY KEY REFERENCES person(id) ON DELETE CASCADE,
+    id BIGINT PRIMARY KEY REFERENCES person(id) ON DELETE CASCADE,
     password VARCHAR(255) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
     username VARCHAR(50) UNIQUE NOT NULL,
@@ -36,83 +36,83 @@ CREATE TABLE IF NOT EXISTS app_user (
 
 
 CREATE TABLE IF NOT EXISTS student (
-    student_id INT,
+    id BIGINT,
     birthday DATE NOT NULL,
     photo BYTEA,
-    PRIMARY KEY (student_id),
+    PRIMARY KEY (id),
     UNIQUE (photo),
-    FOREIGN KEY (student_id) REFERENCES person (id)
+    FOREIGN KEY (id) REFERENCES person (id)
 );
 
 
 CREATE TABLE IF NOT EXISTS class_group (
-    class_group_id SERIAL PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     name VARCHAR(50) UNIQUE NOT NULL,
-    head_teacher_id INT UNIQUE NOT NULL,
+    head_teacher_id INT UNIQUE,
     FOREIGN KEY (head_teacher_id) REFERENCES app_user (id)
 );
 
 
 CREATE TABLE IF NOT EXISTS teaching (
-    teaching_id SERIAL PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     subject_name VARCHAR(100) UNIQUE NOT NULL,
-    class_group_id INT NOT NULL,
-    teacher_id INT NOT NULL,
-    FOREIGN KEY (class_group_id) REFERENCES class_group (class_group_id),
+    class_group_id BIGINT NOT NULL,
+    teacher_id BIGINT NOT NULL,
+    FOREIGN KEY (class_group_id) REFERENCES class_group (id),
     FOREIGN KEY (teacher_id) REFERENCES app_user (id)
 );
 
 
 CREATE TABLE IF NOT EXISTS school_report (
-    school_report_id SERIAL PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     period_start DATE NOT NULL,
     period_end DATE NOT NULL,
     mention VARCHAR(20),
     overall_average DECIMAL(5,2),
-    student_id INT NOT NULL,
-    FOREIGN KEY (student_id) REFERENCES student (student_id)
+    student_id BIGINT NOT NULL,
+    FOREIGN KEY (student_id) REFERENCES student (id)
 );
 
 
 CREATE TABLE IF NOT EXISTS evaluation (
-    evaluation_id SERIAL PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     weight DECIMAL(5,2) NOT NULL,
     date_and_time TIMESTAMP NOT NULL,
     note DECIMAL(5,2) NOT NULL,
-    student_id INT NOT NULL,
-    teaching_id INT NOT NULL,
-    FOREIGN KEY (student_id) REFERENCES student (student_id),
-    FOREIGN KEY (teaching_id) REFERENCES teaching (teaching_id)
+    student_id BIGINT NOT NULL,
+    teaching_id BIGINT NOT NULL,
+    FOREIGN KEY (student_id) REFERENCES student (id),
+    FOREIGN KEY (teaching_id) REFERENCES teaching (id)
 );
 
 
 CREATE TABLE IF NOT EXISTS student_guardian_link (
-    guardian_id INT,
-    child_id INT,
+    guardian_id BIGINT,
+    child_id BIGINT,
     PRIMARY KEY (guardian_id, child_id),
     FOREIGN KEY (guardian_id) REFERENCES app_user (id),
-    FOREIGN KEY (child_id) REFERENCES student (student_id)
+    FOREIGN KEY (child_id) REFERENCES student (id)
 );
 
 
 CREATE TABLE IF NOT EXISTS registration (
-    student_id INT,
-    class_group_id INT,
+    student_id BIGINT,
+    class_group_id BIGINT,
     registration_date DATE NOT NULL,
     school_year VARCHAR(9) NOT NULL, 
     PRIMARY KEY (student_id, class_group_id),
-    FOREIGN KEY (student_id) REFERENCES student (student_id),
-    FOREIGN KEY (class_group_id) REFERENCES class_group (class_group_id)
+    FOREIGN KEY (student_id) REFERENCES student (id),
+    FOREIGN KEY (class_group_id) REFERENCES class_group (id)
 );
 
 CREATE TABLE IF NOT EXISTS school_report_line (
-    teaching_id INT,
-    school_report_id INT,
+    teaching_id BIGINT,
+    school_report_id BIGINT,
     comment VARCHAR(256),
     teaching_average DECIMAL(5,2),
     PRIMARY KEY (teaching_id, school_report_id),
-    FOREIGN KEY (teaching_id) REFERENCES teaching (teaching_id),
-    FOREIGN KEY (school_report_id) REFERENCES school_report (school_report_id)
+    FOREIGN KEY (teaching_id) REFERENCES teaching (id),
+    FOREIGN KEY (school_report_id) REFERENCES school_report (id)
 );
 
 

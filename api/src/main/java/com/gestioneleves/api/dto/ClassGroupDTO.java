@@ -14,6 +14,7 @@ import lombok.*;
 public class ClassGroupDTO {
     private Long id;
     private String name;
+    private Long headTeacherId;
     private List<Long> teachingsIds;
     private List<RegistrationPK> registrationsIds;
 }

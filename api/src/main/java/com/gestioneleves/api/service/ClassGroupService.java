@@ -16,34 +16,37 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Transactional
 public class ClassGroupService {
-    private final ClassGroupRepository classGroupRepository;
+
+    private final ClassGroupRepository repository;
     private final ClassGroupMapper mapper;
 
+
+
     public List<ClassGroupDTO> getClassGroups() {
-        return classGroupRepository.findAll()
+        return repository.findAll()
                 .stream()
                 .map(mapper::toDto)
                 .collect(Collectors.toList());
     }
 
     public ClassGroupDTO getClassGroup(Long id) {
-        ClassGroup classGroup = classGroupRepository.findById(id)
+        ClassGroup classGroup = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Aucune classe trouvé !"));
         return mapper.toDto(classGroup);
     }
 
     public ClassGroupDTO saveClassGroup(ClassGroupDTO classGroupDTO) {
         ClassGroup entity = mapper.toEntity(classGroupDTO);
-        ClassGroup saved = classGroupRepository.save(entity);
+        ClassGroup saved = repository.save(entity);
         return mapper.toDto(saved);
     }
 
     public void deleteClassGroup(Long id) {
-        classGroupRepository.deleteById(id);
+        repository.deleteById(id);
     }
 
     public ClassGroupDTO getClassGroupByHeadTeacher(Long headTeacherId) {
-        ClassGroup classGroup = classGroupRepository.findByHeadTeacherId(headTeacherId)
+        ClassGroup classGroup = repository.findByHeadTeacherId(headTeacherId)
                 .orElseThrow(() -> new RuntimeException("Aucune classe trouvée pour le prof"));
         return mapper.toDto(classGroup);
     }
