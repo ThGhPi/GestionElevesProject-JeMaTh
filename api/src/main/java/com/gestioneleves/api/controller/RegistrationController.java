@@ -1,11 +1,12 @@
 package com.gestioneleves.api.controller;
 
+import com.gestioneleves.api.dto.RegistrationDTO;
+import com.gestioneleves.api.dto.TeachingDTO;
 import com.gestioneleves.api.entity.Registration;
 import com.gestioneleves.api.entity.RegistrationPK;
 import com.gestioneleves.api.service.RegistrationService;
-
 import lombok.RequiredArgsConstructor;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,53 +19,49 @@ public class RegistrationController {
 
     private final RegistrationService service;
 
-    // Liste inscription triée par année scolaire
     @GetMapping
-    public List<Registration> getRegistrations() {
-        return service.getRegistrationsOrderedBySchoolYear();
+    public List<RegistrationDTO> getRegistrations() {
+        return service.getRegistrations();
     }
 
-    // Par classe + année
-    @GetMapping("/by-class/{classGroupId}/year/{schoolYear}")
-    public List<Registration> byClassAndYear(@PathVariable Long classGroupId, @PathVariable String schoolYear) {
-        return service.getByClassGroupIdAndSchoolYear(classGroupId, schoolYear);
+    @GetMapping("/student/{studentId}/class/{classGroupId}")
+    public RegistrationDTO getRegistration(@PathVariable Long studentId, @PathVariable Long classGroupId) {
+        RegistrationPK id = new RegistrationPK(studentId, classGroupId);
+        return service.getRegistration(id);
     }
 
-    // Par classe (toutes années, triées)
-    @GetMapping("/by-class/{classGroupId}")
-    public List<Registration> byClass(@PathVariable Long classGroupId) {
-        return service.getByClassGroupIdOrderByYear(classGroupId);
-    }
-
-    // Par élève
-    @GetMapping("/by-student/{studentId}")
-    public List<Registration> byStudent(@PathVariable Long studentId) {
-        return service.getByStudentId(studentId);
-    }
-
-    // Création simple
+    /* --------- CREATE --------- */
     @PostMapping
-    public Registration create(@RequestBody Registration registration) {
-        return service.saveRegistration(registration);
+    public RegistrationDTO createRegistration(@RequestBody RegistrationDTO dto) {
+        return service.saveRegistration(dto);
     }
 
-    // Création en lot
-    @PostMapping("/save-all")
-    public List<Registration> saveAll(@RequestBody List<Registration> list) {
-        return service.saveAllRegistrations(list);
+    /* --------- UPDATE --------- */
+    @PutMapping
+    public RegistrationDTO updateRegistration(@RequestBody RegistrationDTO dto) {
+        return service.saveRegistration(dto);
     }
 
-    // Mise à jour par id (pas de check findById car non exposé dans le repo)
-    @PutMapping("/{id}")
-    public ResponseEntity<Registration> update(@PathVariable RegistrationPK id, @RequestBody Registration registration) {
-        registration.setId(id);
-        return ResponseEntity.ok(service.saveRegistration(registration));
+    /* --------- DELETE --------- */
+    @DeleteMapping("/student/{studentId}/class/{classGroupId}")
+    public void deleteRegistration(@PathVariable Long studentId, @PathVariable Long classGroupId) {
+        service.deleteRegistration(studentId, classGroupId);
     }
 
-    // Suppression par id
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable RegistrationPK id) {
-        service.deleteRegistration(id);
-        return ResponseEntity.noContent().build();
+    @GetMapping("/by-student/{studentId}")
+    public List<RegistrationDTO> getRegistrationsByStudent(@PathVariable Long studentId) {
+        return service.getRegistrationsByStudent(studentId);
     }
+
+    @GetMapping("/by-class/{classGroupId}")
+    public List<RegistrationDTO> getRegistrationsByClass(@PathVariable Long classGroupId) {
+        return service.getRegistrationsByClass(classGroupId);
+    }
+
+    @GetMapping("/by-class/{classGroupId}/year/{schoolYear}")
+    public List<RegistrationDTO> getRegistrationsByClassAndYear(@PathVariable Long classGroupId,
+                                                                @PathVariable String schoolYear) {
+        return service.getRegistrationsByClassAndYear(classGroupId, schoolYear);
+    }
+
 }

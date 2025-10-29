@@ -23,7 +23,7 @@ public interface RegistrationRepository extends ListCrudRepository<Registration,
     /* Pour le CRUD */
     // Read
     public List<Registration> findAllByOrderBySchoolYearAsc();
-    public Optional<Registration> findByIdOrderBySchoolYearAsc(RegistrationPK id);
+    public Optional<Registration> findById(RegistrationPK id);
 
     // public List<Registration> saveAll(List<Registration> registrations);
     public Registration save(Registration registration); // create and update

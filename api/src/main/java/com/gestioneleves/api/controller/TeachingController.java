@@ -1,11 +1,8 @@
 package com.gestioneleves.api.controller;
 
-import com.gestioneleves.api.entity.Teaching;
+import com.gestioneleves.api.dto.TeachingDTO;
 import com.gestioneleves.api.service.TeachingService;
-
 import lombok.RequiredArgsConstructor;
-
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,38 +15,50 @@ public class TeachingController {
     private final TeachingService service;
 
     @GetMapping
-    public List<Teaching> getTeachings() {
+    public List<TeachingDTO> getTeachings() {
         return service.getTeachings();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Teaching> getTeaching(@PathVariable Long id) {
-        return service.getTeaching(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public TeachingDTO getTeaching(@PathVariable Long id) {
+        return service.getTeaching(id);
     }
 
     @PostMapping
-    public Teaching create(@RequestBody Teaching teaching) {
-        return service.saveTeaching(teaching);
+    public TeachingDTO createTeaching(@RequestBody TeachingDTO teachingDTO) {
+        return service.saveTeaching(teachingDTO);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Teaching> update(@PathVariable Long id, @RequestBody Teaching teaching) {
-        return service.getTeaching(id)
-                .map(existing -> {
-                    teaching.setId(id);
-                    return ResponseEntity.ok(service.saveTeaching(teaching));
-                })
-                .orElse(ResponseEntity.notFound().build());
+    public TeachingDTO updateTeaching(@PathVariable Long id, @RequestBody TeachingDTO teachingDTO) {
+        // on force l'id pour être sûr de mettre à jour la bonne matière
+        teachingDTO.setId(id);
+        return service.saveTeaching(teachingDTO);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        if (service.getTeaching(id).isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
+    public void deleteTeaching(@PathVariable Long id) {
         service.deleteTeaching(id);
-        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/by-teacher/{teacherId}")
+    public List<TeachingDTO> getTeachingByTeacher(@PathVariable Long teacherId) {
+        return service.getTeachingByTeacher(teacherId);
+    }
+
+    @GetMapping("/by-class/{classGroupId}")
+    public List<TeachingDTO> getTeachingsByClassGroup(@PathVariable Long classGroupId) {
+        return service.getTeachingsByClassGroup(classGroupId);
+    }
+
+    @GetMapping("/by-subject/{subjectName}")
+    public List<TeachingDTO> getTeachingsBySubjectName(@PathVariable String subjectName) {
+        return service.getTeachingsBySubjectName(subjectName);
+    }
+
+    @GetMapping("/by-class/{classGroupId}/subject/{subjectName}")
+    public TeachingDTO getTeachingByClassGroupAndSubject(@PathVariable Long classGroupId,
+                                                         @PathVariable String subjectName) {
+        return service.getTeachingByClassGroupAndSubject(classGroupId, subjectName);
     }
 }
