@@ -17,9 +17,12 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 
@@ -34,6 +37,9 @@ public class StudentService {
     private final EvaluationRepository evaluationRepository;
     private final AppUserRepository appUserRepository;
     private final RegistrationRepository registrationRepository;
+    private final FileStorageService fileStorageService;
+    private final String photoFolder = "students-photos/";
+    private final String imgType = ".webp";
 
 
 
@@ -62,7 +68,6 @@ public class StudentService {
         student.setFirstname(dto.getFirstname());
         student.setLastname(dto.getLastname());
         student.setBirthday(dto.getBirthday());
-        student.setPhoto(dto.getPhoto());
 
         
         if (dto.getSchoolReportsIds() != null && !dto.getSchoolReportsIds().isEmpty()) {
@@ -76,8 +81,7 @@ public class StudentService {
         }
 
         if (dto.getGuardiansIds() != null && !dto.getGuardiansIds().isEmpty()) {
-            List<AppUser> guardians = appUserRepository.findAllById(dto.getGuardiansIds());
-            student.setLegalGuardians(guardians);
+            student.setLegalGuardians(mapper.mapIdsToGuardians(dto.getGuardiansIds(), appUserRepository));
         }
 
         if (dto.getRegistrationsIds() != null && !dto.getRegistrationsIds().isEmpty()) {
@@ -103,5 +107,19 @@ public class StudentService {
     public void deleteStudent(Long id) {
         repository.deleteById(id);
     }
+
+	public StudentDTO savePhoto(Long id, MultipartFile file) throws IOException {
+		String photoFileName;
+        StudentDTO studentDto = getStudent(id);
+        if (studentDto.getPhotoUrl() == null) {
+            photoFileName = photoFolder + UUID.randomUUID() + "_" + id + imgType;
+            studentDto.setPhotoUrl(fileStorageService.storeFile(file, photoFileName));
+            studentDto = saveOrUpdate(id, studentDto);
+        } else {
+            photoFileName = studentDto.getPhotoUrl().split((String) photoFolder)[-1];
+            fileStorageService.storeFile(file, photoFileName);
+        }
+        return studentDto; 
+	}
 }
 

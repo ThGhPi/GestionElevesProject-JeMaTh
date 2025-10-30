@@ -35,9 +35,8 @@ public class Student extends Person {
     @Column(nullable = false)
     private LocalDate birthday;
 
-    @Lob
     @Column(unique = true)
-    private byte[] photo;
+    private String photoUrl;
 
     @OneToMany(mappedBy = "student")
     @Builder.Default
@@ -54,9 +53,9 @@ public class Student extends Person {
     @ManyToMany
     @JoinTable(
             name = "student_guardian_link",
-            joinColumns = @JoinColumn(name = "student_id", nullable = false),
-            inverseJoinColumns = @JoinColumn(name = "legal_guardian_id", nullable = false)
+            joinColumns = @JoinColumn(name = "child_id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "guardian_id", nullable = false)
     )
     @Builder.Default
-    private List<AppUser> legalGuardians = new ArrayList<>();;
+    private List<AppUser> legalGuardians = new ArrayList<>();
 }

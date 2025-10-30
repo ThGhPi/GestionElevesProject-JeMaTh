@@ -2,8 +2,11 @@ package com.gestioneleves.api.service.mapper;
 
 import com.gestioneleves.api.dto.StudentDTO;
 import com.gestioneleves.api.entity.*;
+import com.gestioneleves.api.repository.AppUserRepository;
+
 import org.mapstruct.*;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Mapper(
@@ -23,7 +26,7 @@ public interface StudentMapper {
     @Mapping(target = "evaluations", source = "evaluationsIds", qualifiedByName = "mapIdsToEvaluations")
     @Mapping(target = "legalGuardians", source = "guardiansIds", qualifiedByName = "mapIdsToGuardians")
     @Mapping(target = "registrations", source = "registrationsIds", qualifiedByName = "mapIdsToRegistrations")
-    Student toEntity(StudentDTO dto);
+    Student toEntity(StudentDTO dto, @Context AppUserRepository appUserRepository);
 
 
     @Named("mapSchoolReportsToIds")
@@ -75,15 +78,12 @@ public interface StudentMapper {
     }
 
     @Named("mapIdsToGuardians")
-    default List<AppUser> mapIdsToGuardians(List<Long> ids) {
+    default List<AppUser> mapIdsToGuardians(List<Long> ids, @Context AppUserRepository appUserRepository) {
         return ids == null ? null :
             ids.stream()
-               .map(id -> {
-                   AppUser g = new AppUser();
-                   g.setId(id);
-                   return g;
-               })
-               .collect(Collectors.toList());
+                .filter(Objects::nonNull)
+                .map(appUserRepository::getReferenceById)
+                .collect(Collectors.toList());
     }
 
     @Named("mapRegistrationsToIds")

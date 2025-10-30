@@ -8,5 +8,15 @@
     "name": "security.jwt.expiration-time",
     "type": "java.lang.String",
     "description": "A description for 'security.jwt.expiration-time'"
+  },
+  {
+    "name": "app.file.storage.path",
+    "type": "java.lang.String",
+    "description": "A description for 'app.file.storage.path'"
+  },
+  {
+    "name": "app.public.file.url",
+    "type": "java.lang.String",
+    "description": "A description for 'app.public.file.url'"
   }
 ]}

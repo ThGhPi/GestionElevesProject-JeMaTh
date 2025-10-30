@@ -7,7 +7,9 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -25,12 +27,16 @@ public class StudentController {
     @GetMapping("/{id}")
     public StudentDTO getStudent(Long id) { 
         return service.getStudent(id);
-    }     
+    }    
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public StudentDTO create(@RequestBody StudentDTO studentDTO, @PathVariable Long id) {
-        return service.saveOrUpdate(id, studentDTO);
+    public StudentDTO create(@RequestBody StudentDTO studentDTO) {
+        return service.saveOrUpdate(null, studentDTO);
+    }
+    @PostMapping("/{id}/photo")
+    public StudentDTO uploadPhoto(@PathVariable Long id, @RequestParam MultipartFile file) throws IOException {
+        return service.savePhoto(id, file);
     }
 
     @PutMapping("/{id}")

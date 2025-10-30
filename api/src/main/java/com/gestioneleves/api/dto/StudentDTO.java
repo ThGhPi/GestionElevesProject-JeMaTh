@@ -16,7 +16,7 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = true)
 public class StudentDTO extends PersonDTO {
     private LocalDate birthday;
-    private byte[] photo; 
+    private String photoUrl; 
     private List<Long> schoolReportsIds; 
     private List<Long> evaluationsIds;
     private List<Long> guardiansIds;
