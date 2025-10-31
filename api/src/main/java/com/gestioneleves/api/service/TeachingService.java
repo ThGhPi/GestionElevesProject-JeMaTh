@@ -2,6 +2,8 @@ package com.gestioneleves.api.service;
 
 import com.gestioneleves.api.dto.TeachingDTO;
 import com.gestioneleves.api.entity.Teaching;
+import com.gestioneleves.api.repository.AppUserRepository;
+import com.gestioneleves.api.repository.ClassGroupRepository;
 import com.gestioneleves.api.repository.TeachingRepository;
 import com.gestioneleves.api.service.mapper.TeachingMapper;
 import lombok.RequiredArgsConstructor;
@@ -15,12 +17,14 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Transactional
 public class TeachingService {
-    private final TeachingRepository teachingRepository;
+    private final TeachingRepository repository;
     private final TeachingMapper mapper;
+    private final AppUserRepository appUserRepository;
+    private final ClassGroupRepository classGroupRepository;
 
 
     public List<TeachingDTO> getTeachings() {
-        return teachingRepository.findAll()
+        return repository.findAll()
                 .stream()
                 .map(mapper::toDto)   // Teaching -> TeachingDTO
                 .collect(Collectors.toList());
@@ -28,7 +32,7 @@ public class TeachingService {
 
 
     public TeachingDTO getTeaching(Long id) {
-        Teaching teaching = teachingRepository.findById(id)
+        Teaching teaching = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("La matière avec l'id n'existe pas !"));
         return mapper.toDto(teaching);// Teaching -> TeachingDTO
     }
@@ -36,21 +40,21 @@ public class TeachingService {
     // CREATE or UPDATE
     public TeachingDTO saveTeaching(TeachingDTO teachingDTO) {
         // DTO -> Entity
-        Teaching entity = mapper.toEntity(teachingDTO);
+        Teaching entity = mapper.toEntity(teachingDTO, classGroupRepository, appUserRepository);
         // persist
-        Teaching saved = teachingRepository.save(entity);
+        Teaching saved = repository.save(entity);
         // Entity -> DTO
         return mapper.toDto(saved);
     }
 
     // DELETE
     public void deleteTeaching(Long id) {
-        teachingRepository.deleteById(id);
+        repository.deleteById(id);
     }
 
     // Toutes les matières d'un prof
     public List<TeachingDTO> getTeachingByTeacher(Long teacherId) {
-        return teachingRepository.findByTeacherId(teacherId)
+        return repository.findByTeacherId(teacherId)
                 .stream()
                 .map(mapper::toDto)
                 .collect(Collectors.toList());
@@ -58,7 +62,7 @@ public class TeachingService {
 
     //Matière par classe
     public List<TeachingDTO> getTeachingsByClassGroup(Long classGroupId) {
-        return teachingRepository.findByClassGroupId(classGroupId)
+        return repository.findByClassGroupId(classGroupId)
                 .stream()
                 .map(mapper::toDto)
                 .collect(Collectors.toList());
@@ -66,7 +70,7 @@ public class TeachingService {
 
    // Nom des matières
     public List<TeachingDTO> getTeachingsBySubjectName(String subjectName) {
-        return teachingRepository.findBySubjectName(subjectName)
+        return repository.findBySubjectName(subjectName)
                 .stream()
                 .map(mapper::toDto)
                 .collect(Collectors.toList());
@@ -74,7 +78,7 @@ public class TeachingService {
 
     // Renvoie une seule matière si elle existe, pour un groupe donné et un nom de matière donné.
     public TeachingDTO getTeachingByClassGroupAndSubject(Long classGroupId, String subjectName) {
-        Teaching teaching = teachingRepository
+        Teaching teaching = repository
                 .findByClassGroupIdAndSubjectName(classGroupId, subjectName)
                 .orElseThrow(() -> new RuntimeException(
                         "Aucune matière '" + subjectName + "' trouvée pour la classe " + classGroupId

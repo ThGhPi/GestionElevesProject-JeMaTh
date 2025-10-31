@@ -14,8 +14,8 @@ import lombok.*;
 public class TeachingDTO {
     private Long id;
     private String subjectName;
-    private ClassGroupDTO classGroup;
-    private AppUserDTO teacher;
+    private Long classGroupId;
+    private Long teacherId;
     private List<SchoolReportLinePK> schoolReportLinesIds;
 }
   

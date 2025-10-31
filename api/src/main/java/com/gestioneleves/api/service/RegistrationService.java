@@ -5,7 +5,9 @@ import com.gestioneleves.api.dto.TeachingDTO;
 import com.gestioneleves.api.entity.Registration;
 import com.gestioneleves.api.entity.RegistrationPK;
 import com.gestioneleves.api.entity.Teaching;
+import com.gestioneleves.api.repository.ClassGroupRepository;
 import com.gestioneleves.api.repository.RegistrationRepository;
+import com.gestioneleves.api.repository.StudentRepository;
 import com.gestioneleves.api.service.mapper.RegistrationMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,44 +21,46 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Transactional
 public class RegistrationService {
-    private final RegistrationRepository registrationRepository;
+    private final RegistrationRepository repository;
     private final RegistrationMapper mapper;
+    private final StudentRepository studentRepository;
+    private final ClassGroupRepository classGroupRepository;
 
     public List<RegistrationDTO> getRegistrations() {
-        return registrationRepository.findAllByOrderBySchoolYearAsc()
+        return repository.findAllByOrderBySchoolYearAsc()
                 .stream()
                 .map(mapper::toDto)
                 .collect(Collectors.toList());
     }
 
     public RegistrationDTO getRegistration(RegistrationPK id) {
-        Registration registration = registrationRepository.findById(id)
+        Registration registration = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Inscription introuvable."));
         return mapper.toDto(registration);
     }
 
     /* --------- CREATE / UPDATE --------- */
     public RegistrationDTO saveRegistration(RegistrationDTO dto) {
-        Registration entity = mapper.toEntity(dto);
-        Registration saved = registrationRepository.save(entity);
+        Registration entity = mapper.toEntity(dto, studentRepository, classGroupRepository);
+        Registration saved = repository.save(entity);
         return mapper.toDto(saved);
     }
 
     /* --------- DELETE --------- */
     public void deleteRegistration(Long studentId, Long classGroupId) {
         RegistrationPK id = new RegistrationPK(studentId, classGroupId);
-        registrationRepository.deleteById(id);
+        repository.deleteById(id);
     }
 
     public List<RegistrationDTO> getRegistrationsByStudent(Long studentId) {
-        return registrationRepository.findByStudentId(studentId)
+        return repository.findByStudentId(studentId)
                 .stream()
                 .map(mapper::toDto)
                 .collect(Collectors.toList());
     }
 
     public List<RegistrationDTO> getRegistrationsByClass(Long classGroupId) {
-        return registrationRepository.findByClassGroupIdOrderBySchoolYear(classGroupId)
+        return repository.findByClassGroupIdOrderBySchoolYear(classGroupId)
                 .stream()
                 .map(mapper::toDto)
                 .collect(Collectors.toList());
@@ -64,7 +68,7 @@ public class RegistrationService {
 
 
     public List<RegistrationDTO> getRegistrationsByClassAndYear(Long classGroupId, String schoolYear) {
-        return registrationRepository.findByClassGroupIdAndSchoolYear(classGroupId, schoolYear)
+        return repository.findByClassGroupIdAndSchoolYear(classGroupId, schoolYear)
                 .stream()
                 .map(mapper::toDto)
                 .collect(Collectors.toList());

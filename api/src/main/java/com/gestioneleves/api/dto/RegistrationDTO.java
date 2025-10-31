@@ -16,8 +16,6 @@ import lombok.*;
 @Builder
 public class RegistrationDTO {
     private RegistrationPK id;
-    private StudentDTO studentDTO;
-    private ClassGroupDTO classGroupDTO;
     private String schoolYear;
     private LocalDate registrationDate;
 }

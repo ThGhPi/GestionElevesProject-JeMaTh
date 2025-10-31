@@ -1,13 +1,9 @@
 package com.gestioneleves.api.controller;
 
 import com.gestioneleves.api.dto.RegistrationDTO;
-import com.gestioneleves.api.dto.TeachingDTO;
-import com.gestioneleves.api.entity.Registration;
 import com.gestioneleves.api.entity.RegistrationPK;
 import com.gestioneleves.api.service.RegistrationService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -59,8 +55,9 @@ public class RegistrationController {
     }
 
     @GetMapping("/by-class/{classGroupId}/year/{schoolYear}")
-    public List<RegistrationDTO> getRegistrationsByClassAndYear(@PathVariable Long classGroupId,
-                                                                @PathVariable String schoolYear) {
+    public List<RegistrationDTO> getRegistrationsByClassAndYear(
+        @PathVariable Long classGroupId,
+        @PathVariable String schoolYear) {
         return service.getRegistrationsByClassAndYear(classGroupId, schoolYear);
     }
 

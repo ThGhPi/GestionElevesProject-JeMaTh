@@ -28,7 +28,7 @@ public class Registration {
     @Column(nullable = false)
     private LocalDate registrationDate;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 4)
     private String schoolYear;
 
     @ManyToOne(optional = false)

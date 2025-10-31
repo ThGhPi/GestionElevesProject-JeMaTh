@@ -51,6 +51,7 @@ public class EvaluationService {
 
                     eval.setNote(evaldto.getNote());
                     eval.setWeight(evaldto.getWeight());
+                    eval.setDateAndTime(evaldto.getDateAndTime());
 
         if (evaldto.getTeachingDTO() != null) {
         Teaching teaching = teachingRepository.findById(evaldto.getTeachingDTO().getId())
