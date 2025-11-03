@@ -32,13 +32,13 @@ public class SchoolReportController {
     }
 
     @PostMapping
-    public SchoolReportDTO create(@RequestBody SchoolReportDTO schoolReportdto) {
-        return service.saveSchoolReport(schoolReportdto);
+    public SchoolReportDTO create(@RequestBody SchoolReportDTO schoolReportDto) {
+        return service.saveSchoolReport(null, schoolReportDto);
     }
 
     @PutMapping("/{id}")
-    public SchoolReportDTO update(@PathVariable Long id, @RequestBody SchoolReportDTO schoolReportdto) {
-        return service.getSchoolReport(id);          
+    public SchoolReportDTO update(@PathVariable Long id, @RequestBody SchoolReportDTO schoolReportDto) {
+        return service.saveSchoolReport(id, schoolReportDto);          
     }
 
     @DeleteMapping("/{id}")

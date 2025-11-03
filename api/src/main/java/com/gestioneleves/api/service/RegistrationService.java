@@ -59,13 +59,19 @@ public class RegistrationService {
                 .collect(Collectors.toList());
     }
 
+    public List<RegistrationDTO> getRegistrationsByStudentAndYear(Long studentId, String schoolYear) {
+        return repository.findByStudentIdAndSchoolYear(studentId, schoolYear)
+                .stream()
+                .map(mapper::toDto)
+                .collect(Collectors.toList());
+    }
+
     public List<RegistrationDTO> getRegistrationsByClass(Long classGroupId) {
         return repository.findByClassGroupIdOrderBySchoolYear(classGroupId)
                 .stream()
                 .map(mapper::toDto)
                 .collect(Collectors.toList());
     }
-
 
     public List<RegistrationDTO> getRegistrationsByClassAndYear(Long classGroupId, String schoolYear) {
         return repository.findByClassGroupIdAndSchoolYear(classGroupId, schoolYear)

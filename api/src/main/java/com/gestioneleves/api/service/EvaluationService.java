@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -88,7 +89,7 @@ public class EvaluationService {
     }
 
     public List<EvaluationDTO> getEvaluationsByStudentAndTeachingAndPeriod(
-            Long studentId, Long teachingId, Date periodStart, Date periodEnd) {
+            Long studentId, Long teachingId, LocalDate periodStart, LocalDate periodEnd) {
         return repository.findByStudentIdAndTeachingIdAndDateAndTime(studentId, teachingId, periodStart, periodEnd)
                 .stream()
                 .map(mapper::toDto)

@@ -1,7 +1,8 @@
 package com.gestioneleves.api.service;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.gestioneleves.api.dto.EvaluationDTO;
@@ -49,8 +50,8 @@ public class SchoolReportLineService {
         Long schoolReportId = id.getSchoolReportId();
         SchoolReportLineDTO schoolReportLineDTO = getSchoolReportLine(id);
         SchoolReportDTO schoolReportDTO = schoolReportService.getSchoolReport(schoolReportId);
-        Date periodStart = schoolReportDTO.getPeriodStart();
-        Date periodEnd = schoolReportDTO.getPeriodEnd();
+        LocalDate periodStart = schoolReportDTO.getPeriodStart();
+        LocalDate periodEnd = schoolReportDTO.getPeriodEnd();
         Long studentId = schoolReportDTO.getStudentDTO().getId();
         List<EvaluationDTO> evaluations = evaluationService.getEvaluationsByStudentAndTeachingAndPeriod(studentId, teachingId, periodStart, periodEnd);
         Double totalWeightedNotes = evaluations.stream()

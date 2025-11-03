@@ -1,5 +1,6 @@
 package com.gestioneleves.api.repository;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -20,8 +21,8 @@ public interface EvaluationRepository extends JpaRepository<Evaluation, Long> {
     public List<Evaluation> findByStudentIdAndTeachingIdAndDateAndTime(
         @Param("studentId") Long studentId,
         @Param("teachingId") Long teachingId,
-        @Param("startDate") Date startDate,
-        @Param("endDate") Date endDate);
+        @Param("startDate") LocalDate startDate,
+        @Param("endDate") LocalDate endDate);
     
     List<Evaluation> findByStudentId(Long id); // evaluations of a student
     List<Evaluation> findByTeachingId(Long id); // evaluations of a teaching
