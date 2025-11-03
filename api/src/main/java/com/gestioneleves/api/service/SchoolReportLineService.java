@@ -36,8 +36,8 @@ public class SchoolReportLineService {
         return mapper.toDto(schoolReportLine);
     }
 
-    public SchoolReportLineDTO saveSchoolReportLine(SchoolReportLine schoolReportLine) {
-        return mapper.toDto(repository.save(schoolReportLine));
+    public SchoolReportLineDTO saveSchoolReportLine(SchoolReportLineDTO schoolReportLine) {
+        return mapper.toDto(repository.save(mapper.toEntity(schoolReportLine)));
     }
 
     public void deleteSchoolReport(SchoolReportLinePK id) {

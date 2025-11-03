@@ -1,44 +1,41 @@
 package com.gestioneleves.api.controller;
 
-import com.gestioneleves.api.entity.SchoolReportLine;
+import com.gestioneleves.api.dto.SchoolReportLineDTO;
 import com.gestioneleves.api.entity.SchoolReportLinePK;
-import com.gestioneleves.api.repository.SchoolReportLineRepository;
-import org.springframework.http.ResponseEntity;
+import com.gestioneleves.api.service.SchoolReportLineService;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/school-report-lines")
+@RequiredArgsConstructor
 public class SchoolReportLineController {
 
-    private final SchoolReportLineRepository lines;
-
-    public SchoolReportLineController(SchoolReportLineRepository lines) { this.lines = lines; }
+    private final SchoolReportLineService service;
 
     @GetMapping
-    public List<SchoolReportLine> findAll() { return lines.findAll(); }
+    public List<SchoolReportLineDTO> getSchoolReportLines() { return service.getSchoolReportLines();}
 
     @GetMapping("/{id}")
-    public ResponseEntity<SchoolReportLine> findById(@PathVariable SchoolReportLinePK id) {
-        return lines.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
-    }
+    public SchoolReportLineDTO getSchoolReportLine(@PathVariable SchoolReportLinePK id) {
+        return service.getSchoolReportLine(id);}
 
     @PostMapping
-    public SchoolReportLine create(@RequestBody SchoolReportLine l) { return lines.save(l); }
+    public SchoolReportLineDTO create(@RequestBody SchoolReportLineDTO schoolReportLineDTO) {
+        return service.saveSchoolReportLine(schoolReportLineDTO);
+    }
 
     @PutMapping("/{id}")
-    public ResponseEntity<SchoolReportLine> update(@PathVariable SchoolReportLinePK id, @RequestBody SchoolReportLine l) {
-        return lines.findById(id).map(x -> {
-            l.setId(id);
-            return ResponseEntity.ok(lines.save(l));
-        }).orElse(ResponseEntity.notFound().build());
+    public SchoolReportLineDTO update(@PathVariable SchoolReportLinePK id, @RequestBody SchoolReportLineDTO schoolReportLineDTO) {
+        schoolReportLineDTO.setId(id);
+        return service.saveSchoolReportLine(schoolReportLineDTO);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable SchoolReportLinePK id) {
-        if (!lines.existsById(id)) return ResponseEntity.notFound().build();
-        lines.deleteById(id);
-        return ResponseEntity.noContent().build();
+    public void delete(@PathVariable SchoolReportLinePK id) {
+        service.deleteSchoolReport(id);
     }
 }
