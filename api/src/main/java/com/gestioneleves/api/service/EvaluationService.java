@@ -87,7 +87,7 @@ public class EvaluationService {
                 .collect(Collectors.toList());
     }
 
-    public List<EvaluationDTO> getEvaluationByStudentAndTeachingAndPeriod(
+    public List<EvaluationDTO> getEvaluationsByStudentAndTeachingAndPeriod(
             Long studentId, Long teachingId, Date periodStart, Date periodEnd) {
         return repository.findByStudentIdAndTeachingIdAndDateAndTime(studentId, teachingId, periodStart, periodEnd)
                 .stream()

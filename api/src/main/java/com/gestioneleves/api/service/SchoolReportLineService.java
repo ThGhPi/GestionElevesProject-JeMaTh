@@ -23,7 +23,7 @@ public class SchoolReportLineService {
     private final EvaluationService evaluationService;
 
 
-    public List<SchoolReportLineDTO> getSchoolReports() {
+    public List<SchoolReportLineDTO> getSchoolReportLines() {
         return repository.findAll()
             .stream()
             .map(mapper::toDto)
@@ -49,17 +49,17 @@ public class SchoolReportLineService {
         Long schoolReportId = id.getSchoolReportId();
         SchoolReportLineDTO schoolReportLineDTO = getSchoolReportLine(id);
         SchoolReportDTO schoolReportDTO = schoolReportService.getSchoolReport(schoolReportId);
-        Date periodStart = schoolReportDTO.getSchoolPeriodStart();
-        Date periodEnd = schoolReportDTO.getSchoolPeriodEnd();
+        Date periodStart = schoolReportDTO.getPeriodStart();
+        Date periodEnd = schoolReportDTO.getPeriodEnd();
         Long studentId = schoolReportDTO.getStudentDTO().getId();
-        List<EvaluationDTO> evaluations = evaluationService.getEvaluationByStudentAndTeachingAndPeriod(studentId, teachingId, periodStart, periodEnd);
+        List<EvaluationDTO> evaluations = evaluationService.getEvaluationsByStudentAndTeachingAndPeriod(studentId, teachingId, periodStart, periodEnd);
         Double totalWeightedNotes = evaluations.stream()
             .mapToDouble(e -> e.getNote() * e.getWeight())
             .sum();
         Double totalWeight = evaluations.stream()
             .mapToDouble(EvaluationDTO::getWeight)
             .sum();
-        Double teachingAverage = totalWeight == 0 ? 0 : totalWeightedNotes / totalWeight;
+        Double teachingAverage = totalWeight == 0 ? null : totalWeightedNotes / totalWeight;
         schoolReportLineDTO.setTeachingAverage(teachingAverage);
         return mapper.toDto(repository.save(mapper.toEntity(schoolReportLineDTO)));
     }

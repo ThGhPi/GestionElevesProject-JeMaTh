@@ -1,7 +1,10 @@
 package com.gestioneleves.api.service.mapper;
 
 import com.gestioneleves.api.dto.SchoolReportDTO;
+import com.gestioneleves.api.dto.StudentDTO;
 import com.gestioneleves.api.entity.*;
+import com.gestioneleves.api.repository.StudentRepository;
+
 import org.mapstruct.*;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,8 +23,13 @@ public interface SchoolReportMapper {
 
     // @Mapping(target = "teachings", source = "teachingsIds", qualifiedByName = "mapIdsToTeachings")
     @Mapping(target = "schoolReportLines", source = "schoolReportLinesIds", qualifiedByName = "mapIdsToSchoolReportLines")
-    @Mapping(target = "student", source = "studentDTO")
-    SchoolReport toEntity(SchoolReportDTO dto);
+    @Mapping(target = "student", source = "studentDTO", qualifiedByName = "mapsDtoToStudent")
+    SchoolReport toEntity(SchoolReportDTO dto, @Context StudentRepository studentRepository);
+
+    @Named("mapsDtoToStudent")
+    default Student mapsDtoToStudent(StudentDTO studentDTO, @Context StudentRepository studentRepository) {
+        return studentRepository.getReferenceById(studentDTO.getId());
+    }
 
 
     // @Named("mapTeachingsToIds")
@@ -46,6 +54,7 @@ public interface SchoolReportMapper {
 
     @Named("mapSchoolReportLinesToIds")
     default List<SchoolReportLinePK> mapSchoolReportLinesToIds(List<SchoolReportLine> lines) {
+        if (lines.isEmpty()) { return null; }
         return lines == null ? null :
             lines.stream()
                  .map(SchoolReportLine::getId)

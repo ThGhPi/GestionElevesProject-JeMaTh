@@ -14,10 +14,11 @@ import lombok.*;
 @Setter
 public class SchoolReportDTO {
     private Long id;
-    private Date schoolPeriodStart;
-    private Date schoolPeriodEnd;
-    private StudentDTO studentDTO;
+    private Date periodStart;
+    private Date periodEnd;
+    private Double overallAverage;
+    private String generalComment;
     private String mention;
-    private List<Long> teachingsIds;
+    private StudentDTO studentDTO;
     private List<SchoolReportLinePK> schoolReportLinesIds;
 }

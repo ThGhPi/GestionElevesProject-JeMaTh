@@ -25,10 +25,10 @@ public class SchoolReport {
     private Long id;
 
     @Column(nullable = false)
-    private LocalDate schoolPeriodStart;
+    private LocalDate periodStart;
 
     @Column(nullable = false)
-    private LocalDate schoolPeriodEnd;
+    private LocalDate periodEnd;
 
     @Column(length = 50)
     private Double overallAverage;

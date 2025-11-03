@@ -11,8 +11,8 @@ import lombok.*;
 public class EvaluationDTO {
     
     private Long id;
-    private TeachingDTO teachingDTO;
     private Timestamp dateAndTime;
     private Double note;
     private Double weight;
+    private TeachingDTO teachingDTO;
     private StudentDTO studentDTO;}
