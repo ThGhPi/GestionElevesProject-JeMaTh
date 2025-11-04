@@ -4,23 +4,27 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.gestioneleves.api.dto.EvaluationDTO;
 import com.gestioneleves.api.dto.SchoolReportDTO;
 import com.gestioneleves.api.dto.SchoolReportLineDTO;
+import com.gestioneleves.api.entity.SchoolReport;
 import com.gestioneleves.api.entity.SchoolReportLine;
 import com.gestioneleves.api.entity.SchoolReportLinePK;
 import com.gestioneleves.api.repository.SchoolReportLineRepository;
+import com.gestioneleves.api.repository.SchoolReportRepository;
 import com.gestioneleves.api.service.mapper.SchoolReportLineMapper;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class SchoolReportLineService {
     private final SchoolReportLineRepository repository;
     private final SchoolReportLineMapper mapper;
-    private final SchoolReportService schoolReportService;
+    private final SchoolReportRepository schoolReportRepository;
     private final EvaluationService evaluationService;
 
 
@@ -49,10 +53,10 @@ public class SchoolReportLineService {
         Long teachingId = id.getTeachingId();
         Long schoolReportId = id.getSchoolReportId();
         SchoolReportLineDTO schoolReportLineDTO = getSchoolReportLine(id);
-        SchoolReportDTO schoolReportDTO = schoolReportService.getSchoolReport(schoolReportId);
-        LocalDate periodStart = schoolReportDTO.getPeriodStart();
-        LocalDate periodEnd = schoolReportDTO.getPeriodEnd();
-        Long studentId = schoolReportDTO.getStudentDTO().getId();
+        SchoolReport schoolReport = schoolReportRepository.getReferenceById(schoolReportId);
+        LocalDate periodStart = schoolReport.getPeriodStart();
+        LocalDate periodEnd = schoolReport.getPeriodEnd();
+        Long studentId = schoolReport.getStudent().getId();
         List<EvaluationDTO> evaluations = evaluationService.getEvaluationsByStudentAndTeachingAndPeriod(studentId, teachingId, periodStart, periodEnd);
         Double totalWeightedNotes = evaluations.stream()
             .mapToDouble(e -> e.getNote() * e.getWeight())

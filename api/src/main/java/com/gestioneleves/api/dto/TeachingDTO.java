@@ -16,6 +16,7 @@ public class TeachingDTO {
     private String subjectName;
     private Long classGroupId;
     private Long teacherId;
+    private List<Long> evaluationsIds;
     private List<SchoolReportLinePK> schoolReportLinesIds;
 }
   

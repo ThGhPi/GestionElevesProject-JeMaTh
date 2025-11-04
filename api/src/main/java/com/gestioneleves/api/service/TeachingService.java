@@ -49,7 +49,13 @@ public class TeachingService {
 
     // DELETE
     public void deleteTeaching(Long id) {
-        repository.deleteById(id);
+        try {
+            repository.deleteById(id);
+        } catch (Exception e) {
+            throw new RuntimeException(
+                "There should be no student linked (by evaluations or school reports) to this teaching to delete it :",
+                e.getCause());
+        }
     }
 
     // Toutes les matières d'un prof

@@ -32,5 +32,9 @@ public class Teaching {
 
     @OneToMany(mappedBy = "teaching")
     @Builder.Default
+    private List<Evaluation> evaluations = new ArrayList<>();
+
+    @OneToMany(mappedBy = "teaching")
+    @Builder.Default
     private List<SchoolReportLine> schoolReportLines = new ArrayList<>();
 }

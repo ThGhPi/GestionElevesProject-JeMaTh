@@ -3,6 +3,7 @@ package com.gestioneleves.api.service;
 import com.gestioneleves.api.dto.RegistrationDTO;
 import com.gestioneleves.api.dto.SchoolReportDTO;
 import com.gestioneleves.api.dto.SchoolReportLineDTO;
+import com.gestioneleves.api.dto.TeachingDTO;
 import com.gestioneleves.api.entity.SchoolReport;
 import com.gestioneleves.api.entity.SchoolReportLinePK;
 import com.gestioneleves.api.repository.SchoolReportRepository;
@@ -45,12 +46,14 @@ public class SchoolReportService {
 
     @Transactional
     public SchoolReportDTO saveSchoolReport(Long id, SchoolReportDTO dto) {
+        if (id != null) { dto.setId(id); }
         SchoolReport bulletin = mapper.toEntity(dto, studentRepository);
         SchoolReport saved = repository.save(bulletin);
+        SchoolReportDTO savedDto = mapper.toDto(saved);
         if (id == null) {
-            createLines(saved);
+            savedDto.setSchoolReportLinesIds(createLines(saved));
         }
-        return mapper.toDto(saved);
+        return savedDto;
 
     }
 
@@ -98,6 +101,7 @@ public class SchoolReportService {
      */
     public List<SchoolReportLinePK> createLines(SchoolReport schoolReport) {
         Long schoolReportId = schoolReport.getId();
+        SchoolReportDTO schoolReportDTO = mapper.toDto(schoolReport);
         String schoolYear = getSchoolYear(schoolReport);
         Long studentId = schoolReport.getStudent().getId();
         List<RegistrationDTO> registrations = 
@@ -110,8 +114,9 @@ public class SchoolReportService {
             return (teachingsIds.stream()
                     .map(teachingId -> {
                         SchoolReportLinePK pk = new SchoolReportLinePK(schoolReportId, teachingId);
-                        SchoolReportLineDTO srlDto = new SchoolReportLineDTO();
-                        srlDto.setId(pk);
+                        SchoolReportLineDTO srlDto = new SchoolReportLineDTO(
+                            pk, null, new TeachingDTO(), schoolReportDTO, null);
+                        srlDto.getTeachingDto().setId(teachingId);
                         srlService.saveSchoolReportLine(srlDto);
                         return pk;
                     })

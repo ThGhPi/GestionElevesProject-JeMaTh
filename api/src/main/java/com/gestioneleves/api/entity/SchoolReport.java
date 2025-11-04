@@ -43,7 +43,8 @@ public class SchoolReport {
     @JoinColumn(name = "student_id")
     private Student student;
 
-    @OneToMany(mappedBy = "schoolReport")
+    @OneToMany(mappedBy = "schoolReport", 
+        cascade = CascadeType.REMOVE, orphanRemoval = true)
     @Builder.Default
     private List<SchoolReportLine> schoolReportLines = new ArrayList<>();
 

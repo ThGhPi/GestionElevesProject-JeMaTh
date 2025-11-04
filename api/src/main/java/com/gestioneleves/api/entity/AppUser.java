@@ -49,7 +49,8 @@ public class AppUser extends Person implements UserDetails {
     @Column(nullable = false)
     private UserRole role;
 
-    @OneToMany(mappedBy = "teacher")
+    @OneToMany(mappedBy = "teacher", 
+        cascade = CascadeType.REMOVE, orphanRemoval = true)
     @Builder.Default
     private List<Teaching> teachings = new ArrayList<>();
 

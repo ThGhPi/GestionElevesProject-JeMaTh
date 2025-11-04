@@ -38,15 +38,18 @@ public class Student extends Person {
     @Column(unique = true)
     private String photoUrl;
 
-    @OneToMany(mappedBy = "student")
+    @OneToMany(mappedBy = "student", 
+        cascade = CascadeType.REMOVE, orphanRemoval = true)
     @Builder.Default
     private List<Evaluation> evaluations = new ArrayList<>();
 
-    @OneToMany(mappedBy = "student")
+    @OneToMany(mappedBy = "student", 
+        cascade = CascadeType.REMOVE, orphanRemoval = true)
     @Builder.Default
     private List<SchoolReport> schoolReports = new ArrayList<>();
 
-    @OneToMany(mappedBy = "student")
+    @OneToMany(mappedBy = "student", 
+        cascade = CascadeType.REMOVE, orphanRemoval = true)
     @Builder.Default
     private List<Registration> registrations = new ArrayList<>();
 

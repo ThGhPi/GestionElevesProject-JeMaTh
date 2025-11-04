@@ -54,9 +54,8 @@ public interface SchoolReportMapper {
 
     @Named("mapSchoolReportLinesToIds")
     default List<SchoolReportLinePK> mapSchoolReportLinesToIds(List<SchoolReportLine> lines) {
-        if (lines.isEmpty()) { return null; }
-        return lines == null ? null :
-            lines.stream()
+        if (lines == null || lines.isEmpty()) { return null; }
+        return lines.stream()
                  .map(SchoolReportLine::getId)
                  .collect(Collectors.toList());
     }

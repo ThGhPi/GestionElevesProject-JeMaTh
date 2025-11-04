@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS student (
     photo_url VARCHAR(255),
     PRIMARY KEY (id),
     UNIQUE (photo),
-    FOREIGN KEY (id) REFERENCES person (id)
+    FOREIGN KEY (id) REFERENCES person (id) ON DELETE CASCADE
 );
 
 
@@ -58,8 +58,8 @@ CREATE TABLE IF NOT EXISTS teaching (
     subject_name VARCHAR(50) NOT NULL,
     class_group_id BIGINT NOT NULL,
     teacher_id BIGINT NOT NULL,
-    FOREIGN KEY (class_group_id) REFERENCES class_group (id),
-    FOREIGN KEY (teacher_id) REFERENCES app_user (id)
+    FOREIGN KEY (class_group_id) REFERENCES class_group (id) ON DELETE CASCADE,
+    FOREIGN KEY (teacher_id) REFERENCES app_user (id) ON DELETE CASCADE
 );
 
 
@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS school_report (
     overall_average DOUBLE PRECISION,
     general_comment VARCHAR(255),
     student_id BIGINT NOT NULL,
-    FOREIGN KEY (student_id) REFERENCES student (id)
+    FOREIGN KEY (student_id) REFERENCES student (id) ON DELETE CASCADE
 );
 
 
@@ -82,7 +82,7 @@ CREATE TABLE IF NOT EXISTS evaluation (
     note DOUBLE PRECISION NOT NULL,
     student_id BIGINT NOT NULL,
     teaching_id BIGINT NOT NULL,
-    FOREIGN KEY (student_id) REFERENCES student (id),
+    FOREIGN KEY (student_id) REFERENCES student (id) ON DELETE CASCADE,
     FOREIGN KEY (teaching_id) REFERENCES teaching (id)
 );
 
@@ -91,8 +91,8 @@ CREATE TABLE IF NOT EXISTS student_guardian_link (
     guardian_id BIGINT,
     child_id BIGINT,
     PRIMARY KEY (guardian_id, child_id),
-    FOREIGN KEY (guardian_id) REFERENCES app_user (id),
-    FOREIGN KEY (child_id) REFERENCES student (id)
+    FOREIGN KEY (guardian_id) REFERENCES app_user (id) ON DELETE CASCADE,
+    FOREIGN KEY (child_id) REFERENCES student (id) ON DELETE CASCADE
 );
 
 
@@ -102,8 +102,8 @@ CREATE TABLE IF NOT EXISTS registration (
     registration_date DATE NOT NULL,
     school_year VARCHAR(4) NOT NULL, 
     PRIMARY KEY (student_id, class_group_id),
-    FOREIGN KEY (student_id) REFERENCES student (id),
-    FOREIGN KEY (class_group_id) REFERENCES class_group (id)
+    FOREIGN KEY (student_id) REFERENCES student (id) ON DELETE CASCADE,
+    FOREIGN KEY (class_group_id) REFERENCES class_group (id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS school_report_line (
@@ -113,7 +113,7 @@ CREATE TABLE IF NOT EXISTS school_report_line (
     teaching_average DOUBLE PRECISION,
     PRIMARY KEY (teaching_id, school_report_id),
     FOREIGN KEY (teaching_id) REFERENCES teaching (id),
-    FOREIGN KEY (school_report_id) REFERENCES school_report (id)
+    FOREIGN KEY (school_report_id) REFERENCES school_report (id) ON DELETE CASCADE
 );
 
 
@@ -126,4 +126,3 @@ VALUES
   (3, '$2a$10$vJUSY25gE0xRp0YeWwlkyOSot1u05q8tDfre8h5KLZc09IH3t//tq', 'luc.moreau@example.com',   'lmoreau',  '+33799887766', '7 Rue des Écoles, Marseille', 'TEACHER'),
   (4, '$2a$10$f4jk2aAszBH0CmyU.pYOpewFOFTDPtUcDyd3/iAjehNLBwCDl/lx.', 'claire.lemoine@example.com','clemoine', '+33622334455', '12 Rue de la Paix, Bordeaux', 'LEGAL_GUARDIAN'),
   (5, '$2a$10$rDKfdtHvEI1BV5KgL97n7uLbJRFYqhzc2MUUlydoVbvKQZPzVuLFG', 'karim.benali@example.com', 'kbenali',  '+33677889900', '8 Rue du Parc, Toulouse', 'LEGAL_GUARDIAN');
-

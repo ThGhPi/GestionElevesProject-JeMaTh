@@ -16,13 +16,13 @@ import java.util.stream.Collectors;
 )
 public interface TeachingMapper {
 
-    // @Mapping(target = "schoolReportsIds", source = "schoolReports", qualifiedByName = "mapSchoolReportsToIds")
+    @Mapping(target = "evaluationsIds", source = "evaluations", qualifiedByName = "mapEvaluationsToIds")
     @Mapping(target = "classGroupId", source = "classGroup.id")
     @Mapping(target = "teacherId", source = "teacher.id")
     @Mapping(target = "schoolReportLinesIds", source = "schoolReportLines", qualifiedByName = "mapSchoolReportLinesToIds")
     TeachingDTO toDto(Teaching entity);
 
-    // @Mapping(target = "schoolReports", source = "schoolReportsIds", qualifiedByName = "mapIdsToSchoolReports")
+    @Mapping(target = "evaluations", source = "evaluationsIds", qualifiedByName = "mapIdsToEvaluations")
     @Mapping(target = "classGroup", source = "classGroupId", qualifiedByName = "mapIdToClassGroup")
     @Mapping(target = "teacher", source = "teacherId", qualifiedByName = "mapIdToTeacher")
     @Mapping(target = "schoolReportLines", source = "schoolReportLinesIds", qualifiedByName = "mapIdsToSchoolReportLines")
@@ -41,22 +41,22 @@ public interface TeachingMapper {
     }
     
     
-    @Named("mapSchoolReportsToIds")
-    default List<Long> mapSchoolReportsToIds(List<SchoolReport> reports) {
+    @Named("mapEvaluationsToIds")
+    default List<Long> mapEvaluationsToIds(List<Evaluation> reports) {
         return reports == null ? null :
             reports.stream()
-                   .map(SchoolReport::getId)
+                   .map(Evaluation::getId)
                    .collect(Collectors.toList());
     }
 
-    @Named("mapIdsToSchoolReports")
-    default List<SchoolReport> mapIdsToSchoolReports(List<Long> ids) {
+    @Named("mapIdsToEvaluations")
+    default List<Evaluation> mapIdsToSchoolReports(List<Long> ids) {
         return ids == null ? null :
             ids.stream()
                .map(id -> {
-                   SchoolReport sr = new SchoolReport();
-                   sr.setId(id);
-                   return sr;
+                   Evaluation eval = new Evaluation();
+                   eval.setId(id);
+                   return eval;
                })
                .collect(Collectors.toList());
     }
