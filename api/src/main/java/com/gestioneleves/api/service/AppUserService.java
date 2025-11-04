@@ -57,5 +57,8 @@ public class AppUserService {
                 .orElseThrow(() -> new RuntimeException("User non trouvé"));
         return mapper.toDto(user);
     }
-    
+
+    public void deleteUser(Long id) {
+        repository.deleteById(id);
+    }
 }

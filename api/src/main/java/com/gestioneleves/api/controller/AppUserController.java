@@ -3,7 +3,6 @@ package com.gestioneleves.api.controller;
 import com.gestioneleves.api.dto.AppUserDTO;
 import com.gestioneleves.api.service.AppUserService;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,5 +23,8 @@ public class AppUserController {
     @GetMapping("/{id}")
     public AppUserDTO getUserById(@PathVariable Long id) {
         return service.findById(id);
-    }    
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteUser(@PathVariable Long id) { service.deleteUser(id); }
 }
