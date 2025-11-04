@@ -61,5 +61,4 @@ public class AppUserService {
     public void deleteUser(Long id) {
         repository.deleteById(id);
     }
-    
 }
