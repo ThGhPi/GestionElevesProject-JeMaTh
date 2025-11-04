@@ -1,6 +1,7 @@
 package com.gestioneleves.api.dto;
 
 public class LoginAppUserDTO {
+    
     private String username;
     private String password;
 

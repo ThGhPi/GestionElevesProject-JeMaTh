@@ -1,0 +1,21 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "PasswordCheck",
+            "request": "launch",
+            "mainClass": "com.gestioneleves.api.PasswordCheck",
+            "projectName": "api"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-ApiApplication<api>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.gestioneleves.api.ApiApplication",
+            "projectName": "api",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
