@@ -1,7 +1,6 @@
 package com.gestioneleves.api.service;
 
 import com.gestioneleves.api.dto.StudentDTO;
-import com.gestioneleves.api.entity.AppUser;
 import com.gestioneleves.api.entity.Evaluation;
 import com.gestioneleves.api.entity.Registration;
 import com.gestioneleves.api.entity.SchoolReport;

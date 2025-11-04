@@ -1,10 +1,8 @@
 package com.gestioneleves.api.service;
 
 import com.gestioneleves.api.dto.RegistrationDTO;
-import com.gestioneleves.api.dto.TeachingDTO;
 import com.gestioneleves.api.entity.Registration;
 import com.gestioneleves.api.entity.RegistrationPK;
-import com.gestioneleves.api.entity.Teaching;
 import com.gestioneleves.api.repository.ClassGroupRepository;
 import com.gestioneleves.api.repository.RegistrationRepository;
 import com.gestioneleves.api.repository.StudentRepository;
