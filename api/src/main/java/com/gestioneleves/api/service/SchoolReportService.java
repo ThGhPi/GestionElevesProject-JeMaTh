@@ -2,6 +2,7 @@ package com.gestioneleves.api.service;
 
 import com.gestioneleves.api.dto.RegistrationDTO;
 import com.gestioneleves.api.dto.SchoolReportDTO;
+import com.gestioneleves.api.dto.SchoolReportLineDTO;
 import com.gestioneleves.api.entity.SchoolReport;
 import com.gestioneleves.api.entity.SchoolReportLine;
 import com.gestioneleves.api.entity.SchoolReportLinePK;
@@ -27,6 +28,7 @@ public class SchoolReportService {
     private final SchoolReportMapper mapper;
     private final SchoolReportLineService srlService;
     private final RegistrationService registrationService;
+    private final ClassGroupService classGroupService;
     private final StudentRepository studentRepository;
 
     public List<SchoolReportDTO> getSchoolReports() {
@@ -47,13 +49,10 @@ public class SchoolReportService {
         SchoolReport bulletin = mapper.toEntity(dto, studentRepository);
         SchoolReport saved = repository.save(bulletin);
         if (id == null) {
-            String schoolYear = getSchoolYear(dto);
-            List<RegistrationDTO> registrations = registrationService.getRegistrationsByStudentAndYear(saved.getStudent().getId(), schoolYear);
-            if (registrations.size() == 1) {
-                Long classGroupId = registrations.getFirst().getId().getClassGroupId()
-            }
+            createLines(saved);
         }
         return mapper.toDto(saved);
+
     }
 
     public void deleteSchoolReport(Long id) {
@@ -87,16 +86,49 @@ public class SchoolReportService {
                         .mapToDouble(pk -> {
                             return srlService.getSchoolReportLine(pk).getTeachingAverage() == null
                                     ? srlService.calculateTeachingAverage(pk).getTeachingAverage()
-                                    : srlService.getSchoolReportLine(pk).getTeachingAverage();
-
-                        }))
+                                    : srlService.getSchoolReportLine(pk).getTeachingAverage(); 
+                                }))
                         .sum();
         schoolReportDTO.setOverallAverage(lines.size() == 0 ? 0 : overallAverage / lines.size());
-        return mapper.toDto(repository.save(mapper.toEntity(schoolReportDTO, studentRepository)));
+        return saveSchoolReport(id, schoolReportDTO);
     }
 
-    public String getSchoolYear(SchoolReportDTO schoolReportDTO) {
-        LocalDate periodStart = schoolReportDTO.getPeriodStart();
+    /**
+     * To create Lines of a newly saved school report
+     * @param schoolReport modified dto with list of SchoolReportLinePK
+     */
+    public List<SchoolReportLinePK> createLines(SchoolReport schoolReport) {
+        Long schoolReportId = schoolReport.getId();
+        String schoolYear = getSchoolYear(schoolReport);
+        Long studentId = schoolReport.getStudent().getId();
+        List<RegistrationDTO> registrations = 
+            registrationService.getRegistrationsByStudentAndYear(
+                studentId, schoolYear);
+        if (registrations.size() == 1) {
+            Long classGroupId = registrations.getFirst().getId().getClassGroupId();
+            List<Long> teachingsIds = 
+                classGroupService.getClassGroup(classGroupId).getTeachingsIds();
+            return (teachingsIds.stream()
+                    .map(teachingId -> {
+                        SchoolReportLinePK pk = new SchoolReportLinePK(schoolReportId, teachingId);
+                        SchoolReportLineDTO srlDto = new SchoolReportLineDTO();
+                        srlDto.setId(pk);
+                        srlService.saveSchoolReportLine(srlDto);
+                        return pk;
+                    })
+                    .toList());
+        }
+        return null;
+    }
+
+    /**
+     * To obtain the shool year a school report was created for
+     * 
+     * @param schoolReport from which the period date are extracted
+     * @return the corresponding school year : a "yyyy" string
+     */
+    public String getSchoolYear(SchoolReport schoolReport) {
+        LocalDate periodStart = schoolReport.getPeriodStart();
         LocalDate schoolYearChange = LocalDate.of(periodStart.getYear(), 07, 31);
         if (periodStart.isAfter(schoolYearChange)) {
             return ((Integer) periodStart.plusYears(1).getYear()).toString();

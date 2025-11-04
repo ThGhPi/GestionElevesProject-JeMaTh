@@ -23,7 +23,7 @@ public class SchoolReportLine {
     @Builder.Default
     private SchoolReportLinePK id = new SchoolReportLinePK();
 
-    @Column(length = 256)
+    @Column(length = 255)
     private String comment;
 
     private Double teachingAverage;

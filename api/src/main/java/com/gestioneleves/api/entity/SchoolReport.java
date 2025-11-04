@@ -36,7 +36,7 @@ public class SchoolReport {
     @Column(length = 20)
     private String mention;
 
-    @Column(length = 256)
+    @Column(length = 255)
     private String generalComment;
 
     @ManyToOne(optional = false)

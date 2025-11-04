@@ -19,8 +19,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SchoolReportLineService {
     private final SchoolReportLineRepository repository;
-    private final SchoolReportService schoolReportService;
     private final SchoolReportLineMapper mapper;
+    private final SchoolReportService schoolReportService;
     private final EvaluationService evaluationService;
 
 
@@ -37,8 +37,8 @@ public class SchoolReportLineService {
         return mapper.toDto(schoolReportLine);
     }
 
-    public SchoolReportLineDTO saveSchoolReportLine(SchoolReportLine schoolReportLine) {
-        return mapper.toDto(repository.save(schoolReportLine));
+    public SchoolReportLineDTO saveSchoolReportLine(SchoolReportLineDTO schoolReportLineDTO) {
+        return mapper.toDto(repository.save(mapper.toEntity(schoolReportLineDTO)));
     }
 
     public void deleteSchoolReport(SchoolReportLinePK id) {
