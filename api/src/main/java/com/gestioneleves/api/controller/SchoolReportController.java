@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController
@@ -33,7 +31,10 @@ public class SchoolReportController {
 
     @PostMapping
     public SchoolReportDTO create(@RequestBody SchoolReportDTO schoolReportDto) {
-        return service.saveSchoolReport(null, schoolReportDto);
+        SchoolReportDTO created = service.saveSchoolReport(null, schoolReportDto);
+        if ((created.getOverallAverage() == null ? 0.0 : created.getOverallAverage()) == -1) {
+            return service.calculateAverages(created.getId());
+        } else { return created; }
     }
 
     @PutMapping("/{id}")

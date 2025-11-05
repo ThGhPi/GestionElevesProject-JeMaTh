@@ -1,6 +1,6 @@
 package com.gestioneleves.api.repository;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
@@ -16,12 +16,12 @@ public interface EvaluationRepository extends JpaRepository<Evaluation, Long> {
 
     // evaluations of a student given a time period
     @Query(
-        "Select e from Evaluation e where e.student.id = :studentId and e.teaching.id = :teachingId and e.dateAndTime between :startDate and :endDate")
+        "Select e from Evaluation e where e.student.id = :studentId and e.teaching.id = :teachingId and e.dateAndTime between :startTime and :endTime")
     public List<Evaluation> findByStudentIdAndTeachingIdAndDateAndTime(
         @Param("studentId") Long studentId,
         @Param("teachingId") Long teachingId,
-        @Param("startDate") LocalDate startDate,
-        @Param("endDate") LocalDate endDate);
+        @Param("startTime") LocalDateTime startTimme,
+        @Param("endTime") LocalDateTime endTime);
     
     List<Evaluation> findByStudentId(Long id); // evaluations of a student
     List<Evaluation> findByTeachingId(Long id); // evaluations of a teaching

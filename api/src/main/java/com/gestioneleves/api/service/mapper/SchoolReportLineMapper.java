@@ -1,11 +1,17 @@
 package com.gestioneleves.api.service.mapper;
 
+import org.mapstruct.Context;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 import org.mapstruct.ReportingPolicy;
 
 import com.gestioneleves.api.dto.SchoolReportLineDTO;
+import com.gestioneleves.api.entity.SchoolReport;
 import com.gestioneleves.api.entity.SchoolReportLine;
+import com.gestioneleves.api.entity.Teaching;
+import com.gestioneleves.api.repository.SchoolReportRepository;
+import com.gestioneleves.api.repository.TeachingRepository;
 
 @Mapper(
     componentModel = "spring",
@@ -14,12 +20,24 @@ import com.gestioneleves.api.entity.SchoolReportLine;
 )
 public interface SchoolReportLineMapper {
 
-    @Mapping(target = "teachingDto", source = "teaching")
-    @Mapping(target = "schoolReportDto", source = "schoolReport")
     SchoolReportLineDTO toDto(SchoolReportLine entity);
 
-    @Mapping(target = "teaching", source = "teachingDto")
-    @Mapping(target = "schoolReport", source = "schoolReportDto")
-    SchoolReportLine toEntity(SchoolReportLineDTO dto);
+    @Mapping(source = "id.schoolReportId", target = "schoolReport", qualifiedByName = "mapsPkToSchoolReport")
+    @Mapping(source = "id.teachingId", target = "teaching", qualifiedByName = "mapsPkToTeaching")
+    SchoolReportLine toEntity(SchoolReportLineDTO dto,
+        @Context SchoolReportRepository schoolReportRepository,
+        @Context TeachingRepository teachingRepository);
+
+    @Named("mapsPkToSchoolReport")
+    default SchoolReport mapsPkToSchoolReport(Long schoolReportId,
+        @Context SchoolReportRepository schoolReportRepository) {
+        return (schoolReportRepository.getReferenceById(schoolReportId));
+    }
+
+    @Named("mapsPkToTeaching")
+    default Teaching mapsPkToTeaching(Long teachingId,
+        @Context TeachingRepository teachingRepository) {
+        return (teachingRepository.getReferenceById(teachingId));
+    }
 }
  

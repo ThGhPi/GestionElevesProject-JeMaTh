@@ -7,13 +7,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gestioneleves.api.dto.EvaluationDTO;
-import com.gestioneleves.api.dto.SchoolReportDTO;
 import com.gestioneleves.api.dto.SchoolReportLineDTO;
 import com.gestioneleves.api.entity.SchoolReport;
 import com.gestioneleves.api.entity.SchoolReportLine;
 import com.gestioneleves.api.entity.SchoolReportLinePK;
 import com.gestioneleves.api.repository.SchoolReportLineRepository;
 import com.gestioneleves.api.repository.SchoolReportRepository;
+import com.gestioneleves.api.repository.TeachingRepository;
 import com.gestioneleves.api.service.mapper.SchoolReportLineMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -25,6 +25,7 @@ public class SchoolReportLineService {
     private final SchoolReportLineRepository repository;
     private final SchoolReportLineMapper mapper;
     private final SchoolReportRepository schoolReportRepository;
+    private final TeachingRepository teachingRepository;
     private final EvaluationService evaluationService;
 
 
@@ -37,12 +38,12 @@ public class SchoolReportLineService {
 
     public SchoolReportLineDTO getSchoolReportLine(SchoolReportLinePK id) {
         SchoolReportLine schoolReportLine = repository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Cette Ligne n'existe pas"));
+            .orElseThrow(() -> new RuntimeException("Cette ligne n'existe pas"));
         return mapper.toDto(schoolReportLine);
     }
 
     public SchoolReportLineDTO saveSchoolReportLine(SchoolReportLineDTO schoolReportLineDTO) {
-        return mapper.toDto(repository.save(mapper.toEntity(schoolReportLineDTO)));
+        return mapper.toDto(repository.save(mapper.toEntity(schoolReportLineDTO, schoolReportRepository, teachingRepository)));
     }
 
     public void deleteSchoolReport(SchoolReportLinePK id) {
@@ -66,6 +67,6 @@ public class SchoolReportLineService {
             .sum();
         Double teachingAverage = totalWeight == 0 ? null : totalWeightedNotes / totalWeight;
         schoolReportLineDTO.setTeachingAverage(teachingAverage);
-        return mapper.toDto(repository.save(mapper.toEntity(schoolReportLineDTO)));
+        return mapper.toDto(repository.save(mapper.toEntity(schoolReportLineDTO, schoolReportRepository, teachingRepository)));
     }
 }

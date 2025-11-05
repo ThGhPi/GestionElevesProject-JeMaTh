@@ -17,25 +17,26 @@ public class SchoolReportLineController {
     private final SchoolReportLineService service;
 
     @GetMapping
-    public List<SchoolReportLineDTO> getSchoolReportLines() { return service.getSchoolReportLines();}
+    public List<SchoolReportLineDTO> getSchoolReportLines() { return service.getSchoolReportLines(); }
 
-    @GetMapping("/{id}")
-    public SchoolReportLineDTO getSchoolReportLine(@PathVariable SchoolReportLinePK id) {
-        return service.getSchoolReportLine(id);}
+    @GetMapping("/school-report/{schoolReportId}/teaching/{teachingId}")
+    public SchoolReportLineDTO getSchoolReportLine(@PathVariable Long schoolReportId, @PathVariable Long teachingId) {
+        return service.getSchoolReportLine(new SchoolReportLinePK(schoolReportId, teachingId));
+    }
 
     @PostMapping
     public SchoolReportLineDTO create(@RequestBody SchoolReportLineDTO schoolReportLineDTO) {
         return service.saveSchoolReportLine(schoolReportLineDTO);
     }
 
-    @PutMapping("/{id}")
-    public SchoolReportLineDTO update(@PathVariable SchoolReportLinePK id, @RequestBody SchoolReportLineDTO schoolReportLineDTO) {
-        schoolReportLineDTO.setId(id);
+    @PutMapping("/school-report/{schoolReportId}/teaching/{teachingId}")
+    public SchoolReportLineDTO update(@PathVariable Long schoolReportId, @PathVariable Long teachingId, @RequestBody SchoolReportLineDTO schoolReportLineDTO) {
+        schoolReportLineDTO.setId(new SchoolReportLinePK(schoolReportId, teachingId));
         return service.saveSchoolReportLine(schoolReportLineDTO);
     }
 
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable SchoolReportLinePK id) {
-        service.deleteSchoolReport(id);
+    @DeleteMapping("/school-report/{schoolReportId}/teaching/{teachingId}")
+    public void delete(@PathVariable Long schoolReportId, @PathVariable Long teachingId) {
+        service.deleteSchoolReport(new SchoolReportLinePK(schoolReportId, teachingId));
     }
 }

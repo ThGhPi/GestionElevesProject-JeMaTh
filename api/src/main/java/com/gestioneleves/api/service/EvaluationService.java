@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -90,7 +92,9 @@ public class EvaluationService {
 
     public List<EvaluationDTO> getEvaluationsByStudentAndTeachingAndPeriod(
             Long studentId, Long teachingId, LocalDate periodStart, LocalDate periodEnd) {
-        return repository.findByStudentIdAndTeachingIdAndDateAndTime(studentId, teachingId, periodStart, periodEnd)
+        LocalDateTime start = periodStart.atStartOfDay();
+        LocalDateTime end = periodEnd.atTime(LocalTime.MAX);
+        return repository.findByStudentIdAndTeachingIdAndDateAndTime(studentId, teachingId, start, end)
                 .stream()
                 .map(mapper::toDto)
                 .toList();

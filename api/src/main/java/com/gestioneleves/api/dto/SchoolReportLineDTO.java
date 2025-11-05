@@ -7,12 +7,8 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor 
 @Builder
-@Getter
-@Setter
 public class SchoolReportLineDTO {
     private SchoolReportLinePK id;
     private String comment;
-    private TeachingDTO teachingDto;
-    private SchoolReportDTO schoolReportDto;
     private Double teachingAverage;
 }

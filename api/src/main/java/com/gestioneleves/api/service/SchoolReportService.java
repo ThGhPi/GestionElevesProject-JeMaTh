@@ -44,17 +44,20 @@ public class SchoolReportService {
         return mapper.toDto(schoolReport);
     }
 
-    @Transactional
     public SchoolReportDTO saveSchoolReport(Long id, SchoolReportDTO dto) {
-        if (id != null) { dto.setId(id); }
+        Boolean shouldCalculate = ((dto.getOverallAverage() == null ? 0.0 : dto.getOverallAverage()) == -1);
+        if (id != null) { 
+            dto.setId(id);
+            if (shouldCalculate) { 
+                dto = calculateAverages(id);
+            }
+        }
         SchoolReport bulletin = mapper.toEntity(dto, studentRepository);
         SchoolReport saved = repository.save(bulletin);
-        SchoolReportDTO savedDto = mapper.toDto(saved);
         if (id == null) {
-            savedDto.setSchoolReportLinesIds(createLines(saved));
+            createLines(saved);
         }
-        return savedDto;
-
+        return mapper.toDto(saved);
     }
 
     public void deleteSchoolReport(Long id) {
@@ -77,9 +80,15 @@ public class SchoolReportService {
                         .toList());
     }
 
+    /**
+     * Calculate and save the overall average linked to a school report.
+     * Calls calculateTeachingAvarage from school report line if necessary
+     * @param id identity of the school report
+     * @return dto of saved report with calculated overall average
+     */
     public SchoolReportDTO calculateAverages(Long id) {
-        SchoolReportDTO schoolReportDTO = getSchoolReport(id);
-        List<SchoolReportLinePK> lines = schoolReportDTO.getSchoolReportLinesIds();
+        SchoolReport schoolReport = repository.getReferenceById(id);
+        List<SchoolReportLinePK> lines = mapper.toDto(schoolReport).getSchoolReportLinesIds();
         if (lines == null || lines.isEmpty()) {
             throw new RuntimeException("Pas de lignes attachées au bulletin !");
         }
@@ -91,8 +100,8 @@ public class SchoolReportService {
                                     : srlService.getSchoolReportLine(pk).getTeachingAverage(); 
                                 }))
                         .sum();
-        schoolReportDTO.setOverallAverage(lines.size() == 0 ? 0 : overallAverage / lines.size());
-        return saveSchoolReport(id, schoolReportDTO);
+        schoolReport.setOverallAverage(lines.size() == 0 ? 0 : overallAverage / lines.size());
+        return mapper.toDto(repository.save(schoolReport));
     }
 
     /**
@@ -101,12 +110,11 @@ public class SchoolReportService {
      */
     public List<SchoolReportLinePK> createLines(SchoolReport schoolReport) {
         Long schoolReportId = schoolReport.getId();
-        SchoolReportDTO schoolReportDTO = mapper.toDto(schoolReport);
         String schoolYear = getSchoolYear(schoolReport);
         Long studentId = schoolReport.getStudent().getId();
         List<RegistrationDTO> registrations = 
-            registrationService.getRegistrationsByStudentAndYear(
-                studentId, schoolYear);
+        registrationService.getRegistrationsByStudentAndYear(
+            studentId, schoolYear);
         if (registrations.size() == 1) {
             Long classGroupId = registrations.getFirst().getId().getClassGroupId();
             List<Long> teachingsIds = 
@@ -115,8 +123,7 @@ public class SchoolReportService {
                     .map(teachingId -> {
                         SchoolReportLinePK pk = new SchoolReportLinePK(schoolReportId, teachingId);
                         SchoolReportLineDTO srlDto = new SchoolReportLineDTO(
-                            pk, null, new TeachingDTO(), schoolReportDTO, null);
-                        srlDto.getTeachingDto().setId(teachingId);
+                            pk, null, null);
                         srlService.saveSchoolReportLine(srlDto);
                         return pk;
                     })
