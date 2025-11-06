@@ -89,12 +89,10 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.DELETE, "/api/school-reports/*").hasRole("ADMIN")
 
                         /* School report line paths */
-                        //.requestMatchers(HttpMethod.GET, "/api/schol-report-lines/by-head-teacher/**").hasAnyRole("ADMIN", "TEACHER")
                         .requestMatchers(HttpMethod.GET, "/api/schol-report-lines/**").hasAnyRole("ADMIN", "TEACHER", "LEGAL_GUARDIAN")
                         .requestMatchers(HttpMethod.PUT, "/api/schol-report-lines/school-report/*/teaching/*").hasAnyRole("ADMIN", "TEACHER")
                         .requestMatchers(HttpMethod.POST, "/api/schol-report-lines").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/schol-report-lines/school-report/*/teaching/*").hasRole("ADMIN")
-
                         
                         .requestMatchers("/api/**").hasRole("ADMIN")
 
