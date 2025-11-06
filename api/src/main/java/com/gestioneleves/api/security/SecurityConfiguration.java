@@ -9,18 +9,13 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.security.web.util.matcher.OrRequestMatcher;
-import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import lombok.RequiredArgsConstructor;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Stream;
 
 @Configuration
 @EnableWebSecurity
@@ -29,73 +24,78 @@ public class SecurityConfiguration {
     private final AuthenticationProvider authenticationProvider;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    private RequestMatcher childEndPoints(String... methods) {
-        return new OrRequestMatcher(
-            Arrays.stream(methods)
-                .flatMap(method -> Stream.of
-                    (
-                        new AntPathRequestMatcher("/api/evaluations/child/**", method),
-                        new AntPathRequestMatcher("/api/class-groups/child/**", method),
-                        new AntPathRequestMatcher("/api/evaluations/child/**", method),
-                        new AntPathRequestMatcher("/api/regitrations/child/**", method),
-                        new AntPathRequestMatcher("/api/school-report-lines/child/**" + method),
-                        new AntPathRequestMatcher("/api/school-reports/child/**" + method),
-                        new AntPathRequestMatcher("/api/students/child/**", method),
-                        new AntPathRequestMatcher("/api/teahings/child/**", method),
-                        new AntPathRequestMatcher("/api/users/child/**", method)
-                    )
-                ).toArray(RequestMatcher[]::new)
-        );
-    }
-    private RequestMatcher studentEndPoints(String... methods) {
-        return new OrRequestMatcher(
-            Arrays.stream(methods)
-                .flatMap(method -> Stream.of
-                    (
-                        new AntPathRequestMatcher("/api/class-group/student/**", method),
-                        new AntPathRequestMatcher("/api/evaluations/student/**", method),
-                        new AntPathRequestMatcher("/api/regitrations/student/**", method),
-                        new AntPathRequestMatcher("/api/school-report-lines/student/**", method),
-                        new AntPathRequestMatcher("/api/school-reports/student/**" + method),
-                        new AntPathRequestMatcher("/api/teahings/student/**", method),
-                        new AntPathRequestMatcher("/api/users/student/**", method)
-                    )
-                ).toArray(RequestMatcher[]::new)
-        );
-    }
-    
-    private RequestMatcher evalAndSchoolReportStudentEndPoints(String... methods) {
-        return new OrRequestMatcher(
-            Arrays.stream(methods)
-                .flatMap(method -> Stream.of
-                    (
-                        new AntPathRequestMatcher("/api/evaluations/student/**", method),
-                        new AntPathRequestMatcher("/api/school-report-lines/student/**", method),
-                        new AntPathRequestMatcher("/api/school-reports/student/**" + method)
-                    )
-                ).toArray(RequestMatcher[]::new)
-        );
-    }
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf
                 .disable())
                 .authorizeHttpRequests(requests -> requests
+                        /* Authentication paths*/
                         .requestMatchers("/api/login").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/profil").hasAnyRole("ADMIN", "TEACHER", "LEGAL_GUARDIAN")
+                        .requestMatchers(HttpMethod.PUT, "/api/profil").hasAnyRole("ADMIN", "TEACHER", "LEGAL_GUARDIAN")
+                        .requestMatchers(HttpMethod.POST, "/api/register").hasRole("ADMIN")
 
-                        .requestMatchers("/api/users").hasRole("ADMIN")
+                        /* User paths */
+                        .requestMatchers(HttpMethod.GET,"/api/users/**").hasAnyRole("ADMIN", "TEACHER", "LEGAL_GUARDIAN")
+                        .requestMatchers(HttpMethod.DELETE,"/api/users/*").hasRole("ADMIN")
 
-                        .requestMatchers("/api/evaluations/class-group/**").hasAnyRole("TEACHER", "ADMIN")
-                        .requestMatchers("/api/evaluations/teaching/**").hasAnyRole("TEACHER", "ADMIN")
-                        .requestMatchers(childEndPoints("GET")).hasAnyRole("LEGAL_GUARDIAN", "TEACHER")
+                        /* Student paths */
+                        .requestMatchers(HttpMethod.GET, "/api/students/**").hasAnyRole("ADMIN", "TEACHER", "LEGAL_GUARDIAN")
+                        .requestMatchers(HttpMethod.PUT, "/api/students/*").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/students").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/students/*/photo").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/students/*").hasRole("ADMIN")
+
+                        /* Class group paths */
+                        //.requestMatchers(HttpMethod.GET, "/api/class-groups/by-head-teacher/*").hasAnyRole("ADMIN", "TEACHER")
+                        .requestMatchers(HttpMethod.GET, "/api/class-groups/**").hasAnyRole("ADMIN", "TEACHER", "LEGAL_GUARDIAN")
+                        .requestMatchers(HttpMethod.PUT, "/api/class-groups/*").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/class-groups").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/class-groups/*").hasRole("ADMIN")
+
+                        /* Registration paths */
+                        //.requestMatchers(HttpMethod.GET, "/api/registrations/by-student/*").hasAnyRole("ADMIN", "TEACHER", "LEGAL_GUARDIAN")
+                        //.requestMatchers(HttpMethod.GET, "/api/registrations/by-class/*").hasAnyRole("ADMIN", "TEACHER")
+                        //.requestMatchers(HttpMethod.GET, "/api/registrations/by-class/*/year/*").hasAnyRole("ADMIN", "TEACHER")
+                        .requestMatchers(HttpMethod.GET, "/api/registrations/**").hasAnyRole("ADMIN", "TEACHER", "LEGAL_GUARDIAN")
+                        .requestMatchers(HttpMethod.PUT, "/api/registrations/student/*/class/{classGroupId}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/registrations").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/registrations/student/*/class/*").hasRole("ADMIN")
+
+                        /* Teaching paths */
+                        //.requestMatchers(HttpMethod.GET, "/api/teachings/by-teacher/*").hasAnyRole("ADMIN", "TEACHER")
+                        //.requestMatchers(HttpMethod.GET, "/api/teachings/by-class/*").hasAnyRole("ADMIN", "TEACHER")
+                        //.requestMatchers(HttpMethod.GET, "/api/teachings/by-subject/*").hasAnyRole("ADMIN", "TEACHER")
+                        //.requestMatchers(HttpMethod.GET, "/api/teachings/by-class/*/subject/*").hasAnyRole("ADMIN", "TEACHER")
+                        .requestMatchers(HttpMethod.GET, "/api/teachings/**").hasAnyRole("ADMIN", "TEACHER", "LEGAL_GUARDIAN")
+                        .requestMatchers(HttpMethod.PUT, "/api/teachings/*").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/teachings").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/teachings/*").hasRole("ADMIN")
+
+                        /* Evaluation paths */
+                        //.requestMatchers(HttpMethod.GET, "/api/evaluations/by-student/*").hasAnyRole("ADMIN", "TEACHER", "LEGAL_GUARDIAN")
+                        //.requestMatchers(HttpMethod.GET, "/api/evaluations/by-teaching/*").hasAnyRole("ADMIN", "TEACHER")
+                        .requestMatchers(HttpMethod.GET, "/api/evaluations/**").hasAnyRole("ADMIN", "TEACHER", "LEGAL_GUARDIAN")
+                        .requestMatchers(HttpMethod.PUT, "/api/evaluations/*").hasAnyRole("ADMIN", "TEACHER")
+                        .requestMatchers(HttpMethod.POST, "/api/evaluations").hasAnyRole("ADMIN", "TEACHER")
+                        .requestMatchers(HttpMethod.DELETE, "/api/evaluations/*").hasAnyRole("ADMIN", "TEACHER")
+
+                        /* School report paths */
+                        //.requestMatchers(HttpMethod.GET, "/api/school-reports/student/*").hasAnyRole("ADMIN", "TEACHER", "LEGAL_GUARDIAN")
+                        //.requestMatchers(HttpMethod.GET, "/api/school-reports/period/*").hasAnyRole("ADMIN", "TEACHER")
+                        .requestMatchers(HttpMethod.GET, "/api/school-reports/**").hasAnyRole("ADMIN", "TEACHER", "LEGAL_GUARDIAN")
+                        .requestMatchers(HttpMethod.PUT, "/api/school-reports/*").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/school-reports").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/school-reports/*").hasRole("ADMIN")
+
+                        /* School report line paths */
+                        //.requestMatchers(HttpMethod.GET, "/api/schol-report-lines/by-head-teacher/**").hasAnyRole("ADMIN", "TEACHER")
+                        .requestMatchers(HttpMethod.GET, "/api/schol-report-lines/**").hasAnyRole("ADMIN", "TEACHER", "LEGAL_GUARDIAN")
+                        .requestMatchers(HttpMethod.PUT, "/api/schol-report-lines/school-report/*/teaching/*").hasAnyRole("ADMIN", "TEACHER")
+                        .requestMatchers(HttpMethod.POST, "/api/schol-report-lines").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/schol-report-lines/school-report/*/teaching/*").hasRole("ADMIN")
+
                         
-                        .requestMatchers(studentEndPoints("GET")).hasRole("TEACHER")
-                        
-                        .requestMatchers(evalAndSchoolReportStudentEndPoints("POST", "PUT", "DELETE")).hasRole("TEACHER")
-                        .requestMatchers(HttpMethod.GET, "/api/class-groups/**").hasAnyRole("TEACHER", "ADMIN")
-                        
-                        .requestMatchers("/api/users/**").hasRole("ADMIN")
                         .requestMatchers("/api/**").hasRole("ADMIN")
 
                         .anyRequest().authenticated()

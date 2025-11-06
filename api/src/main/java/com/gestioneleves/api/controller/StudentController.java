@@ -34,6 +34,7 @@ public class StudentController {
     public StudentDTO create(@RequestBody StudentDTO studentDTO) {
         return service.saveOrUpdate(null, studentDTO);
     }
+    
     @PostMapping("/{id}/photo")
     public StudentDTO uploadPhoto(@PathVariable Long id, @RequestParam MultipartFile file) throws IOException {
         return service.savePhoto(id, file);

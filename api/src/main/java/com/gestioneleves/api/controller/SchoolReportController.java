@@ -49,13 +49,13 @@ public class SchoolReportController {
     }
 
     @GetMapping("/student/{id}")
-    public List<SchoolReportDTO> getByStudentId(@RequestParam Long id) {
+    public List<SchoolReportDTO> getByStudentId(@PathVariable Long id) {
         return service.findByStudent(id);
     }
 
-    @GetMapping("/period")
-    public List<SchoolReportDTO> getByPeriodStart(@RequestParam LocalDate date) {
-        return service.findByPeriod(date);
+    @GetMapping("/period/{startDate}")
+    public List<SchoolReportDTO> getByPeriodStart(@PathVariable LocalDate startDate) {
+        return service.findByPeriod(startDate);
     }
     
     
