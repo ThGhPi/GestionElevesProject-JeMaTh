@@ -31,12 +31,16 @@ export default class HttpClient {
   }
 
   get(endpoint) {
-    return this.request(endpoint, { method: "GET" });
+    return this.request(endpoint, { 
+      method: "GET",
+      credentials: "include"
+    });
   }
 
   post(endpoint, body) {
     return this.request(endpoint, {
       method: "POST",
+      credentials: "include",
       body: JSON.stringify(body),
     });
   }
@@ -44,11 +48,15 @@ export default class HttpClient {
   put(endpoint, body) {
     return this.request(endpoint, {
       method: "PUT",
+      credentials: "include",
       body: JSON.stringify(body),
     });
   }
 
   delete(endpoint) {
-    return this.request(endpoint, { method: "DELETE" });
+    return this.request(endpoint, {
+      method: "DELETE",
+      credentials: "include"
+    });
   }
 }

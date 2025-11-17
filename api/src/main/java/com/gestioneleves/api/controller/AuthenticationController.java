@@ -1,7 +1,10 @@
 package com.gestioneleves.api.controller;
 
 import java.util.List;
+import java.util.Map;
 
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.gestioneleves.api.dto.AppUserDTO;
 import com.gestioneleves.api.dto.LoginAppUserDTO;
 import com.gestioneleves.api.dto.RegisterAppUserDTO;
-import com.gestioneleves.api.dto.response.LoginResponse;
 import com.gestioneleves.api.entity.AppUser;
 import com.gestioneleves.api.service.AuthenticationService;
 import com.gestioneleves.api.service.JwtService;
@@ -27,12 +29,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RequiredArgsConstructor
 public class AuthenticationController {
 
-    private final JwtService jwtService;    
     private final AuthenticationService authenticationService;
 
     @PostMapping("/register")
-    public ResponseEntity<AppUser> register(@RequestBody RegisterAppUserDTO registerAppUserDto) {
-        AppUser registeredUser = authenticationService.signup(registerAppUserDto);
+    public ResponseEntity<AppUserDTO> register(@RequestBody RegisterAppUserDTO registerAppUserDto) {
+        AppUserDTO registeredUser = authenticationService.signup(registerAppUserDto);
 
         return ResponseEntity.ok(registeredUser);
     }
@@ -52,15 +53,19 @@ public class AuthenticationController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> authenticate(@RequestBody LoginAppUserDTO loginAppUserDto) {
-        AppUser authenticatedUser = authenticationService.authenticate(loginAppUserDto);
+    public ResponseEntity<?> authenticate(@RequestBody LoginAppUserDTO loginAppUserDto) {
+        String jwtToken = authenticationService.login(loginAppUserDto);
 
-        String jwtToken = jwtService.generateToken(authenticatedUser);
+        ResponseCookie cookie = ResponseCookie.from("jwt", jwtToken)
+            .httpOnly(true)
+            .secure(true)
+            .path("/")
+            .maxAge(60 * 60) // 1 heure
+            .sameSite("Strict")
+            .build();
 
-        LoginResponse loginResponse = new LoginResponse();
-        loginResponse.setToken(jwtToken);
-        loginResponse.setExpiresIn(jwtService.getExpirationTime());
-
-        return ResponseEntity.ok(loginResponse);
+    return ResponseEntity.ok()
+            .header(HttpHeaders.SET_COOKIE, cookie.toString())
+            .body(Map.of("message", "Logged in"));
     }
 }

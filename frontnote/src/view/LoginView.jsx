@@ -1,9 +1,15 @@
 import React from 'react'
 import loginService from '../service/LoginService';
+import Button from '../component/Button';
+import Label from '../component/Label';
+import Input from '../component/Input';
+import { useNavigate } from 'react-router';
+import { useState } from 'react';
 
 
 const LoginView = () => {
 
+    const navigate = useNavigate();
     const [error, setError] = useState(null);
     const [validated, setValidated] = useState(false);
 
@@ -23,45 +29,41 @@ const LoginView = () => {
         loginData.username = form.username.value;
         loginData.password = form.password.value;
         loginService.logAppUser(loginData)
-            .then(response => {
-                useNavigate;
+            .then(() =>{
+                navigate("/");
             })
             .catch(erreur => {
                 console.log(erreur);
                 setError("Identifiant ou mot de passe erroné !")
             })
             .finally(() => {
-                if (updatedPerson === null) {
-                    setError("Erreur du chargement de la mis à jour !")
-                } else { location.replace("/persons") }
             });
     }
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
-            <form onSubmit={handleSubmit}
+            <form onSubmit={validateSubmit} noValidate validated={validated}
                 className="bg-white p-6 rounded-2xl shadow-md w-full max-w-sm space-y-4">
                 <h2 className="text-xl font-semibold text-gray-700">Connexion à <span className='italic'>frontnote</span></h2>
+                {error && (<p className='text-red-800'>{error}</p>)}
                 <div>
-                    <label className="block text-sm font-medium text-gray-600 mb-1">Identifiant *</label>
-                    <input type="text" name="username" value={formData.username} onChange={handleChange}
-                        className="w-full p-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-200"
+                    <Label>Identifiant *</Label>
+                    <Input type="text" name="username"
                         placeholder="identifiant" required />
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text-gray-600 mb-1">Mot de passe *</label>
-                    <input type="password" name="password" value={formData.password} onChange={handleChange}
-                        className="w-full p-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-200"
+                    <Label>Mot de passe *</Label>
+                    <Input type="password" name="password"
                         placeholder="mot de passe" required />
                 </div>
 
-                <button type="submit" className="w-full py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
+                <Button type="submit" className="bg-blue-500 text-white hover:bg-blue-600">
                     Connexion
-                </button>
-                <button type="reset" className="w-full py-2 bg-gray-200 text-black rounded-lg hover:bg-gray-300 transition">
+                </Button>
+                <Button type="reset" className="bg-gray-200 text-black hover:bg-gray-300">
                     Effacer
-                </button>
+                </Button>
             </form>
         </div>
     )

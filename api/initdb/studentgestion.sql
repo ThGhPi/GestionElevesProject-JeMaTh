@@ -201,6 +201,9 @@ INSERT INTO student (id, birthday, photo_url) VALUES
 (75, '1998-07-25', NULL), (76, '1998-03-29', NULL), (77, '1999-05-01', NULL), (78, '1998-04-15', NULL),
 (79, '1999-02-06', NULL), (80, '1998-10-12', NULL), (81, '1998-05-24', NULL), (82, '1999-04-03', NULL);
 
+INSERT INTO class_group (name, head_teacher_id) VALUES
+("3ème A", 1), ("3ème B", 2);
+
 -- REGISTRATION (one per student)
 INSERT INTO registration (student_id, class_group_id, registration_date, school_year) VALUES
 (23, 1, '2011-09-01', '2011'), (24, 1, '2011-09-01', '2011'), (25, 1, '2011-09-01', '2011'), (26, 1, '2011-09-01', '2011'),
