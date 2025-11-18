@@ -4,7 +4,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -27,105 +26,78 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-            .cors(Customizer.withDefaults())
-            .csrf(csrf -> csrf.disable())
-                .formLogin(form -> form.disable())
-                .httpBasic(basic -> basic.disable())
+        http.csrf(csrf -> csrf
+                .disable())
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        /* Authentication paths */
-                        .requestMatchers("/api/auth/login").permitAll()
+                        /* Authentication paths*/
+                        .requestMatchers("/api/login").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/profil").hasAnyRole("ADMIN", "TEACHER", "LEGAL_GUARDIAN")
                         .requestMatchers(HttpMethod.PUT, "/api/profil").hasAnyRole("ADMIN", "TEACHER", "LEGAL_GUARDIAN")
                         .requestMatchers(HttpMethod.POST, "/api/register").hasRole("ADMIN")
 
                         /* User paths */
-                        .requestMatchers(HttpMethod.GET, "/api/users/**")
-                        .hasAnyRole("ADMIN", "TEACHER", "LEGAL_GUARDIAN")
-                        .requestMatchers(HttpMethod.DELETE, "/api/users/*").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET,"/api/users/**").hasAnyRole("ADMIN", "TEACHER", "LEGAL_GUARDIAN")
+                        .requestMatchers(HttpMethod.DELETE,"/api/users/*").hasRole("ADMIN")
 
                         /* Student paths */
-                        .requestMatchers(HttpMethod.GET, "/api/students/**")
-                        .hasAnyRole("ADMIN", "TEACHER", "LEGAL_GUARDIAN")
+                        .requestMatchers(HttpMethod.GET, "/api/students/**").hasAnyRole("ADMIN", "TEACHER", "LEGAL_GUARDIAN")
                         .requestMatchers(HttpMethod.PUT, "/api/students/*").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/api/students").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/api/students/*/photo").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/students/*").hasRole("ADMIN")
 
                         /* Class group paths */
-                        // .requestMatchers(HttpMethod.GET,
-                        // "/api/class-groups/by-head-teacher/*").hasAnyRole("ADMIN", "TEACHER")
-                        .requestMatchers(HttpMethod.GET, "/api/class-groups/**")
-                        .hasAnyRole("ADMIN", "TEACHER", "LEGAL_GUARDIAN")
+                        //.requestMatchers(HttpMethod.GET, "/api/class-groups/by-head-teacher/*").hasAnyRole("ADMIN", "TEACHER")
+                        .requestMatchers(HttpMethod.GET, "/api/class-groups/**").hasAnyRole("ADMIN", "TEACHER", "LEGAL_GUARDIAN")
                         .requestMatchers(HttpMethod.PUT, "/api/class-groups/*").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/api/class-groups").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/class-groups/*").hasRole("ADMIN")
 
                         /* Registration paths */
-                        // .requestMatchers(HttpMethod.GET,
-                        // "/api/registrations/by-student/*").hasAnyRole("ADMIN", "TEACHER",
-                        // "LEGAL_GUARDIAN")
-                        // .requestMatchers(HttpMethod.GET,
-                        // "/api/registrations/by-class/*").hasAnyRole("ADMIN", "TEACHER")
-                        // .requestMatchers(HttpMethod.GET,
-                        // "/api/registrations/by-class/*/year/*").hasAnyRole("ADMIN", "TEACHER")
-                        .requestMatchers(HttpMethod.GET, "/api/registrations/**")
-                        .hasAnyRole("ADMIN", "TEACHER", "LEGAL_GUARDIAN")
-                        .requestMatchers(HttpMethod.PUT, "/api/registrations/student/*/class/{classGroupId}")
-                        .hasRole("ADMIN")
+                        //.requestMatchers(HttpMethod.GET, "/api/registrations/by-student/*").hasAnyRole("ADMIN", "TEACHER", "LEGAL_GUARDIAN")
+                        //.requestMatchers(HttpMethod.GET, "/api/registrations/by-class/*").hasAnyRole("ADMIN", "TEACHER")
+                        //.requestMatchers(HttpMethod.GET, "/api/registrations/by-class/*/year/*").hasAnyRole("ADMIN", "TEACHER")
+                        .requestMatchers(HttpMethod.GET, "/api/registrations/**").hasAnyRole("ADMIN", "TEACHER", "LEGAL_GUARDIAN")
+                        .requestMatchers(HttpMethod.PUT, "/api/registrations/student/*/class/{classGroupId}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/api/registrations").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/registrations/student/*/class/*").hasRole("ADMIN")
 
                         /* Teaching paths */
-                        // .requestMatchers(HttpMethod.GET,
-                        // "/api/teachings/by-teacher/*").hasAnyRole("ADMIN", "TEACHER")
-                        // .requestMatchers(HttpMethod.GET,
-                        // "/api/teachings/by-class/*").hasAnyRole("ADMIN", "TEACHER")
-                        // .requestMatchers(HttpMethod.GET,
-                        // "/api/teachings/by-subject/*").hasAnyRole("ADMIN", "TEACHER")
-                        // .requestMatchers(HttpMethod.GET,
-                        // "/api/teachings/by-class/*/subject/*").hasAnyRole("ADMIN", "TEACHER")
-                        .requestMatchers(HttpMethod.GET, "/api/teachings/**")
-                        .hasAnyRole("ADMIN", "TEACHER", "LEGAL_GUARDIAN")
+                        //.requestMatchers(HttpMethod.GET, "/api/teachings/by-teacher/*").hasAnyRole("ADMIN", "TEACHER")
+                        //.requestMatchers(HttpMethod.GET, "/api/teachings/by-class/*").hasAnyRole("ADMIN", "TEACHER")
+                        //.requestMatchers(HttpMethod.GET, "/api/teachings/by-subject/*").hasAnyRole("ADMIN", "TEACHER")
+                        //.requestMatchers(HttpMethod.GET, "/api/teachings/by-class/*/subject/*").hasAnyRole("ADMIN", "TEACHER")
+                        .requestMatchers(HttpMethod.GET, "/api/teachings/**").hasAnyRole("ADMIN", "TEACHER", "LEGAL_GUARDIAN")
                         .requestMatchers(HttpMethod.PUT, "/api/teachings/*").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/api/teachings").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/teachings/*").hasRole("ADMIN")
 
                         /* Evaluation paths */
-                        // .requestMatchers(HttpMethod.GET,
-                        // "/api/evaluations/by-student/*").hasAnyRole("ADMIN", "TEACHER",
-                        // "LEGAL_GUARDIAN")
-                        // .requestMatchers(HttpMethod.GET,
-                        // "/api/evaluations/by-teaching/*").hasAnyRole("ADMIN", "TEACHER")
-                        .requestMatchers(HttpMethod.GET, "/api/evaluations/**")
-                        .hasAnyRole("ADMIN", "TEACHER", "LEGAL_GUARDIAN")
+                        //.requestMatchers(HttpMethod.GET, "/api/evaluations/by-student/*").hasAnyRole("ADMIN", "TEACHER", "LEGAL_GUARDIAN")
+                        //.requestMatchers(HttpMethod.GET, "/api/evaluations/by-teaching/*").hasAnyRole("ADMIN", "TEACHER")
+                        .requestMatchers(HttpMethod.GET, "/api/evaluations/**").hasAnyRole("ADMIN", "TEACHER", "LEGAL_GUARDIAN")
                         .requestMatchers(HttpMethod.PUT, "/api/evaluations/*").hasAnyRole("ADMIN", "TEACHER")
                         .requestMatchers(HttpMethod.POST, "/api/evaluations").hasAnyRole("ADMIN", "TEACHER")
                         .requestMatchers(HttpMethod.DELETE, "/api/evaluations/*").hasAnyRole("ADMIN", "TEACHER")
 
                         /* School report paths */
-                        // .requestMatchers(HttpMethod.GET,
-                        // "/api/school-reports/student/*").hasAnyRole("ADMIN", "TEACHER",
-                        // "LEGAL_GUARDIAN")
-                        // .requestMatchers(HttpMethod.GET,
-                        // "/api/school-reports/period/*").hasAnyRole("ADMIN", "TEACHER")
-                        .requestMatchers(HttpMethod.GET, "/api/school-reports/**")
-                        .hasAnyRole("ADMIN", "TEACHER", "LEGAL_GUARDIAN")
+                        //.requestMatchers(HttpMethod.GET, "/api/school-reports/student/*").hasAnyRole("ADMIN", "TEACHER", "LEGAL_GUARDIAN")
+                        //.requestMatchers(HttpMethod.GET, "/api/school-reports/period/*").hasAnyRole("ADMIN", "TEACHER")
+                        .requestMatchers(HttpMethod.GET, "/api/school-reports/**").hasAnyRole("ADMIN", "TEACHER", "LEGAL_GUARDIAN")
                         .requestMatchers(HttpMethod.PUT, "/api/school-reports/*").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/api/school-reports").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/school-reports/*").hasRole("ADMIN")
 
                         /* School report line paths */
-                        .requestMatchers(HttpMethod.GET, "/api/schol-report-lines/**")
-                        .hasAnyRole("ADMIN", "TEACHER", "LEGAL_GUARDIAN")
-                        .requestMatchers(HttpMethod.PUT, "/api/schol-report-lines/school-report/*/teaching/*")
-                        .hasAnyRole("ADMIN", "TEACHER")
+                        .requestMatchers(HttpMethod.GET, "/api/schol-report-lines/**").hasAnyRole("ADMIN", "TEACHER", "LEGAL_GUARDIAN")
+                        .requestMatchers(HttpMethod.PUT, "/api/schol-report-lines/school-report/*/teaching/*").hasAnyRole("ADMIN", "TEACHER")
                         .requestMatchers(HttpMethod.POST, "/api/schol-report-lines").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/api/schol-report-lines/school-report/*/teaching/*")
-                        .hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/schol-report-lines/school-report/*/teaching/*").hasRole("ADMIN")
+                        
+                        .requestMatchers("/api/**").hasRole("ADMIN")
 
-                        .anyRequest().authenticated())
+                        .anyRequest().authenticated()
+                        )
                 .sessionManagement(management -> management
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
@@ -134,20 +106,18 @@ public class SecurityConfiguration {
         return http.build();
     }
 
-    // @Bean
-    // CorsConfigurationSource corsConfigurationSource() {
-    //     CorsConfiguration configuration = new CorsConfiguration();
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
 
-    //     configuration.setAllowedOrigins(List.of("http://localhost:8081", "http://localhost:5173"));
-    //     configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-    //     configuration.addAllowedHeader("*");
-    //     configuration.setAllowCredentials(true);
-    //     configuration.addExposedHeader("Set-Cookie");
+        configuration.setAllowedOrigins(List.of("http://localhost:8081"));
+        configuration.setAllowedMethods(List.of("GET","POST", "PUT", "DELETE"));
+        configuration.setAllowedHeaders(List.of("Authorization","Content-Type"));
 
-    //     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 
-    //     source.registerCorsConfiguration("/**", configuration);
+        source.registerCorsConfiguration("/**",configuration);
 
-    //     return source;
-    // }
+        return source;
+    }
 }

@@ -1,24 +1,21 @@
-import { useState } from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router';
-import Header from './layout/Header';
-import LoginView from './view/LoginView';
-import UserList from './view/admin-view/UserList';
-import './App.css'
+// src/App.jsx
+import { Routes, Route } from "react-router-dom";
+import Accueil from "./pages/Accueil.jsx";
+import ListeProfesseurs from "./pages/ListeProfesseurs.jsx";
+import ListeEnseignements from "./pages/ListeEnseignements.jsx";
+import ListeEleves from "./pages/ListeEleves.jsx";
+import ListeUtilisateurs from "./pages/ListeUtilisateurs.jsx";
+import AjoutUtilisateur from "./pages/AjoutUtilisateur.jsx";
 
-function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <BrowserRouter>
-        <Header />
+export default function App() {
+    return (
         <Routes>
-          <Route path='/connexion' element={<LoginView />} />
-          <Route path='/liste-utilisateurs' element={<UserList />} />
+            <Route path="/" element={<Accueil />} />
+            <Route path="/professeurs" element={<ListeProfesseurs />} />
+            <Route path="/enseignements" element={<ListeEnseignements />} />
+            <Route path="/eleves" element={<ListeEleves />} />
+            <Route path="/utilisateurs" element={<ListeUtilisateurs />} />
+            <Route path="/utilisateurs/ajouter" element={<AjoutUtilisateur />} />
         </Routes>
-      </BrowserRouter>
-    </>
-  )
+    );
 }
-
-export default App

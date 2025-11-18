@@ -1,10 +1,7 @@
 package com.gestioneleves.api.controller;
 
 import java.util.List;
-import java.util.Map;
 
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,23 +12,27 @@ import org.springframework.web.bind.annotation.RestController;
 import com.gestioneleves.api.dto.AppUserDTO;
 import com.gestioneleves.api.dto.LoginAppUserDTO;
 import com.gestioneleves.api.dto.RegisterAppUserDTO;
+import com.gestioneleves.api.dto.response.LoginResponse;
+import com.gestioneleves.api.entity.AppUser;
 import com.gestioneleves.api.service.AuthenticationService;
+import com.gestioneleves.api.service.JwtService;
 
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.PutMapping;
+
 
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
 public class AuthenticationController {
 
+    private final JwtService jwtService;    
     private final AuthenticationService authenticationService;
 
     @PostMapping("/register")
-    public ResponseEntity<AppUserDTO> register(@RequestBody RegisterAppUserDTO registerAppUserDto) {
-        AppUserDTO registeredUser = authenticationService.signup(registerAppUserDto);
+    public ResponseEntity<AppUser> register(@RequestBody RegisterAppUserDTO registerAppUserDto) {
+        AppUser registeredUser = authenticationService.signup(registerAppUserDto);
 
         return ResponseEntity.ok(registeredUser);
     }
@@ -43,30 +44,23 @@ public class AuthenticationController {
     }
 
     @PutMapping("/profil")
-    public ResponseEntity<AppUserDTO> newPassword(@RequestBody List<LoginAppUserDTO> appUserDtoList) {
+    public ResponseEntity<AppUserDTO> newPassword(@RequestBody List<LoginAppUserDTO> appUserDtoList ) {
         AppUserDTO currentUser = authenticationService.changePassword(appUserDtoList);
-
+        
         return ResponseEntity.ok(currentUser);
     }
 
-    @PostMapping("/auth/login")
-    public ResponseEntity<?> authenticate(@RequestBody LoginAppUserDTO loginAppUserDto, HttpServletResponse response) {
-        System.out.println("Controller hit! User: " + loginAppUserDto.getUsername());
-        String jwtToken = authenticationService.login(loginAppUserDto);
 
-        ResponseCookie cookie = ResponseCookie.from("jwt", jwtToken)
-                .httpOnly(true)
-                // .secure(true)
-                // .sameSite("None")
-                // for dev :
-                .secure(false)
-                .sameSite("None")
-                .path("/")
-                .maxAge(3600) // 1 heure
-                .build();
-        response.addHeader("Set-Cookie", cookie.toString());
-        return ResponseEntity.ok()
-                .header(HttpHeaders.SET_COOKIE, cookie.toString())
-                .body(Map.of("message", "Logged in"));
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> authenticate(@RequestBody LoginAppUserDTO loginAppUserDto) {
+        AppUser authenticatedUser = authenticationService.authenticate(loginAppUserDto);
+
+        String jwtToken = jwtService.generateToken(authenticatedUser);
+
+        LoginResponse loginResponse = new LoginResponse();
+        loginResponse.setToken(jwtToken);
+        loginResponse.setExpiresIn(jwtService.getExpirationTime());
+
+        return ResponseEntity.ok(loginResponse);
     }
 }
