@@ -2,7 +2,6 @@
 import { useNavigate } from "react-router-dom";
 
 import accueilIcon from "../assets/images/Accueil.png";
-import compteIcon from "../assets/images/Mon Compte.png";
 import contactIcon from "../assets/images/Contact.png";
 
 export default function Navbar() {
