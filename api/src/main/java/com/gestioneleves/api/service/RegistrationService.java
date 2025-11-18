@@ -1,11 +1,13 @@
 package com.gestioneleves.api.service;
 
+import com.gestioneleves.api.dto.ClassGroupDTO;
 import com.gestioneleves.api.dto.RegistrationDTO;
 import com.gestioneleves.api.entity.Registration;
 import com.gestioneleves.api.entity.RegistrationPK;
 import com.gestioneleves.api.repository.ClassGroupRepository;
 import com.gestioneleves.api.repository.RegistrationRepository;
 import com.gestioneleves.api.repository.StudentRepository;
+import com.gestioneleves.api.service.mapper.ClassGroupMapper;
 import com.gestioneleves.api.service.mapper.RegistrationMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,10 +21,11 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Transactional
 public class RegistrationService {
-    private final RegistrationRepository repository;
-    private final RegistrationMapper mapper;
-    private final StudentRepository studentRepository;
-    private final ClassGroupRepository classGroupRepository;
+   private final RegistrationRepository repository;
+private final RegistrationMapper mapper;
+private final StudentRepository studentRepository;
+private final ClassGroupRepository classGroupRepository;
+private final ClassGroupMapper classGroupMapper;
 
     public List<RegistrationDTO> getRegistrations() {
         return repository.findAllByOrderBySchoolYearAsc()
@@ -77,4 +80,42 @@ public class RegistrationService {
                 .map(mapper::toDto)
                 .collect(Collectors.toList());
     }
+
+    public RegistrationDTO getRegistrationByStudentAndClass(Long studentId, Long classGroupId) {
+    RegistrationPK pk = new RegistrationPK(studentId, classGroupId);
+    Registration registration = repository.findById(pk)
+            .orElseThrow(() -> new RuntimeException(
+                    "Inscription introuvable pour l'élève " + studentId + " et la classe " + classGroupId));
+
+    return mapper.toDto(registration);
+}
+
+public RegistrationDTO getActiveRegistrationByStudent(Long studentId) {
+    Registration registration = repository
+            .findTopByIdStudentIdOrderBySchoolYearDesc(studentId)
+            .orElseThrow(() -> new RuntimeException(
+                    "Aucune inscription trouvée pour l'élève " + studentId));
+
+    return mapper.toDto(registration);
+}
+
+public Long getClassGroupByStudent(Long studentId) {
+    Registration registration = repository
+            .findTopByIdStudentIdOrderBySchoolYearDesc(studentId)
+            .orElseThrow(() -> new RuntimeException(
+                    "Classe introuvable pour l'élève " + studentId));
+
+    return registration.getId().getClassGroupId();
+}
+
+public ClassGroupDTO getClassGroupDTOByStudent(Long studentId) {
+    Registration registration = repository
+            .findTopByIdStudentIdOrderBySchoolYearDesc(studentId)
+            .orElseThrow(() -> new RuntimeException(
+                    "Classe introuvable pour l'élève " + studentId));
+
+    return classGroupMapper.toDto(registration.getClassGroup());
+}
+
+
 }

@@ -37,4 +37,9 @@ public class ClassGroup  {
     @OneToOne
     @JoinColumn(name = "head_teacher_id", unique = true)
     private AppUser headTeacher;
+
+    public Long getHeadTeacherId() {
+    return this.headTeacher != null ? this.headTeacher.getId() : null;
+}
+
 }

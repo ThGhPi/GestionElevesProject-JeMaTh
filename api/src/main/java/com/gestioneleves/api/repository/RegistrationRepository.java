@@ -1,6 +1,7 @@
 package com.gestioneleves.api.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -19,6 +20,7 @@ public interface RegistrationRepository extends JpaRepository<Registration, Regi
     public List<Registration> findByStudentId(Long studentId);
     public List<Registration> findByStudentIdAndSchoolYear(Long studentId, String schoolYear);
 
+    Optional<Registration> findTopByIdStudentIdOrderBySchoolYearDesc(Long studentId);
     
     /* Pour le CRUD */
     // Read

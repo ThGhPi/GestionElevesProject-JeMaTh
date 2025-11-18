@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
         RegistrationMapper.class }, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ClassGroupMapper {
 
-    @Mapping(target = "headTeacherId", source = "headTeacher.id")
+    @Mapping(target = "headTeacherId", source = "headTeacherId")
     @Mapping(target = "teachingsIds", source = "teachings", qualifiedByName = "mapTeachingsToIds")
     @Mapping(target = "registrationsIds", source = "registrations", qualifiedByName = "mapRegistrationsToIds")
     ClassGroupDTO toDto(ClassGroup entity);
@@ -19,6 +19,10 @@ public interface ClassGroupMapper {
     @Mapping(target = "teachings", source = "teachingsIds", qualifiedByName = "mapIdsToTeachings")
     @Mapping(target = "registrations", source = "registrationsIds", qualifiedByName = "mapIdsToRegistrations")
     ClassGroup toEntity(ClassGroupDTO dto);
+
+    // ... le reste ne change pas
+
+
 
     // ---------- Méthodes utilitaires ----------
     @Named("mapIdsToHeadTeacher")

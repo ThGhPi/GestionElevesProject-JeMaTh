@@ -41,9 +41,9 @@ public class TeachingController {
         service.deleteTeaching(id);
     }
 
-    @GetMapping("/by-teacher/{teacherId}")
-    public List<TeachingDTO> getTeachingByTeacher(@PathVariable Long teacherId) {
-        return service.getTeachingByTeacher(teacherId);
+    @GetMapping("/by-teacher/{teacherName}")
+    public List<TeachingDTO> getTeachingByTeacher(@PathVariable String teacherName) {
+        return service.getTeachingByTeacher(teacherName);
     }
 
     @GetMapping("/by-class/{classGroupId}")

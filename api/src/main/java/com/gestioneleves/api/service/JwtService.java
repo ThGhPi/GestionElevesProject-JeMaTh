@@ -24,15 +24,35 @@ public class JwtService {
     @Value("${security.jwt.expiration-time}")
     private long jwtExpiration;
 
-    public String extractUsername(String token) { return extractClaim(token, Claims::getSubject); }
+    public String extractUsername(String token) { 
+        return extractClaim(token, Claims::getSubject); 
+    }
+
+    // ⭐ AJOUTER CETTE MÉTHODE pour extraire le rôle
+    public String extractRole(String token) {
+        return extractClaim(token, claims -> claims.get("role", String.class));
+    }
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
 
+    // ⭐ MODIFIER generateToken pour INCLURE le rôle
     public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
+        Map<String, Object> claims = new HashMap<>();
+        
+        // Ajouter le rôle aux claims
+        if (userDetails instanceof UserDetails) {
+            // Si vous utilisez les authorities de Spring Security
+            String role = userDetails.getAuthorities().stream()
+                    .findFirst()
+                    .map(grantedAuthority -> grantedAuthority.getAuthority())
+                    .orElse("USER");
+            claims.put("role", role);
+        }
+        
+        return generateToken(claims, userDetails);
     }
 
     public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {

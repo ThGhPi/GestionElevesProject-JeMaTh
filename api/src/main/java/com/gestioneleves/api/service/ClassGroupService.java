@@ -46,8 +46,14 @@ public class ClassGroupService {
     }
 
     public ClassGroupDTO getClassGroupByHeadTeacher(Long headTeacherId) {
-        ClassGroup classGroup = repository.findByHeadTeacherId(headTeacherId)
+        ClassGroup classGroup = repository.findByHeadTeacher_Id(headTeacherId)
                 .orElseThrow(() -> new RuntimeException("Aucune classe trouvée pour le prof"));
+        return mapper.toDto(classGroup);
+    }
+
+    public ClassGroupDTO getClassGroupByName(String name) {
+        ClassGroup classGroup = repository.findByName(name)
+                .orElseThrow(() -> new RuntimeException("Aucune classe trouvée avec ce nom"));
         return mapper.toDto(classGroup);
     }
 }

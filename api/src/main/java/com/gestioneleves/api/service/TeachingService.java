@@ -59,8 +59,8 @@ public class TeachingService {
     }
 
     // Toutes les matières d'un prof
-    public List<TeachingDTO> getTeachingByTeacher(Long teacherId) {
-        return repository.findByTeacherId(teacherId)
+    public List<TeachingDTO> getTeachingByTeacher(String name) {
+        return repository.searchTeacherByName(name)
                 .stream()
                 .map(mapper::toDto)
                 .collect(Collectors.toList());

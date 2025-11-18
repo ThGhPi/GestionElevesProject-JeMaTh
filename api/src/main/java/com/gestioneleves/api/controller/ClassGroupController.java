@@ -44,4 +44,9 @@ public class ClassGroupController {
     public ClassGroupDTO getClassGroupByHeadTeacher(@PathVariable Long headTeacherId) {
         return service.getClassGroupByHeadTeacher(headTeacherId);
     }
+
+    @GetMapping("/by-name/{name}")
+    public ClassGroupDTO getClassGroupByName(@PathVariable String name) {
+        return service.getClassGroupByName(name);
+    }
 }
