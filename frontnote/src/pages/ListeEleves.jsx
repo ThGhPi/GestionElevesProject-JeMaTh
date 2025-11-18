@@ -1,6 +1,5 @@
 // src/pages/ListeEleves.jsx
 import { useState } from "react";
-import Header from "../components/Header";
 import Navbar from "../components/Navbar";
 
 export default function ListeEleves() {
@@ -41,11 +40,8 @@ export default function ListeEleves() {
         : eleves;
 
     return (
-        <div className="min-h-screen bg-white flex flex-col">
-
-            <Header />
+        <>
             <Navbar />
-
             <div className="max-w-6xl mx-auto mt-10 flex gap-10 pb-20">
 
                 {/* Colonne gauche */}
@@ -135,6 +131,6 @@ export default function ListeEleves() {
                 </div>
 
             </div>
-        </div>
+        </>
     );
 }

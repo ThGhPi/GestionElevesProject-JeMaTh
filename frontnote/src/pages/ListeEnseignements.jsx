@@ -1,6 +1,5 @@
 // src/pages/ListeEnseignements.jsx
 import { useState } from "react";
-import Header from "../components/Header";
 import Navbar from "../components/Navbar";
 
 export default function ListeEnseignements() {
@@ -39,11 +38,8 @@ export default function ListeEnseignements() {
         : enseignements;
 
     return (
-        <div className="min-h-screen bg-white flex flex-col">
-
-            <Header />
+        <>
             <Navbar />
-
             <div className="max-w-6xl mx-auto mt-10 flex gap-10 pb-20">
 
                 {/* Colonne de gauche : Search + Buttons + tableau */}
@@ -135,6 +131,6 @@ export default function ListeEnseignements() {
 
             </div>
 
-        </div>
+        </>
     );
 }

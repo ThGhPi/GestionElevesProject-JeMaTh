@@ -1,6 +1,5 @@
 // src/pages/ListeProfesseurs.jsx
 import { useState } from "react";
-import Header from "../components/Header";
 import Navbar from "../components/Navbar";
 
 export default function ListeProfesseurs() {
@@ -18,14 +17,8 @@ export default function ListeProfesseurs() {
     ]);
 
     return (
-        <div className="min-h-screen bg-white flex flex-col">
-
-            {/* Logo + bouton logout */}
-            <Header />
-
-            {/* Navbar */}
+        <>
             <Navbar />
-
             {/* Contenu principal */}
             <div className="max-w-6xl mx-auto mt-10 pb-20">
 
@@ -103,6 +96,6 @@ export default function ListeProfesseurs() {
                     </table>
                 </div>
             </div>
-        </div>
+        </>
     );
 }

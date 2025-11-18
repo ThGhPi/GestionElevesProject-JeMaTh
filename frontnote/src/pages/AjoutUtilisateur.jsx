@@ -1,5 +1,4 @@
 // src/pages/AjoutUtilisateur.jsx
-import Header from "../components/Header";
 import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -44,11 +43,8 @@ export default function AjoutUtilisateur() {
     };
 
     return (
-        <div className="min-h-screen bg-white flex flex-col">
-
-            <Header />
+        <>
             <Navbar />
-
             <div className="max-w-3xl mx-auto mt-10 pb-20 border-4 border-black rounded-md p-10">
 
                 <h1 className="text-3xl font-bold text-center mb-10 text-black">
@@ -107,6 +103,6 @@ export default function AjoutUtilisateur() {
                     </div>
                 </form>
             </div>
-        </div>
+        </>
     );
 }

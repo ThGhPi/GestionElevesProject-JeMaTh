@@ -42,7 +42,7 @@ const LoginView = () => {
     }
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
+        <div className=" flex items-center justify-center bg-gray-100 p-4">
             <form onSubmit={validateSubmit} noValidate validated={validated.toString()}
                 className="bg-white p-6 rounded-2xl shadow-md w-full max-w-sm space-y-4">
                 <h2 className="text-xl font-semibold text-gray-700">Connexion à <span className='italic'>frontnote</span></h2>

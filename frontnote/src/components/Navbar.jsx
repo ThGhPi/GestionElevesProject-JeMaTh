@@ -8,6 +8,9 @@ import contactIcon from "../assets/images/Contact.png";
 export default function Navbar() {
     const navigate = useNavigate();
 
+
+
+
     return (
         <div className="w-full bg-[#3C4EC5] border-y-4 border-black">
             <div className="flex justify-evenly">

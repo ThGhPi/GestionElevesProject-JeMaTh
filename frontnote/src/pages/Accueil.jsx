@@ -1,4 +1,3 @@
-import Header from "../components/Header";
 import Navbar from "../components/Navbar";
 import IconButton from "../components/IconButton";
 import { useNavigate } from "react-router-dom";
@@ -16,10 +15,8 @@ export default function Accueil() {
     const navigate = useNavigate();
 
     return (
-        <div className="min-h-screen bg-white flex flex-col">
-            <Header />
+        <>
             <Navbar />
-
             <div className="max-w-6xl mx-auto mt-20 space-y-20">
 
                 <div className="flex justify-center gap-28">
@@ -53,6 +50,6 @@ export default function Accueil() {
                 </div>
 
             </div>
-        </div>
+        </>
     );
 }

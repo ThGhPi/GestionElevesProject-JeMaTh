@@ -1,33 +1,42 @@
 // src/pages/ListeUtilisateurs.jsx
-import { useState } from "react";
-import Header from "../components/Header";
+import { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
+import UserService from '../service/UserService';
 import { useNavigate } from "react-router-dom";
 
 export default function ListeUtilisateurs() {
 
+    const [searchText, setSearchText] = useState("");
     const navigate = useNavigate();
 
-    // ⚠️ Données TEMPORAIRES (remplacées par l’API plus tard)
-    const [utilisateurs, setUtilisateurs] = useState([
-        {
-            id: 1,
-            nom: "Martin",
-            prenom: "Sophie",
-            email: "sophie.martin@gmail.com",
-            pseudo: "smartin",
-            telephone: "06 58 14 29 18",
-            adresse: "12 rue de Paris",
-            role: "Administrateur"
-        }
-    ]);
+    const [utilisateurs, setUtilisateurs] = useState([]);
+    const [chargement, setChargement] = useState(false);
+    const [error, setError] = useState(null);
+    const [deleted, setDeleted] = useState([]);
+
+    const getAll = () => {
+        setChargement(true);
+        setError(null);
+        UserService.getAll()
+            .then(response => {
+                console.log(response);
+                setUtilisateurs([...response.data])
+            })
+            .catch(erreur => {
+                console.log(erreur);
+                setError("Erreur lors du chargement de la liste des utilisateurs !")
+            })
+            .finally(() => { setChargement(false); });
+    }
+
+    useEffect(() => getAll(), []);
+
+    
 
     return (
-        <div className="min-h-screen bg-white flex flex-col">
 
-            <Header />
-            <Navbar />
-
+<>
+        <Navbar />
             <div className="max-w-6xl mx-auto mt-10 pb-20">
 
                 {/* 🔍 Barre de recherche + Boutons */}
@@ -109,6 +118,7 @@ export default function ListeUtilisateurs() {
                     </table>
                 </div>
             </div>
-        </div>
+</>
+        
     );
 }
