@@ -26,7 +26,12 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf
+
+       
+        http
+                .cors(cors -> cors
+                        .configurationSource(corsConfigurationSource()))
+                .csrf(csrf -> csrf
                 .disable())
                 .authorizeHttpRequests(requests -> requests
                         /* Authentication paths*/
@@ -37,7 +42,9 @@ public class SecurityConfiguration {
 
                         /* User paths */
                         .requestMatchers(HttpMethod.GET,"/api/users/**").hasAnyRole("ADMIN", "TEACHER", "LEGAL_GUARDIAN")
-                        .requestMatchers(HttpMethod.DELETE,"/api/users/*").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE,"/api/users/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT,"/api/users/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST,"/api/users/**").hasRole("ADMIN")
 
                         /* Student paths */
                         .requestMatchers(HttpMethod.GET, "/api/students/**").hasAnyRole("ADMIN", "TEACHER", "LEGAL_GUARDIAN")
@@ -107,17 +114,30 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
+CorsConfigurationSource corsConfigurationSource() {
+    CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(List.of("http://localhost:8081"));
-        configuration.setAllowedMethods(List.of("GET","POST", "PUT", "DELETE"));
-        configuration.setAllowedHeaders(List.of("Authorization","Content-Type"));
+    //Autoriser React (port 5173)
+    configuration.setAllowedOrigins(List.of("http://localhost:5173"));
+    
+    // Ajouter OPTIONS pour preflight
+    configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+    
+    //  Autoriser tous les headers
+    configuration.setAllowedHeaders(List.of("*"));
+    
+    //  Permettre les credentials (JWT dans Authorization header)
+    configuration.setAllowCredentials(true);
+    
+    //  Exposer le header Authorization pour React
+    configuration.setExposedHeaders(List.of("Authorization"));
+    
+    //  Cache du preflight (1h)
+    configuration.setMaxAge(3600L);
 
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    source.registerCorsConfiguration("/**", configuration);
 
-        source.registerCorsConfiguration("/**",configuration);
-
-        return source;
-    }
+    return source;
+  }
 }

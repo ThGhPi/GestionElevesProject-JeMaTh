@@ -1,0 +1,127 @@
+/* PAGE GLOBALE (comme ta page principale) */
+.page-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #f9fafb; /* bg-gray-50 */
+}
+
+/* WRAPPER PRINCIPAL */
+.content-wrapper {
+  flex: 1;
+  display: flex;
+  justify-content: center; /* centre horizontal */
+  align-items: center;     /* centre vertical */
+  background: #f9fafb;
+}
+
+/* LA CARTE (login) */
+.login-center-box {
+  background: white;
+  padding: 2.2rem;
+  border-radius: 1.2rem;
+  max-width: 420px;
+  width: 100%;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+}
+
+/* ZONE LOGO */
+.logo-zone {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.logo-zone h1 {
+  font-size: 2rem;
+  font-weight: 900;
+  color: #1f2937; /* gray-800 */
+  margin-bottom: 0.4rem;
+}
+
+.logo-zone p {
+  color: #6b7280; /* gray-600 */
+  font-size: 0.95rem;
+}
+
+/* FORMULAIRE */
+.form-zone {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.field label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.3rem;
+  display: block;
+}
+
+.field input {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border: 2px solid #d1d5db;
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+  transition: 0.25s;
+}
+
+.field input:focus {
+  outline: none;
+  border-color: #3b82f6; /* blue-500 */
+  box-shadow: 0 0 0 3px rgba(59,130,246,0.35);
+}
+
+/* BOÎTE D'ERREUR */
+.error-box {
+  background: #fef2f2;
+  border: 2px solid #fecaca;
+  color: #b91c1c;
+  padding: 0.7rem;
+  border-radius: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* BOUTON DE CONNEXION */
+.login-btn {
+  width: 100%;
+  padding: 0.55rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: white;
+  background: #2563eb;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.login-btn:hover {
+  background: #1d4ed8;
+}
+
+.login-btn:disabled {
+  background: #93c5fd;
+  cursor: not-allowed;
+}
+
+/* MOT DE PASSE OUBLIÉ */
+.forgot-zone {
+  margin-top: 1.4rem;
+  text-align: center;
+}
+
+.forgot-zone a {
+  color: #2563eb;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-decoration: none;
+}
+
+.forgot-zone a:hover {
+  color: #1d4ed8;
+}

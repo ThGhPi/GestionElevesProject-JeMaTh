@@ -61,4 +61,12 @@ public class AppUserService {
     public void deleteUser(Long id) {
         repository.deleteById(id);
     }
+
+    public AppUserDTO findByUsername(String username){
+          AppUser user = repository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User non trouvé"));
+        return mapper.toDto(user);
+    }
+
+    
 }

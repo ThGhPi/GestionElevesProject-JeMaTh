@@ -116,7 +116,7 @@ public class SchoolReportService {
         registrationService.getRegistrationsByStudentAndYear(
             studentId, schoolYear);
         if (registrations.size() == 1) {
-            Long classGroupId = registrations.getFirst().getId().getClassGroupId();
+            Long classGroupId = registrations.getFirst().getClassGroupId();
             List<Long> teachingsIds = 
                 classGroupService.getClassGroup(classGroupId).getTeachingsIds();
             return (teachingsIds.stream()

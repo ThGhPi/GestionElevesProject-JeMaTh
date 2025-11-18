@@ -9,23 +9,51 @@ import org.mapstruct.*;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface RegistrationMapper {
+
+    // ==========================
+    // ENTITY → DTO
+    // ==========================
+    @Mapping(target = "studentId", source = "id.studentId")
+    @Mapping(target = "classGroupId", source = "id.classGroupId")
     RegistrationDTO toDto(Registration entity);
 
-    @Mapping(target = "student", source = "id.studentId", qualifiedByName = "dtoPKtoStudent")
-    @Mapping(target = "classGroup", source = "id.classGroupId", qualifiedByName = "dtoPKtoClassGroup")
-    Registration toEntity(RegistrationDTO dto,
-        @Context StudentRepository studentRepository,
-        @Context ClassGroupRepository classGroupRepository);
 
-    @Named("dtoPKtoStudent")
-    default Student dtoPKtoStudent(Long studentId, @Context StudentRepository studentRepository) {
-        return studentRepository.getReferenceById(studentId);
+    // ==========================
+    // DTO → ENTITY
+    // ==========================
+    @Mapping(target = "id", source = ".", qualifiedByName = "buildPK")
+    @Mapping(target = "student", source = "studentId", qualifiedByName = "mapIdToStudent")
+    @Mapping(target = "classGroup", source = "classGroupId", qualifiedByName = "mapIdToClassGroup")
+    Registration toEntity(
+        RegistrationDTO dto,
+        @Context StudentRepository studentRepo,
+        @Context ClassGroupRepository classGroupRepo
+    );
+
+
+    // ============================
+    // HELPERS
+    // ============================
+
+    @Named("buildPK")
+    default RegistrationPK buildPK(RegistrationDTO dto) {
+        if (dto == null || dto.getStudentId() == null || dto.getClassGroupId() == null) {
+            return null;
+        }
+        return new RegistrationPK(dto.getStudentId(), dto.getClassGroupId());
     }
 
-    @Named("dtoPKtoClassGroup")
-    default ClassGroup dtoPKtoStudent(Long classGroupId, @Context ClassGroupRepository classGroupRepository) {
-        return classGroupRepository.getReferenceById(classGroupId);
+    @Named("mapIdToStudent")
+    default Student mapIdToStudent(Long id, @Context StudentRepository repo) {
+        if (id == null) return null;
+        return repo.getReferenceById(id);
     }
 
-
+    @Named("mapIdToClassGroup")
+    default ClassGroup mapIdToClassGroup(Long id, @Context ClassGroupRepository repo) {
+        if (id == null) return null;
+        return repo.getReferenceById(id);
+    }
 }
+
+

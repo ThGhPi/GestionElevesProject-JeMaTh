@@ -1,5 +1,6 @@
 package com.gestioneleves.api.controller;
 
+import com.gestioneleves.api.dto.ClassGroupDTO;
 import com.gestioneleves.api.dto.RegistrationDTO;
 import com.gestioneleves.api.entity.RegistrationPK;
 import com.gestioneleves.api.service.RegistrationService;
@@ -56,9 +57,38 @@ public class RegistrationController {
 
     @GetMapping("/by-class/{classGroupId}/year/{schoolYear}")
     public List<RegistrationDTO> getRegistrationsByClassAndYear(
-        @PathVariable Long classGroupId,
-        @PathVariable String schoolYear) {
+            @PathVariable Long classGroupId,
+            @PathVariable String schoolYear) {
         return service.getRegistrationsByClassAndYear(classGroupId, schoolYear);
     }
 
+    /* ----------------------- NOUVELLES METHODES ----------------------- */
+
+    //  Par étudiant + année
+    @GetMapping("/by-student/{studentId}/year/{schoolYear}")
+    public List<RegistrationDTO> getRegistrationsByStudentAndYear(
+            @PathVariable Long studentId,
+            @PathVariable String schoolYear) {
+        return service.getRegistrationsByStudentAndYear(studentId, schoolYear);
+    }
+
+    //  Une inscription précise student + class
+    @GetMapping("/{studentId}/{classGroupId}")
+    public RegistrationDTO getByStudentAndClass(
+            @PathVariable Long studentId,
+            @PathVariable Long classGroupId) {
+        return service.getRegistrationByStudentAndClass(studentId, classGroupId);
+    }
+
+    //  classGroupId actuel de l'étudiant
+    @GetMapping("/student/{studentId}/class-group")
+    public Long getClassGroupIdByStudent(@PathVariable Long studentId) {
+        return service.getClassGroupByStudent(studentId);
+    }
+
+    //  ClassGroupDTO actuel de l'étudiant
+    @GetMapping("/student/{studentId}/class-group/full")
+    public ClassGroupDTO getClassGroupDTOByStudent(@PathVariable Long studentId) {
+        return service.getClassGroupDTOByStudent(studentId);
+    }
 }

@@ -16,8 +16,8 @@ public interface ClassGroupRepository extends JpaRepository<ClassGroup, Long> {
     // public List<ClassGroup> findByTeacherId(Long Id);
     
     // the classGroup of a headTeacher
-    Optional<ClassGroup> findByHeadTeacherId(Long headTeacherId);
-
+    Optional<ClassGroup> findByHeadTeacher_Id(Long id);
+    Optional<ClassGroup> findByName(String name);
     // the classGroup where a Student is registered for a given schoolYear
     // public Optional<ClassGroup> findByStudentIdAndSchoolYear(Long id, String schoolYear);
     
