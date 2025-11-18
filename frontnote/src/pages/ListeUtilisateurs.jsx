@@ -1,7 +1,7 @@
 // src/pages/ListeUtilisateurs.jsx
 import { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
-import UserService from '../service/UserService';
+import UserService from '../service/UserService.js';
 import { useNavigate } from "react-router-dom";
 
 export default function ListeUtilisateurs() {
