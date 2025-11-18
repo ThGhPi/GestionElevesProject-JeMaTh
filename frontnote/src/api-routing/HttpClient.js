@@ -7,13 +7,14 @@ export default class HttpClient {
     const url = `${this.baseURL}${endpoint}`;
 
     const config = {
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
         ...(options.headers || {}),
       },
       ...options,
     };
-
+    console.log(config);
     const response = await fetch(url, config);
 
     // Failed requests
@@ -38,6 +39,11 @@ export default class HttpClient {
   }
 
   post(endpoint, body) {
+    console.log({
+      method: "POST",
+      credentials: "include",
+      body: JSON.stringify(body),
+    })
     return this.request(endpoint, {
       method: "POST",
       credentials: "include",
