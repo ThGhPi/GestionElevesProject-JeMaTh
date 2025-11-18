@@ -58,6 +58,29 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+.spinner-container {
+  width: 20px;
+  height: 20px;
+  background-color: inherit;
+}
+
+.spinner {
+  padding: 0;
+  width: 2em;
+  height: 2em;
+  background-color: inherit;
+  border: 1px inset rgb(0, 0, 0, 0.2);
+  border-left: 3px solid rgb(0, 0, 0);
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

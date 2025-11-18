@@ -27,8 +27,9 @@ public class AuthenticationService {
     private final AppUserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
+    private final JwtService jwtService;
 
-    public AppUser signup(RegisterAppUserDTO input) {
+    public AppUserDTO signup(RegisterAppUserDTO input) {
         AppUser user = new AppUser();
         user.setUsername(input.getUsername());
         user.setLastname(input.getLastname());
@@ -39,10 +40,10 @@ public class AuthenticationService {
         user.setEmail(input.getEmail());
         user.setPassword(passwordEncoder.encode(input.getPassword()));
 
-        return userRepository.save(user);
+        return mapper.toDto(userRepository.save(user));
     }
 
-    public AppUser authenticate(LoginAppUserDTO input) {
+    public AppUserDTO authenticate(LoginAppUserDTO input) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         input.getUsername(),
@@ -50,8 +51,9 @@ public class AuthenticationService {
                 )
         );
 
-        return userRepository.findByUsername(input.getUsername())
+        AppUser user = userRepository.findByUsername(input.getUsername())
                 .orElseThrow();
+        return mapper.toDto(user);
     }
 
     public AppUserDTO getAuthenticatedUser() {
@@ -61,10 +63,14 @@ public class AuthenticationService {
     }
 
     public AppUserDTO changePassword(List<LoginAppUserDTO> appUserDtoWithDualPassword) {
-        AppUser userForPaswordChange = authenticate(appUserDtoWithDualPassword.getFirst());
+        AppUser userForPaswordChange = mapper.toEntity(authenticate(appUserDtoWithDualPassword.getFirst()));
         
         userForPaswordChange.setPassword(passwordEncoder.encode(appUserDtoWithDualPassword.get(1).getPassword()));
         
         return mapper.toDto(userRepository.save(userForPaswordChange));
+    }
+
+    public String login(LoginAppUserDTO loginAppUserDto) {
+        return jwtService.generateToken(mapper.toEntity(authenticate(loginAppUserDto)));
     }
 }
