@@ -1,6 +1,10 @@
 
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import ProtectedRoute from './components/auth/ProtectedRoute.jsx'
 import Accueil from "./pages/Accueil.jsx";
+import AccueilParent from "./components/parents/accueilParent.jsx";
+import ClassGroupPage from "./pages/ClassGroupPage.jsx";
+import LoginPage from "./pages/LoginPage.jsx"
 import ListeProfesseurs from "./pages/ListeProfesseurs.jsx";
 import ListeEnseignements from "./pages/ListeEnseignements.jsx";
 import ListeEleves from "./pages/ListeEleves.jsx";
@@ -13,8 +17,8 @@ export default function App() {
 
         <div className="min-h-screen bg-white flex flex-col">
 
-            <Header />
             <BrowserRouter>
+            <Header />
 
                 <Routes>
                     <Route

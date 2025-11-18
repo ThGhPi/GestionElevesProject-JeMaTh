@@ -74,7 +74,6 @@ export default function LoginPage() {
 
   return (
     <div className="page-container">
-      <Header />
       <Navigation />
 
       <div className="content-wrapper">
