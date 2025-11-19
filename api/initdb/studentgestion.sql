@@ -139,36 +139,36 @@ INSERT INTO person (firstname, lastname) VALUES
 ('Paul', 'Girard'),
 ('Lucie', 'Lemoine');
 
--- =============================
--- INSERT APP_USERS
--- =============================
+-- =======================================================================
+-- INSERT APP_USERS - mot de passe : username#2025 sauf admin : Admin#2025
+-- =======================================================================
 
 INSERT INTO app_user (id, password, email, username, phone_number, postal_address, role) VALUES
 -- Admin
 (1, '$2a$10$sAZzPFV/DX7lu2JGVN7db.eoF6xtR7gItaCZ5vm68ixoHcqxZzTI2', 'jean.dupont@example.com', 'jdupont', '+33611223344', '10 Rue Victor Hugo, Paris', 'ADMIN'),
 -- Teachers
-(2, '$2a$10$OARb5zOADe2gLGvf2XntGuam11E35jWhpbdzfpZZSrP6D2aq7QepW', 'sophie.martin@example.com', 'smartin', '+33655667789', '25 Avenue de la Liberté, Lyon', 'TEACHER'),
-(3, '$2a$10$M6kxMw5Me1bLgjn7uNpSkeVmzPae/Bw392.ZHn0stCzfsnhiOzUhG', 'luc.moreau@example.com', 'lmoreau', '+33799887766', '7 Rue des Écoles, Marseille', 'TEACHER'),
-(4, '$2a$10$yEXJ1EwsqO5eqpryWcE5QOB4JjC6E8kq7bVJ9V/g0DSh1Y4p5IVT6', 'isabelle.durand@example.com', 'idurant', '+33689012345', '5 Rue Lafayette, Lille', 'TEACHER'),
-(5, '$2a$10$E6kVCPVObyPnJdHhPjHoUel9KcdbuVAXvB9n2v0qE2NH5C2xib.E2', 'thomas.petit@example.com', 'tpetit', '+33690234567', '3 Rue Jean Moulin, Nice', 'TEACHER'),
-(6, '$2a$10$gPCQhslmBhX8ZcU/kIX1i.C3dJ/1zP2A3B8d0M4zFz4I9qMJ14aHa', 'julie.robert@example.com', 'jrobert', '+33760123456', '22 Rue du Rhône, Strasbourg', 'TEACHER'),
-(7, '$2a$10$kB.AK4pbnEXeKHv8lmpv4eP3LcpQyGgEpCsnqK5T4h5a0CNv8bcCe', 'nicolas.bernard@example.com', 'nbernard', '+33777788990', '15 Rue Gambetta, Nantes', 'TEACHER'),
-(8, '$2a$10$U6eY6pFbQAbWn4bgFmv1xe2.5q3plH2MRM3nIt8oCMZ5c9R1y/Nu2', 'helene.lefevre@example.com', 'hlefevre', '+33611227890', '30 Boulevard Saint-Michel, Paris', 'TEACHER'),
-(9, '$2a$10$Y9WjYxKTXxV7U4AqOZV2Fe9u.6y6gr4yF0y5hDR5xxz0iZhv3KPO2', 'pierre.garcia@example.com', 'pgarcia', '+33655669988', '18 Rue du Marché, Toulouse', 'TEACHER'),
-(10, '$2a$10$h9oZBObG8e4ApV6UewD0re6n8opbJ9r6A2OZITjO8F5Wb6z5DlqXG', 'laura.faure@example.com', 'lfaure', '+33622446688', '10 Rue des Lilas, Rennes', 'TEACHER'),
-(11, '$2a$10$OaO2Z1hXhOq3nK4yN2H4tOQjRZV7vKPGNwP3qjh7blKPNb1pF/yk6', 'emilie.blanc@example.com', 'eblanc', '+33677880011', '2 Rue Pasteur, Dijon', 'TEACHER'),
-(12, '$2a$10$xEz4hW7E04Wh.DDdL3wT9O5U9PR9a8SlV36J1mvbI4Lg6sU/jvZhK', 'olivier.rousseau@example.com', 'orousseau', '+33655667788', '8 Rue Victor Hugo, Orléans', 'TEACHER'),
-(13, '$2a$10$KpQqP5pK1fK3hRzBnRkzXOo7H0M6L9R1W7k2rZVo1Z2W2z3PjXZ0m', 'anne.germain@example.com', 'agermain', '+33666778899', '4 Rue du Stade, Reims', 'TEACHER'),
+(2, '$2a$10$OX9DwMNKOvd.cICg98rznOhwLHg2Fn/3IIYqIirxtEIIAxqwH9Idy', 'sophie.martin@example.com', 'smartin', '+33655667789', '25 Avenue de la Liberté, Lyon', 'TEACHER'),
+(3, '$2a$10$OFyKekZjBdDGRZ7Eo/wpuOT7nmRYvLJWnz4j5jnzfNpTXL3S0eOAK', 'luc.moreau@example.com', 'lmoreau', '+33799887766', '7 Rue des Écoles, Marseille', 'TEACHER'),
+(4, '$2a$10$5MNA5LUyZaLNo3cL/TENfuVNcgu5zO5juVCKvPKFrNVjvW3Qkhir6', 'isabelle.durand@example.com', 'idurant', '+33689012345', '5 Rue Lafayette, Lille', 'TEACHER'),
+(5, '$2a$10$WFnHoFAOU2YYeYOqC2TsUu.Y6YjDLDOodJ.WIm509SHH6j7DlWHHG', 'thomas.petit@example.com', 'tpetit', '+33690234567', '3 Rue Jean Moulin, Nice', 'TEACHER'),
+(6, '$2a$10$xt2wqLw0/IB4OW0q29PXY.RyhLrefBdC7c7CNibIQ1JbLf1cZJUX6', 'julie.robert@example.com', 'jrobert', '+33760123456', '22 Rue du Rhône, Strasbourg', 'TEACHER'),
+(7, '$2a$10$uKugv5x/wzKAhT7pbhBrDOLIRzski18/FKuFbxojslTWftG6m3IJC', 'nicolas.bernard@example.com', 'nbernard', '+33777788990', '15 Rue Gambetta, Nantes', 'TEACHER'),
+(8, '$2a$10$.wdzrY146UNOFDwvJmIMcOLT8qC9Tazf7SLsl2b6BsWTk3Sju9zYW', 'helene.lefevre@example.com', 'hlefevre', '+33611227890', '30 Boulevard Saint-Michel, Paris', 'TEACHER'),
+(9, '$2a$10$f1WQhlCv3Y6ifMy9SAcdbOCESD3Xrnb3lIkFdxJNhdrVcg5qQs.TO', 'pierre.garcia@example.com', 'pgarcia', '+33655669988', '18 Rue du Marché, Toulouse', 'TEACHER'),
+(10, '$2a$10$VfGvInfe9hVvPTSWrBCcAuuKgJ/XKo7nVrY1DcvEtIK.8OM7hgY06', 'laura.faure@example.com', 'lfaure', '+33622446688', '10 Rue des Lilas, Rennes', 'TEACHER'),
+(11, '$2a$10$m.YGG3txiKrxBnAFb3d4j.UJnPqO9.iwfrAMLEyA/5ygZXa/pwFKC', 'emilie.blanc@example.com', 'eblanc', '+33677880011', '2 Rue Pasteur, Dijon', 'TEACHER'),
+(12, '$2a$10$.Hn0qjN7ZGCd39UC1injiO9DpPg9pjf9GgOtpOSzSTAtprUDDFjhi', 'olivier.rousseau@example.com', 'orousseau', '+33655667788', '8 Rue Victor Hugo, Orléans', 'TEACHER'),
+(13, '$2a$10$R/WjBzeUon1uzisk1DBKTOFA00rAj7kYW4XiHR8T6VTA5iTnjyRi2', 'anne.germain@example.com', 'agermain', '+33666778899', '4 Rue du Stade, Reims', 'TEACHER'),
 -- Legal Guardians
-(14, '$2a$10$NqL3jLxjO2N8wM5lK7h0sO8Z9yR5y8sGqJ1lZ0yM3kN6tA7uYdWzO', 'marc.renard@example.com', 'mrenard', '+33677889977', '11 Rue des Peupliers, Tours', 'LEGAL_GUARDIAN'),
-(15, '$2a$10$zGkY8wV7oT6xC4rZpQnYzO4UuQqM5aJ8wVnD4kE8hB7aC9uVxYyJ2', 'fatima.boulanger@example.com', 'fboulanger', '+33699887711', '6 Rue du Lac, Montpellier', 'LEGAL_GUARDIAN'),
-(16, '$2a$10$TnV7uXyL8hQkJ3tN9rZxF5eS6pC1mD4vT5nJ2hQ0rC7bM8pF6dO8G', 'vincent.carpentier@example.com', 'vcarpentier', '+33688990077', '9 Rue du Soleil, Caen', 'LEGAL_GUARDIAN'),
-(17, '$2a$10$FjRzJkJ2uCzYkM7iL6h9OeK6xB2dN9qS3pU6xZ9bQ7fG1vL8yJxO8', 'claire.legrand@example.com', 'clegrand', '+33666554433', '1 Rue des Fleurs, Brest', 'LEGAL_GUARDIAN'),
-(18, '$2a$10$TgVnP8oZ1kL2mJ5qS7tB9hD4fR3vL8uP9sK6nO3aF8mH1yG2rZxJ1', 'ahmed.benali@example.com', 'abenali', '+33677889922', '8 Rue du Parc, Toulouse', 'LEGAL_GUARDIAN'),
-(19, '$2a$10$DnWmE9pZ2rC5vB8jH4sL7fP9qA6dR3zM2nT8xW4yG1cK5bH9jQvO1', 'nadia.benali@example.com', 'nbenali', '+33666778800', '8 Rue du Parc, Toulouse', 'LEGAL_GUARDIAN'),
-(20, '$2a$10$KwZxA5rL8pO1sE6qD3hV9nK7bC2tM4fG5rX8jU2mL6vY9zB1wPqT0', 'camille.girard@example.com', 'cgirard', '+33677889944', '5 Rue de Provence, Lyon', 'LEGAL_GUARDIAN'),
-(21, '$2a$10$RxL3nM8vF5kS9hC7qD2pB6tR4eG1wN3jK8lO5aY7zP0xU2mW9cVdZ', 'paul.girard@example.com', 'pgirard', '+33688776655', '5 Rue de Provence, Lyon', 'LEGAL_GUARDIAN'),
-(22, '$2a$10$VnM4pK2sJ8qD1rL9tB3hF5eN6aC7vO4xP8zR0wY5mT6nU2jL3gH9', 'lucie.lemoine@example.com', 'llemoine', '+33699001122', '4 Rue du Moulin, Nantes', 'LEGAL_GUARDIAN');
+(14, '$2a$10$TccXv.7nfDkPIKSPqNI2N.ucuaaksUn8WuRThKGpm8qSd.TIfVEJ.', 'marc.renard@example.com', 'mrenard', '+33677889977', '11 Rue des Peupliers, Tours', 'LEGAL_GUARDIAN'),
+(15, '$2a$10$heqcoRhqu/ZKoNHi3KBlye9DRIYamZ9.wkHM653POnEq6lIkE8YGq', 'fatima.boulanger@example.com', 'fboulanger', '+33699887711', '6 Rue du Lac, Montpellier', 'LEGAL_GUARDIAN'),
+(16, '$2a$10$YKP3zXRz4bcG2PAVxLRQXezAB4L.5n1lyI69T8sJB5O/wHMKnEmbi', 'vincent.carpentier@example.com', 'vcarpentier', '+33688990077', '9 Rue du Soleil, Caen', 'LEGAL_GUARDIAN'),
+(17, '$2a$10$b66SsE7rVuDEgeNotN/KyOB53UmR4fLTK3WXj8XoewtenH4xpZGpm', 'claire.legrand@example.com', 'clegrand', '+33666554433', '1 Rue des Fleurs, Brest', 'LEGAL_GUARDIAN'),
+(18, '$2a$10$b2rfbTRfS8vXltQhpQMec.hwrldcAIFQ8rMP.6PqLkPYY8ohz5Q1a', 'ahmed.benali@example.com', 'abenali', '+33677889922', '8 Rue du Parc, Toulouse', 'LEGAL_GUARDIAN'),
+(19, '$2a$10$HQR8cXqciurvXI4z7SIJ0OaFunIHIrBJBjldDdHd2/c3YlKCzU5b2', 'nadia.benali@example.com', 'nbenali', '+33666778800', '8 Rue du Parc, Toulouse', 'LEGAL_GUARDIAN'),
+(20, '$2a$10$AK274H8dR.DNahbmxQ8yfuktkofSUHXVzcw3DPKGM/a4Ykr1zkOK.', 'camille.girard@example.com', 'cgirard', '+33677889944', '5 Rue de Provence, Lyon', 'LEGAL_GUARDIAN'),
+(21, '$2a$10$W3S.Pxf5CkNkznWVoPk3eeob472KOFOrqCefPyiI/qMnBQODkjEP2', 'paul.girard@example.com', 'pgirard', '+33688776655', '5 Rue de Provence, Lyon', 'LEGAL_GUARDIAN'),
+(22, '$2a$10$ilVP8.w6BhWG2kgPDV60N.NWPxTrRi.O6rishiiB8ocJ.7PbbL8ga', 'lucie.lemoine@example.com', 'llemoine', '+33699001122', '4 Rue du Moulin, Nantes', 'LEGAL_GUARDIAN');
 
 -- =============================
 -- STUDENTS PERSON DATA (60 étudiants)
