@@ -4,7 +4,7 @@
 
 Mettez-vous dans un dossier de votre convenance ! Puis :
 ```bash
-git clone https://github.com/ThGhPi/GestionElevesProject-JeMaTh.git
+git clone https://github.com/Apejy-mamajun91-ThGhPi/GestionElevesProject-JeMaTh.git
 cd GestionElevesProject-JeMaTh
 ```
 
@@ -27,8 +27,7 @@ git push -u origin ma_branche
 ## Faire un merge sur la branche main
 
 ```bash
-git fetch origin branche_a_merger
 git switch main
 git pull origin main
-git merge branche_a_merger
+git pull origin branche_a_merger
 ```
