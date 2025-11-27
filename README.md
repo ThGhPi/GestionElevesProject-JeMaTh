@@ -14,13 +14,17 @@ Full-stack application for managing students, built with:
 
 ```graphql
     GestionElevesProject-JeMaTh/
-     ├── frontnote/                # React + Tailwind application
-     ├── api/                 # Spring Boot API + Docker
+     ├── frontnote/                 # React + Tailwind application
+     |    ├── Dockerfile
+     │    └── ...
+     ├── api/                       # Spring Boot API + Docker
      │    ├── src/
      │    ├── Dockerfile
-     │    ├── docker-compose.yml
+     │    ├── docker-compose.yml    # Not really standard but works
      │    └── ...
      ├── api-0.0.5-Fonctionnel.jar   # Optional standalone JAR
+     ├── GITBRANCH.md                # memo for organisationnal purpose
+     ├── Jenkinsfile                 # Honestly just trying something
      └── README.md
 ```
 ------------------------------------------------------------------------
@@ -175,11 +179,186 @@ Using Postman :
     headers.
 
 ------------------------------------------------------------------------
+## Jenkins Configuration Guide (Post-Container Setup)
+
+This guide explains **how to configure Jenkins** once your Jenkins
+container is built and running.\
+You can include this section in your project's main `README.md`.
+
+------------------------------------------------------------------------
+
+### ✅ 1. Access Jenkins
+
+Once your Jenkins container is running, open:
+
+    http://localhost:8084
+
+Retrieve the initial admin password from the container:
+
+``` bash
+docker exec -it jenkins cat /var/jenkins_home/secrets/initialAdminPassword
+```
+
+Paste the password into the setup page and create your admin user.
+
+------------------------------------------------------------------------
+
+### ✅ 2. Install Required Plugins
+
+When prompted, choose:
+
+#### **Install Suggested Plugins**
+
+After installation, verify these are present:
+
+-   **Git plugin**
+-   **Pipeline**
+-   **Docker Pipeline**
+-   **Credentials Binding**
+-   **Blue Ocean** (optional but recommended)
+
+------------------------------------------------------------------------
+
+### ✅ 3. Configure Global Tools
+
+Go to:
+
+**Manage Jenkins → Tools**
+
+Set:
+
+#### **JDK / Java**
+
+If using Java builds, install automatically.
+
+#### **Git**
+
+Normally auto-detected.
+
+#### **Docker**
+
+No configuration required unless using remote Docker hosts.
+
+------------------------------------------------------------------------
+
+### ✅ 4. Add Credentials
+
+Go to:
+
+**Manage Jenkins → Credentials → System → Global credentials**
+
+Add:
+
+#### 1. Git credentials
+
+To allow Jenkins to pull your repo.
+
+#### 2. (Optional) Docker Hub credentials
+
+Required only if pushing images.
+
+#### 3. (Optional) SSH key for remote deployment
+
+If deploying to a VPS.
+
+------------------------------------------------------------------------
+
+### ✅ 5. Create a Pipeline Job
+
+1.  From Jenkins dashboard:\
+    **New Item → Pipeline**
+2.  Name it:\
+    `GestionEleves-CI-CD`
+3.  Select **Pipeline**
+4.  Under **Pipeline Definition**, choose:\
+    **Pipeline script from SCM**
+5.  Select your repo provider (Git)
+
+Configure:
+
+-   Repository URL\
+
+-   Credentials\
+
+-   Branch (usually `main` or `master`)
+
+-   Script Path:
+
+        Jenkinsfile
+
+This tells Jenkins to automatically use the `Jenkinsfile` in your repo.
+
+------------------------------------------------------------------------
+
+### ✅ 6. First Build
+
+Click:
+
+**Build Now**
+
+Watch progress in:
+
+-   Blue Ocean\
+    or\
+-   Console Output
+
+If the pipeline runs successfully, Jenkins is correctly configured.
+
+------------------------------------------------------------------------
+
+### 🔄 7. Automatic Builds (Optional)
+
+To trigger pipelines automatically when you push:
+
+#### For GitHub:
+
+1.  Go to your repository → **Settings → Webhooks**
+
+2.  Add webhook:
+
+        http://localhost:8080/github-webhook/
+
+3.  Select **Just the push event**
+
+------------------------------------------------------------------------
+
+### 🛠 8. Verify Jenkins Has Access to Docker
+
+Run:
+
+``` bash
+docker exec -it jenkins docker ps
+```
+
+If containers appear, Jenkins is correctly linked to the Docker socket.
+
+If you get a permissions error, ensure your Docker-compose includes:
+
+``` yaml
+user: root
+volumes:
+  - /var/run/docker.sock:/var/run/docker.sock
+```
+
+------------------------------------------------------------------------
+
+### 📌 Conclusion
+
+Your Jenkins environment is now configured to:
+
+-   Pull code from your repo\
+-   Read and execute your Jenkinsfile\
+-   Build your frontend and backend via Docker\
+-   Run CI/CD pipelines automatically
+
+You can now add or extend pipeline stages based on your project's needs.
+
+------------------------------------------------------------------------
 
 ## 📝 Notes & Tips
 
 -   The React app is not containerized, so run it manually with Vite.
--   The backend can be run either with Docker Compose or with your
+-   The backend can be run either with Docker Compose or with the
     standalone JAR.
 -   PostgreSQL is automatically handled by Docker.
 -   CORS must always include the frontend origin (:5173) and allow
